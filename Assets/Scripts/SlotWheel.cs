@@ -15,7 +15,7 @@ namespace DefaultNamespace
         [SerializeField] private ButtonsPanel btnPanel;
         
         private float _speed;
-        private const float BaseSpeed = 20f;
+        private const float BaseSpeed = 4f;
         
         private static Vector3 startPos = new Vector3(0f, 400f, 0f);
         private static Vector3 endPos = new Vector3(0f, -400f, 0f);
@@ -30,7 +30,8 @@ namespace DefaultNamespace
        }
        private void Start()
        {
-           btnPanel.OnStartButtonClick += StartMove;
+          // btnPanel.OnStartButtonClick += StartMove;
+         // btnPanel.OnStopButtonClick += StopMove;
            foreach (var symbol in _symbols)
            {
                SetRandom(symbol);
@@ -39,7 +40,8 @@ namespace DefaultNamespace
        
        private void OnDestroy()
        {
-           btnPanel.OnStartButtonClick -= StartMove;
+         //  btnPanel.OnStartButtonClick -= StartMove;
+        // btnPanel.OnStopButtonClick -= StopMove;
        }
        
        private void Update()
@@ -60,7 +62,7 @@ namespace DefaultNamespace
            }
        }
 
-       private void StartMove()
+       public void StartMove()
        {
            DOTween.To(() => _speed, x => _speed = x, BaseSpeed, 0.5f).OnStart((() =>
            {
@@ -68,9 +70,8 @@ namespace DefaultNamespace
                _coroutine = StartCoroutine(StopTimer());
            }));
        }
-
-
-       private void StopMove()
+       
+       public void StopMove()
        {
            if (_coroutine != null)
            {
@@ -80,6 +81,7 @@ namespace DefaultNamespace
            DOTween.To(() => _speed, x => _speed = x, 0, 0.5f).OnComplete(() =>
            {
                isMove = false;
+              
                //DoAction;
            });
        }
@@ -91,7 +93,7 @@ namespace DefaultNamespace
 
        private IEnumerator StopTimer()
        {
-           yield return new WaitForSeconds(5.1f);
+           yield return new WaitForSeconds(5.0f);
            _coroutine = null;
            StopMove();
        }

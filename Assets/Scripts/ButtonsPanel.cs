@@ -6,22 +6,33 @@ namespace DefaultNamespace
 {
     public class ButtonsPanel : MonoBehaviour
     {
-        [SerializeField] private Button startButton;
+        [SerializeField] public Button playButton;
+        [SerializeField] public Button stopButton;
 
         public event Action OnStartButtonClick;
+        public event Action OnStopButtonClick;
+        
         private void Start()
         {
-            startButton.onClick.AddListener(StartButtonClick);
+            playButton.onClick.AddListener(StartButtonClick);
+            stopButton.onClick.AddListener(StopButtonClick);
+            
         }
 
         private void OnDestroy()
         {
-            startButton.onClick.RemoveListener(StartButtonClick);
+            playButton.onClick.RemoveListener(StartButtonClick);
+            stopButton.onClick.RemoveListener(StopButtonClick);
         }
 
         private void StartButtonClick()
         {
             OnStartButtonClick?.Invoke();
+        }
+
+        private void StopButtonClick()
+        {
+            OnStopButtonClick?.Invoke();
         }
     }
 }
