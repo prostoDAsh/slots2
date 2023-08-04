@@ -47,7 +47,7 @@ public class SlotMachineController : MonoBehaviour
         wheel2.StartMove();
         yield return new WaitForSeconds(0.5f);
         wheel3.StartMove();
-        
+
         BtnPnl.playButton.interactable = false;
         BtnPnl.playButton.transform.localScale = Vector3.zero;
 
@@ -55,7 +55,6 @@ public class SlotMachineController : MonoBehaviour
         BtnPnl.stopButton.transform.localScale = Vector3.one;
         yield break;
     }
-
 
     private IEnumerator StopSpinning()
     {
@@ -73,5 +72,4 @@ public class SlotMachineController : MonoBehaviour
         
         yield break;
     }
-    
 }

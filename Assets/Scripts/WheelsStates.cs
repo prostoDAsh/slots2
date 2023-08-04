@@ -2,7 +2,8 @@ namespace DefaultNamespace
 {
     public enum WheelsStates
     {
-        NotMoving,
-        Moving
+        notMoving,
+        moving,
+        stopping
     }
 }
