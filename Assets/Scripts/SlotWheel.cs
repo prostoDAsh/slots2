@@ -17,8 +17,7 @@ namespace DefaultNamespace
         private float _speed;
         private const float BaseSpeed = 4f;
         private float _distanceCell;
-
-        private static Vector3 startPos = new Vector3(0f, 400f, 0f);
+        
         private static Vector3 endPos = new Vector3(0f, -400f, 0f);
         private float symbolHeight = 200;
         
@@ -53,13 +52,13 @@ namespace DefaultNamespace
            {
                if (wheelStates == WheelsStates.stopping)
                {
-                   var distLocal = _distanceCell + 400;
+                   var distLocal = _distanceCell + 400; //
                    foreach (Symbol symbol in _symbols)
                    {
                        var y = distLocal;
                        while (y <= endPos.y)
                        {
-                           y += (symbolHeight * 4);
+                           y += (symbolHeight * 4); //
                        }
 
                        var d = new Vector3(
