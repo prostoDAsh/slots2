@@ -5,25 +5,30 @@ using Random = UnityEngine.Random;
 using System.Collections.Generic;
 using System.Linq;
 using DG.Tweening;
+using UnityEngine.UIElements;
 
 namespace DefaultNamespace
 {
     public class SlotWheel : MonoBehaviour
     {
-       public Sprite[] sprites;
+        public Sprite[] sprites;
         private List<Symbol> _symbols;
         [SerializeField] private ButtonsPanel btnPanel;
+        [SerializeField] private GameConfig gameConfig;
+        [SerializeField] private int wheelId;
         
         private float _speed;
         private const float BaseSpeed = 4f;
         private float _distanceCell;
+        private int currentSymbolIndex = 0;
+        private int currentFinalSet = 0;
         
         private static Vector3 endPos = new Vector3(0f, -400f, 0f);
         private float symbolHeight = 200;
         
         public bool isMove;
         private Coroutine _coroutine;
-        private WheelsStates wheelStates = WheelsStates.notMoving;
+        private WheelsStates wheelStates = WheelsStates.NotMoving;
         public event Action OnStopSpinning;
         
         private void Awake()
@@ -50,7 +55,7 @@ namespace DefaultNamespace
        {
            if (isMove)
            {
-               if (wheelStates == WheelsStates.stopping)
+               if (wheelStates == WheelsStates.Stopping)
                {
                    var distLocal = _distanceCell + 400; //
                    foreach (Symbol symbol in _symbols)
@@ -87,10 +92,24 @@ namespace DefaultNamespace
            }
        }
 
+       // private Sprite GetRandomSymbol()
+       // {
+       //     var random = Random.Range(0, gameConfig.Symbols.Length);
+       //     var sprite = gameConfig.Symbols[random].SymbolImage;
+       //     return sprite;
+       // }
+
+       private Sprite GetFinalScreenSymbol()
+       {
+           var finalScreenSymbolIndex = currentSymbolIndex + (wheelId - 1) * gameConfig.VisibleSymbolsOnReel;
+           var currentFinalScreen = gameConfig.FinalScreens[currentFinalSet].FinalScreen;
+           var newSymbol = gameConfig.Symbols[currentFinalScreen[finalScreenSymbolIndex]];
+           return newSymbol.SymbolImage;
+       }
 
        public void StartMove()
        {
-            wheelStates = WheelsStates.moving;
+            wheelStates = WheelsStates.Moving;
             DOTween.To(() => _speed, x => _speed = x, BaseSpeed, 0.5f).OnStart((() =>
            {
                isMove = true;
@@ -100,7 +119,11 @@ namespace DefaultNamespace
        
        public void StopMove()
        {
-           wheelStates = WheelsStates.stopping;
+           wheelStates = WheelsStates.Stopping;
+           foreach (var symbol in _symbols)
+           {
+               SetRandom(symbol);
+           }
            
            if (_coroutine != null)
            {
@@ -118,7 +141,7 @@ namespace DefaultNamespace
                Debug.Log($"{start} {end} {endAdjusted} {symbolHeight}");
                
                isMove = false;
-               wheelStates = WheelsStates.notMoving;
+               wheelStates = WheelsStates.NotMoving;
                
                btnPanel.stopButton.interactable = false;
                btnPanel.stopButton.transform.localScale = Vector3.zero;
@@ -129,10 +152,10 @@ namespace DefaultNamespace
            });
        }
        
-       private void DoAction()
-       {
-           //set reward
-       }
+       // private void DoAction()
+       // {
+       //     //set reward
+       // }
        
        private IEnumerator StopTimer()
        {
@@ -144,8 +167,20 @@ namespace DefaultNamespace
        
        private void SetRandom(Symbol symbol)
         {
-            var randomm = Random.Range(0, sprites.Length);
-            symbol.SetImage(sprites[randomm]);
+            if (wheelStates == WheelsStates.Stopping)
+            {
+                var final = GetFinalScreenSymbol();
+                symbol.SetImage(final);
+                // symbol.GetComponent<Image>().sprite = GetFinalScreenSymbol();
+                currentSymbolIndex++;
+                // Debug.Log("olololo");
+            }
+            else
+            {
+                var randomm = Random.Range(0, sprites.Length);
+                symbol.SetImage(sprites[randomm]);
+                
+            }
         }
     }
 }
