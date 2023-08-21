@@ -6,20 +6,8 @@ namespace DefaultNamespace
 {
     public sealed class WheelModel
     {
-        private const double StartingAcceleration = 5.0;
-        
-        private static readonly TimeSpan StartingTime = TimeSpan.FromSeconds(2);
-        
-        private static readonly TimeSpan RunningTime = TimeSpan.FromSeconds(6);
-
-        private static readonly TimeSpan StoppingTime = TimeSpan.FromSeconds(3);
-        
-        private static readonly double Speed = StartingAcceleration * StartingTime.TotalSeconds;
-
         private readonly List<SymbolModel> _symbols = new();
-
-        private readonly Stopwatch _time = new();
-
+        
         private readonly NotRunningWheel _notRunningWheel;
 
         private readonly StartingWheel _startingWheel;
@@ -30,8 +18,8 @@ namespace DefaultNamespace
 
         private IWheelState _state;
 
-        private double _position = .0f;
-        
+        private double _position;
+
         public WheelModel()
         {
             _notRunningWheel = new NotRunningWheel(this);
@@ -39,6 +27,38 @@ namespace DefaultNamespace
             _runningWheel = new RunningWheel(this);
             _stoppingWheel = new StoppingWheel(this);
             _state = _notRunningWheel;
+        }
+
+        private Stopwatch Stopwatch { get; } = new(); 
+
+        private double Position => _position;
+
+        private void ToStarting()
+        {
+            Starting?.Invoke();
+            UpdatePosition(.0f);
+            _state = _startingWheel;
+            Stopwatch.Restart();
+        }
+
+        private void ToRunning()
+        {
+            Started?.Invoke();
+            _state = _runningWheel;
+            _state.Update();
+        }
+
+        private void ToStopping()
+        {
+            Stopping?.Invoke();
+            _state = _stoppingWheel;
+        }
+
+        private void ToNotRunning()
+        {
+            Stopped?.Invoke();
+            _state = _notRunningWheel;
+            Stopwatch.Stop();
         }
 
         public SymbolModel AddSymbol()
@@ -62,11 +82,32 @@ namespace DefaultNamespace
         public void Update()
         {
             _state.Update();
+        }
+
+        private void UpdatePosition(double newPosition)
+        {
+            _position = newPosition;
             foreach (SymbolModel symbol in _symbols)
             {
                 symbol.UpdatePosition(_position);
             }
         }
+
+        private void UpdateFinalPosition(double expectedPosition)
+        {
+            foreach (SymbolModel symbolModel in _symbols)
+            {
+                symbolModel.UpdateFinalPosition(expectedPosition);
+            }
+        }
+
+        public event Action Starting;
+
+        public event Action Started;
+
+        public event Action Stopping;
+
+        public event Action Stopped;
         
         private interface IWheelState
         {
@@ -87,9 +128,7 @@ namespace DefaultNamespace
 
             public void Start()
             {
-                _model._position = .0f;
-                _model._state = _model._startingWheel;
-                _model._time.Restart();
+                _model.ToStarting();
             }
 
             public void Update()
@@ -105,53 +144,35 @@ namespace DefaultNamespace
 
             public void Update()
             {
-                TimeSpan elapsed = _model._time.Elapsed;
-                if (elapsed > StartingTime)
+                TimeSpan elapsed = _model.Stopwatch.Elapsed;
+                if (elapsed > WheelMath.StartingTime)
                 {
-                    _model._state = _model._runningWheel;
-                    _model._state.Update();
+                    _model.ToRunning();
                 }
                 else
                 {
-                    double time = elapsed.TotalSeconds;
-                    _model._position = StartingAcceleration * time * time * 0.5;
+                    double newPosition = WheelMath.GetStartingPath(elapsed.TotalSeconds);
+                    _model.UpdatePosition(newPosition);
                 }
             }
         }
 
         private sealed class RunningWheel : IWheelState
         {
-            private static readonly double InitialPosition;
-            
             private readonly WheelModel _model;
-
-            static RunningWheel()
-            {
-                double time = StartingTime.TotalSeconds;
-                InitialPosition = StartingAcceleration * time * time * 0.5;
-            }
 
             public RunningWheel(WheelModel model) => _model = model;
 
             public void Stop()
             {
-                _model._stoppingWheel.CalculateStopping();
-                _model._state = _model._stoppingWheel;
+                _model.ToStopping();
             }
 
             public void Update()
             {
-                TimeSpan elapsed = _model._time.Elapsed - StartingTime;
-                if (elapsed > RunningTime)
-                {
-                    _model._stoppingWheel.CalculateStopping();
-                    _model._state = _model._stoppingWheel;
-                    _model._state.Update();
-                }
-                else
-                {
-                    _model._position = InitialPosition + Speed * elapsed.TotalSeconds;
-                }
+                TimeSpan elapsed = _model.Stopwatch.Elapsed - WheelMath.StartingTime;
+                double newPosition = WheelMath.GetRunningPath(elapsed.TotalSeconds);
+                _model.UpdatePosition(newPosition);
             }
         }
 
@@ -163,65 +184,53 @@ namespace DefaultNamespace
 
             private double _initialPosition;
 
-            private double? _showFinalNumbersPosition;
+            private double _expectedPosition;
 
             private double _acceleration;
 
+            private bool _isReset = true;
+
             public StoppingWheel(WheelModel model) => _model = model;
 
-            public void CalculateStopping()
+            private void CalculateStopping()
             {
-                double stoppingTime = StoppingTime.TotalSeconds;
-                double acceleration = -(Speed / StoppingTime.TotalSeconds);
-                double expectedPosition =
-                    _model._position +
-                    Speed * stoppingTime +
-                    acceleration * stoppingTime * stoppingTime * 0.5;
-
-                double expectedPositionFixed = Math.Round(expectedPosition);
-                _acceleration =
-                    2 * (expectedPositionFixed - _model._position - Speed * stoppingTime) /
-                    (stoppingTime * stoppingTime);
-
-                _showFinalNumbersPosition = expectedPositionFixed - 3;
-
-                _eventTime = _model._time.Elapsed;
-                _initialPosition = _model._position;
+                _eventTime = _model.Stopwatch.Elapsed;
+                _initialPosition = _model.Position;
+                
+                (_expectedPosition, _acceleration) = WheelMath.GetStoppingAcceleration(_initialPosition);
+                
+                _model.UpdateFinalPosition(_expectedPosition);
             }
 
             public void Update()
             {
-                TimeSpan stoppingDuration = _model._time.Elapsed - _eventTime;
-                double time;
-                if (stoppingDuration > StoppingTime)
+                if (_isReset)
                 {
-                    time = StoppingTime.TotalSeconds;
-                    _model._state = _model._notRunningWheel;
-                    _model._time.Stop();
+                    CalculateStopping();
+                    _isReset = false;
+                }
+                
+                TimeSpan stoppingDuration = _model.Stopwatch.Elapsed - _eventTime;
+                double time;
+                double newPosition;
+                if (stoppingDuration > WheelMath.StoppingTime)
+                {
+                    _model.ToNotRunning();
+                    newPosition = _expectedPosition;
+                    _isReset = true;
                 }
                 else
                 {
                     time = stoppingDuration.TotalSeconds;
-                }
+                    newPosition = WheelMath.GetStoppingPath(_initialPosition, _acceleration, time);
 
-                double newPosition = _initialPosition + Speed * time + _acceleration * time * time * 0.5f;
-                CheckFinalNumbersPosition(newPosition);
-                
-                _model._position = newPosition;
-            }
-
-            private void CheckFinalNumbersPosition(double newPosition)
-            {
-                if (_showFinalNumbersPosition.HasValue &&
-                    newPosition >= _showFinalNumbersPosition)
-                {
-                    foreach (SymbolModel symbolModel in _model._symbols)
+                    if (newPosition > _expectedPosition)
                     {
-                        symbolModel.AllowShowingFinalNumbers();
+                        newPosition = _expectedPosition;
                     }
-
-                    _showFinalNumbersPosition = null;
                 }
+
+                _model.UpdatePosition(newPosition);
             }
         }
     }

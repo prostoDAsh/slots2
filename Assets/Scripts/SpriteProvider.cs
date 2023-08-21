@@ -4,13 +4,11 @@ namespace DefaultNamespace
 {
     public sealed class SpriteProvider
     {
-        private const int CurrentFinalSet = 0;
-        
         private readonly GameConfig _config;
-        
+
         private readonly int _wheelIndex;
 
-        private int _finalIndex;
+        private int _nextFinalSet = -1;
 
         public SpriteProvider(GameConfig config, int wheelIndex)
         {
@@ -18,12 +16,11 @@ namespace DefaultNamespace
             _wheelIndex = wheelIndex;
         }
 
-        public Sprite GetNextFinalSprite()
+        public Sprite GetFinalSprite(int finalIndex)
         {
-            int[] finalScreen = _config.FinalScreens[CurrentFinalSet].FinalScreen;
-            int index = _wheelIndex * 3 + _finalIndex % 3;
+            int[] finalScreen = _config.FinalScreens[_nextFinalSet].FinalScreen;
+            int index = _wheelIndex * 3 + finalIndex;
             SymbolData data = _config.Symbols[finalScreen[index]];
-            _finalIndex++;
 
             return data.SymbolImage;
         }
@@ -32,6 +29,11 @@ namespace DefaultNamespace
         {
             var random = Random.Range(0, _config.Symbols.Length);
             return _config.Symbols[random].SymbolImage;
+        }
+
+        public void Reset()
+        {
+            _nextFinalSet = (_nextFinalSet + 1) % 3;
         }
     }
 }
