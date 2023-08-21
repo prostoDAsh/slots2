@@ -33,7 +33,7 @@ namespace DefaultNamespace
 
         public void Reset()
         {
-            _nextFinalSet = (_nextFinalSet + 1) % 3;
+            _nextFinalSet = (_nextFinalSet + 1) % _config.FinalScreens.Length;
         }
     }
 }
