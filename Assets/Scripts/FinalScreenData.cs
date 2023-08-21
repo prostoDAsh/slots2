@@ -6,6 +6,6 @@ using UnityEngine;
 public class FinalScreenData : ScriptableObject
 {
     [SerializeField] private int[] finalScreen;
-
     public int[] FinalScreen => finalScreen;
+    
 }

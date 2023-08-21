@@ -7,6 +7,7 @@ public class GameConfig : ScriptableObject
 {
     [SerializeField] private SymbolData[] symbols;
     [SerializeField] private FinalScreenData[] finalScreens;
+    [SerializeField] private WinLineData[] winLines;
     [SerializeField] private int visibleSymbolsOnReel;
 
     public SymbolData[] Symbols => symbols;
@@ -14,4 +15,6 @@ public class GameConfig : ScriptableObject
     public FinalScreenData[] FinalScreens => finalScreens;
 
     public int VisibleSymbolsOnReel => visibleSymbolsOnReel;
+
+    public WinLineData[] WinLines => winLines;
 }

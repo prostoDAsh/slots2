@@ -12,5 +12,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef09f91fbb9c447e9bfe56886f51d34f, type: 3}
   m_Name: New Game Config
   m_EditorClassIdentifier: 
-  symbols: []
-  finalScreens: []
+  symbols:
+  - {fileID: 11400000, guid: d97e9567ed9dc4df9880cff236bfcac9, type: 2}
+  - {fileID: 11400000, guid: e3f4c8e17a5434ff29f05b3cc8dc6461, type: 2}
+  - {fileID: 11400000, guid: 7ed7bafa3161149648519a97938c0125, type: 2}
+  - {fileID: 11400000, guid: c0f69dd3919344abea6133f3830a4d20, type: 2}
+  - {fileID: 11400000, guid: ba3b2a4326c1c4ba48af123f2ddef8be, type: 2}
+  - {fileID: 11400000, guid: 7f7ef60fbc5c44ce2a693a608ed7defe, type: 2}
+  - {fileID: 11400000, guid: c979aa08751b24a16b6d496bcf90bba7, type: 2}
+  - {fileID: 11400000, guid: c8a11b878ba4e451798cd6effb702147, type: 2}
+  - {fileID: 11400000, guid: ee23dc49575f540f794cafd03ed6fbbd, type: 2}
+  - {fileID: 11400000, guid: 88c46d65c0a2b4c19bac531190c8e87e, type: 2}
+  finalScreens:
+  - {fileID: 11400000, guid: 8e90690f26d7248629db7bf73d54d536, type: 2}
+  - {fileID: 11400000, guid: b7ce59734fa6b4984bd6c1a5ba82d097, type: 2}
+  - {fileID: 11400000, guid: 19bd9285149da4056a2b9582587c60e3, type: 2}
+  - {fileID: 11400000, guid: c0035814b87654111b88eade7057c121, type: 2}
+  - {fileID: 11400000, guid: 8d3f9fdbf7923451ebfe84f988c8aad7, type: 2}
+  winLines: []
+  visibleSymbolsOnReel: 3
