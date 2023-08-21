@@ -78,7 +78,6 @@ public class SlotMachineController : MonoBehaviour
     
     private IEnumerator StartSpinning()
     {
-        
         wheel1.StartMove();
         yield return new WaitForSeconds(0.5f);
         wheel2.StartMove();
@@ -94,12 +93,10 @@ public class SlotMachineController : MonoBehaviour
     {
         StopCoroutine(_runningCoroutine);
         
-        
         wheel1.StopMove();
         yield return new WaitForSeconds(0.5f);
         wheel2.StopMove();
         yield return new WaitForSeconds(0.5f);
         wheel3.StopMove();
-
     }
 }
