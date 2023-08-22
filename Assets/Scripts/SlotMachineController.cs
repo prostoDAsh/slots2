@@ -10,9 +10,13 @@ using Random = UnityEngine.Random;
 public class SlotMachineController : MonoBehaviour
 {
     public Transform[] wheels;
+    
     [SerializeField] private SlotWheel wheel1;
+    
     [SerializeField] private SlotWheel wheel2;
+    
     [SerializeField] private SlotWheel wheel3;
+    
     [SerializeField] private ButtonsPanel BtnPnl;
 
     private Coroutine _runningCoroutine;

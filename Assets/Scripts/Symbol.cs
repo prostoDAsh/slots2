@@ -13,15 +13,12 @@ namespace DefaultNamespace
 
         private SymbolModel _model;
 
-        private float _x;
-
         private void Awake()
         {
             _image = GetComponent<Image>();
-            _x = transform.localPosition.x;
         }
 
-        public void Configure(SpriteProvider spriteProvider, SymbolModel model)
+        public void Initialize(SpriteProvider spriteProvider, SymbolModel model)
         {
             _spriteProvider = spriteProvider;
             _model = model;

@@ -53,7 +53,7 @@ namespace DefaultNamespace
         private bool TrySetFinalSymbol(double newPosition, out int finalIndex)
         {
             if (_finalSymbolPosition.HasValue &&
-                newPosition >= _finalSymbolPosition)
+                newPosition >= _finalSymbolPosition.Value)
             {
                 finalIndex = Math.Abs(_index -1);
                 _finalSymbolPosition = null;

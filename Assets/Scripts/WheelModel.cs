@@ -29,16 +29,16 @@ namespace DefaultNamespace
             _state = _notRunningWheel;
         }
 
-        private Stopwatch Stopwatch { get; } = new(); 
+        private Stopwatch Stopwatch { get; } = new(); // таймер
 
         private double Position => _position;
 
         private void ToStarting()
         {
             Starting?.Invoke();
-            UpdatePosition(.0f);
+            UpdatePosition(.0);
             _state = _startingWheel;
-            Stopwatch.Restart();
+            Stopwatch.Restart();  
         }
 
         private void ToRunning()
@@ -101,13 +101,13 @@ namespace DefaultNamespace
             }
         }
 
-        public event Action Starting;
+        public event Action Starting; //в момент клика кнопки старт ,  скорость 0 
 
-        public event Action Started;
+        public event Action Started; //разгон окончен, скорость равномрная
 
-        public event Action Stopping;
+        public event Action Stopping; //момент когда колесо только начинает замедление
 
-        public event Action Stopped;
+        public event Action Stopped; // момент когда колесо остановилось скорост 0
         
         private interface IWheelState
         {
@@ -144,7 +144,7 @@ namespace DefaultNamespace
 
             public void Update()
             {
-                TimeSpan elapsed = _model.Stopwatch.Elapsed;
+                TimeSpan elapsed = _model.Stopwatch.Elapsed; // время после старта
                 if (elapsed > WheelMath.StartingTime)
                 {
                     _model.ToRunning();
@@ -180,7 +180,7 @@ namespace DefaultNamespace
         {
             private readonly WheelModel _model;
 
-            private TimeSpan _eventTime;
+            private TimeSpan _eventTime;// время начала остановки
 
             private double _initialPosition;
 

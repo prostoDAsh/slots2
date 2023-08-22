@@ -10,9 +10,11 @@ namespace DefaultNamespace
         private SpriteProvider _spriteProvider;
 
         public Sprite[] sprites;
+        
         private List<Symbol> _symbols;
-        [SerializeField] private ButtonsPanel btnPanel;
+        
         [SerializeField] private GameConfig gameConfig;
+        
         [SerializeField] private int wheelId;
         
         public WheelModel Model { get; } = new();
@@ -24,13 +26,13 @@ namespace DefaultNamespace
             foreach (Symbol symbol in _symbols)
             {
                 SymbolModel symbolModel = Model.AddSymbol();
-                symbol.Configure(_spriteProvider, symbolModel);
+                symbol.Initialize(_spriteProvider, symbolModel);
             }
         }
 
         private void Update()
         {
-            Model.Update();
+            Model.Update();// обновление позиций всех символов
         }
 
         public void StartMove()
