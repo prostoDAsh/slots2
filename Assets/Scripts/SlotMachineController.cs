@@ -17,17 +17,17 @@ public class SlotMachineController : MonoBehaviour
     
     [SerializeField] private SlotWheel wheel3;
     
-    [SerializeField] private ButtonsPanel BtnPnl;
+    [FormerlySerializedAs("BtnPnl")] [SerializeField] private ButtonsPanel btnPnl;
 
     private Coroutine _runningCoroutine;
 
     private void Start()
     {
-        BtnPnl.stopButton.interactable = false;
-        BtnPnl.stopButton.transform.localScale = Vector3.zero;
+        btnPnl.stopButton.interactable = false;
+        btnPnl.stopButton.transform.localScale = Vector3.zero;
         
-        BtnPnl.OnStartButtonClick += StartEveryWheelSpinning;
-        BtnPnl.OnStopButtonClick += StopEveryWheelSpinning;
+        btnPnl.OnStartButtonClick += StartEveryWheelSpinning;
+        btnPnl.OnStopButtonClick += StopEveryWheelSpinning;
         
         wheel1.Model.Starting += DisableStartButton;
         wheel3.Model.Started += EnableStopButton;
@@ -37,32 +37,32 @@ public class SlotMachineController : MonoBehaviour
 
     private void EnableStartButton()
     {
-        BtnPnl.playButton.transform.localScale = Vector3.one;
-        BtnPnl.playButton.interactable = true;
+        btnPnl.playButton.transform.localScale = Vector3.one;
+        btnPnl.playButton.interactable = true;
     }
 
     private void DisableStartButton()
     {
-        BtnPnl.playButton.interactable = false;
-        BtnPnl.playButton.transform.localScale = Vector3.zero;
+        btnPnl.playButton.interactable = false;
+        btnPnl.playButton.transform.localScale = Vector3.zero;
     }
 
     private void EnableStopButton()
     {
-        BtnPnl.stopButton.interactable = true;
-        BtnPnl.stopButton.transform.localScale = Vector3.one;
+        btnPnl.stopButton.interactable = true;
+        btnPnl.stopButton.transform.localScale = Vector3.one;
     }
 
     private void DisableStopButton()
     {
-        BtnPnl.stopButton.interactable = false;
-        BtnPnl.stopButton.transform.localScale = Vector3.zero;
+        btnPnl.stopButton.interactable = false;
+        btnPnl.stopButton.transform.localScale = Vector3.zero;
     }
 
     private void OnDestroy()
     {
-        BtnPnl.OnStartButtonClick -= StartEveryWheelSpinning;
-        BtnPnl.OnStopButtonClick -= StopEveryWheelSpinning;
+        btnPnl.OnStartButtonClick -= StartEveryWheelSpinning;
+        btnPnl.OnStopButtonClick -= StopEveryWheelSpinning;
         
         wheel1.Model.Starting -= DisableStartButton;
         wheel3.Model.Started -= EnableStopButton;

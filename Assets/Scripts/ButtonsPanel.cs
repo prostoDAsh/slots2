@@ -7,8 +7,8 @@ namespace DefaultNamespace
     public class ButtonsPanel : MonoBehaviour
     {
         [SerializeField] public Button playButton;
+        
         [SerializeField] public Button stopButton;
-
         public event Action OnStartButtonClick;
         public event Action OnStopButtonClick;
         
@@ -16,7 +16,6 @@ namespace DefaultNamespace
         {
             playButton.onClick.AddListener(StartButtonClick);
             stopButton.onClick.AddListener(StopButtonClick);
-            
         }
 
         private void OnDestroy()

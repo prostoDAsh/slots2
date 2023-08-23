@@ -4,17 +4,17 @@ using System.Diagnostics;
 
 namespace DefaultNamespace
 {
-    public sealed class WheelModel
+    public sealed class WheelModel //класс, от которого нельзя наследоваться, представляет модель вращающегося колеса с разными состояниями
     {
         private readonly List<SymbolModel> _symbols = new();
         
-        private readonly NotRunningWheel _notRunningWheel;
+        private readonly NotRunningWheel _notRunningWheel; //колесо не крутиться, скорость = 0
 
-        private readonly StartingWheel _startingWheel;
+        private readonly StartingWheel _startingWheel; //колесо разгоняется
 
-        private readonly RunningWheel _runningWheel;
+        private readonly RunningWheel _runningWheel; //колесо крутиться, скорость постоянная
 
-        private readonly StoppingWheel _stoppingWheel;
+        private readonly StoppingWheel _stoppingWheel; //колесо останавливается
 
         private IWheelState _state;
 
@@ -33,7 +33,7 @@ namespace DefaultNamespace
 
         private double Position => _position;
 
-        private void ToStarting()
+        private void ToStarting() //метод устанавливает состояние разгона, обновляет поз колеса, запускает таймер
         {
             Starting?.Invoke();
             UpdatePosition(.0);
@@ -41,27 +41,27 @@ namespace DefaultNamespace
             Stopwatch.Restart();  
         }
 
-        private void ToRunning()
+        private void ToRunning() //метод устанавливает состояние колеса - крутящееся и вызыввакт update текущего состояния
         {
             Started?.Invoke();
             _state = _runningWheel;
             _state.Update();
         }
 
-        private void ToStopping()
+        private void ToStopping() //метод устанавливает состояние змедления
         {
             Stopping?.Invoke();
             _state = _stoppingWheel;
         }
 
-        private void ToNotRunning()
+        private void ToNotRunning() //устанавливает состояние - колесо не крутиться, останавливает таймер
         {
             Stopped?.Invoke();
             _state = _notRunningWheel;
             Stopwatch.Stop();
         }
 
-        public SymbolModel AddSymbol()
+        public SymbolModel AddSymbol() //метод создает новую модель симовла, добавляет в список и возвращает созданный символ
         {
             var symbol = new SymbolModel(_symbols.Count);
             _symbols.Add(symbol);
@@ -69,7 +69,7 @@ namespace DefaultNamespace
             return symbol;
         }
 
-        public void Start()
+        public void Start() 
         {
             _state.Start();
         }
@@ -86,14 +86,14 @@ namespace DefaultNamespace
 
         private void UpdatePosition(double newPosition)
         {
-            _position = newPosition;
-            foreach (SymbolModel symbol in _symbols)
+            _position = newPosition; //обновляет позицию колеса
+            foreach (SymbolModel symbol in _symbols) //одновляет позицию всех символов
             {
                 symbol.UpdatePosition(_position);
             }
         }
 
-        private void UpdateFinalPosition(double expectedPosition)
+        private void UpdateFinalPosition(double expectedPosition) //обновляет фин позицию всех символов на колесе до нужной позиции
         {
             foreach (SymbolModel symbolModel in _symbols)
             {
@@ -107,17 +107,19 @@ namespace DefaultNamespace
 
         public event Action Stopping; //момент когда колесо только начинает замедление
 
-        public event Action Stopped; // момент когда колесо остановилось скорост 0
+        public event Action Stopped; // момент когда колесо остановилось скорость 0
         
-        private interface IWheelState
+        
+        
+        private interface IWheelState //интерфейс определяет методы, которые должны быть реализованы в каждом состоянии колеса
         {
             void Start() => throw new NotSupportedException(
-                $"Start operation is not supported for {this.GetType()}.");
+                $"Start operation is not supported for {this.GetType()}."); //вызывается при старте колеса
             
             void Stop() => throw new NotSupportedException(
-                $"Stop operation is not supported for {this.GetType()}.");
+                $"Stop operation is not supported for {this.GetType()}."); //вызывается при остановке колеса
             
-            void Update();
+            void Update();//метод, вызываемый для обновления состояния колес
         }
         
         private sealed class NotRunningWheel : IWheelState
