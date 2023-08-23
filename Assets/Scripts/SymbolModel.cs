@@ -2,17 +2,17 @@ using System;
 
 namespace DefaultNamespace
 {
-    public sealed class SymbolModel
+    public sealed class SymbolModel //общий функционал заключается в управлении позицией символа и определения, какое изображение показать
     {
         private const int WheelLength = 4;
         
-        private readonly int _index;
+        private readonly int _index; //индекс символа, используется для определения позиции симовла на колесе и для вычислений в методах
 
-        private double _position;
+        private double _position; //текущая поз символа на колесе
 
-        private double? _finalSymbolPosition;
+        private double? _finalSymbolPosition; //поз окончателного символа, ? означает что может быть равна null
 
-        public SymbolModel(int index)
+        public SymbolModel(int index) //конструктор класса, инициализирует _index и _position начальным значением _index
         {
             _index = index;
             _position = _index;
@@ -45,10 +45,10 @@ namespace DefaultNamespace
         }
 
         private bool IsLongChange(double newPosition) => 
-            newPosition - _position > WheelLength;
+            newPosition - _position > WheelLength; //возвращает тру, если разница между новой и текущ позициями больше длины колеса
 
         private bool IsBelowScreen(double newPosition) => 
-            _position % WheelLength > newPosition % WheelLength;
+            _position % WheelLength > newPosition % WheelLength; //определяет, находится ли новая позиция ниже текущей позиции на колесе
 
         private bool TrySetFinalSymbol(double newPosition, out int finalIndex)
         {
@@ -64,6 +64,8 @@ namespace DefaultNamespace
             finalIndex = 0;
 
             return false;
+            //метож пытется устсновить окончательный симол, если новая поз достигла позиции окончательного символа, 
+            // если все гуд, возвращает тру и указывает индекс окончательного символа (out int finalIndex)
         }
 
         public event Action<double> Moving;

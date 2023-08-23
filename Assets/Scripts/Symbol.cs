@@ -26,6 +26,8 @@ namespace DefaultNamespace
             _model.ShowRandomImage += UpdateImage;
             _model.ShowFinalImage += UpdateFinalImage;
             UpdateImage();
+            //метод initialize для инициализации принимает два параметра и сохраняет их в соответствующие приватные поля
+            //еще метод подписывается на определенные события из класса SymbolModel
         }
 
         private void UpdatePosition(double position)
@@ -34,12 +36,12 @@ namespace DefaultNamespace
             transform.localPosition = new Vector3(0, y, 0);
         }
 
-        private void UpdateImage()
+        private void UpdateImage() //обновляет изображение символа, на случайный
         {
-            _image.sprite = _spriteProvider.GetNextRandomSprite();
+            _image.sprite = _spriteProvider.GetNextRandomSprite(); 
         }
 
-        private void UpdateFinalImage(int finalIndex)
+        private void UpdateFinalImage(int finalIndex) //устанавлиает окончельное изображение на основе переданного finalIndex
         {
             _image.sprite = _spriteProvider.GetFinalSprite(finalIndex);
         }

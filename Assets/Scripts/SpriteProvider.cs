@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace DefaultNamespace
 {
-    public sealed class SpriteProvider
+    public sealed class SpriteProvider //представляет собой спрайты и имеет функционал для получения случайных и финальных спрайтов
     {
         private readonly GameConfig _config;
 
@@ -10,7 +10,7 @@ namespace DefaultNamespace
 
         private int _nextFinalSet = -1;
 
-        public SpriteProvider(GameConfig config, int wheelIndex)
+        public SpriteProvider(GameConfig config, int wheelIndex) //конструктор класса, сохраняет переданные значения в соответсвующие поля
         {
             _config = config;
             _wheelIndex = wheelIndex;
@@ -31,7 +31,7 @@ namespace DefaultNamespace
             return _config.Symbols[random].SymbolImage;
         }
 
-        public void Reset()
+        public void Reset() //выполняет сброс состояния для следующего набора окончательных спрайтов(увеличивает финальныйСет на 1 и обнуляет в случае конца массива)
         {
             _nextFinalSet = (_nextFinalSet + 1) % _config.FinalScreens.Length;
         }

@@ -7,5 +7,8 @@ public class FinalScreenData : ScriptableObject
 {
     [SerializeField] private int[] finalScreen;
     public int[] FinalScreen => finalScreen;
-    
+
+    public int[] WinLineSymbols => winLineSymbols;
+
+    [SerializeField] private int[] winLineSymbols;
 }
