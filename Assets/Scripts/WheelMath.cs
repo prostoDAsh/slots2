@@ -10,9 +10,9 @@ namespace DefaultNamespace
 
         public static readonly TimeSpan StoppingTime = TimeSpan.FromSeconds(3); // время остановки
         
-        private static readonly double Speed = StartingAcceleration * StartingTime.TotalSeconds; //начльная скорость, на основе начльного ускорения и времени
+        private static readonly double Speed = StartingAcceleration * StartingTime.TotalSeconds; //скорость при равномерном движении в средней фазе, на основе начльного ускорения и времени
 
-        private static readonly double StoppingAcceleration = -(Speed / StoppingTime.TotalSeconds); //ускорение остановки символа, на основе начальной скорости и времени остановки
+        private static readonly double StoppingAcceleration = -(Speed / StoppingTime.TotalSeconds); //ускорение остановки символа, на основе скорости(в средн. фазе) и времени остановки
         
         private static readonly double InitialPosition = GetStartingPath(StartingTime.TotalSeconds); //начальная позиция символа
 
@@ -20,14 +20,14 @@ namespace DefaultNamespace
             StartingAcceleration * time * time * 0.5;//возвращает начальную позицию в зависимости от времени (формула перемещения для равномерноускоренногг движения)
         
         public static double GetRunningPath(double time) =>
-            InitialPosition + Speed * time;//возвращает путь во время дижения (используя начальную поз и начальную скорость для рассчета пути)
+            InitialPosition + Speed * time;//возвращает путь во время дижения (используя начальную поз и скорость(в средн. фазе) для рассчета пути)
 
         public static double GetStoppingPath(
             double initialPosition,
             double stoppingAcceleration,
             double time) =>
             initialPosition + Speed * time + stoppingAcceleration * time * time * 0.5f; 
-        //возвращает путь символа при остановке (исп. нач. скорость, ускорение остановки и время для рассчета пути)
+        //возвращает путь символа при остановке (исп. скорость(в средн. фазе), ускорение остановки и время для рассчета пути)
 
         public static (double ExpectedPosition, double Acceleration) GetStoppingAcceleration(
             double initialPosition)
