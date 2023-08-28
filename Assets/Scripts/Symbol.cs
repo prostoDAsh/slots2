@@ -13,11 +13,12 @@ namespace DefaultNamespace
 
         private SymbolModel _model;
 
+        [SerializeField] public int symbolId;
+
         private void Awake()
         {
             _image = GetComponent<Image>();
         }
-
         public void Initialize(SpriteProvider spriteProvider, SymbolModel model)
         {
             _spriteProvider = spriteProvider;

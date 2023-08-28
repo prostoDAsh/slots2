@@ -1,4 +1,5 @@
 using System;
+using DG.Tweening;
 
 namespace DefaultNamespace
 {
@@ -38,7 +39,7 @@ namespace DefaultNamespace
                     ShowRandomImage?.Invoke();
                 }
             }
-            
+
             _position = newPosition;
             
             Moving?.Invoke(_position % WheelLength);

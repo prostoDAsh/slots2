@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using DG.Tweening;
 
 namespace DefaultNamespace
 {
@@ -15,12 +16,18 @@ namespace DefaultNamespace
         private readonly RunningWheel _runningWheel; //колесо крутиться, скорость постоянная
 
         private readonly StoppingWheel _stoppingWheel; //колесо останавливается
+        
+        private SpriteProvider _spriteProvider;
+
+        private FinalScreenData _finalScreenData;
+
+        private Symbol _symbol;
 
         private IWheelState _state;
 
         private double _position;
 
-        public WheelModel()
+        public WheelModel() //конструктор класса, + устанавливает начальное состояние
         {
             _notRunningWheel = new NotRunningWheel(this);
             _startingWheel = new StartingWheel(this);
@@ -28,10 +35,9 @@ namespace DefaultNamespace
             _stoppingWheel = new StoppingWheel(this);
             _state = _notRunningWheel;
         }
-
         private Stopwatch Stopwatch { get; } = new(); // таймер
 
-        private double Position => _position;
+        private double Position => _position; 
 
         private void ToStarting() //метод устанавливает состояние разгона, обновляет поз колеса, запускает таймер
         {
@@ -125,7 +131,7 @@ namespace DefaultNamespace
         private sealed class NotRunningWheel : IWheelState
         {
             private readonly WheelModel _model;
-
+            
             public NotRunningWheel(WheelModel model) => _model = model;
 
             public void Start()
@@ -191,7 +197,7 @@ namespace DefaultNamespace
             private double _acceleration;
 
             private bool _isReset = true;
-
+            
             public StoppingWheel(WheelModel model) => _model = model;
 
             private void CalculateStopping()
@@ -220,6 +226,7 @@ namespace DefaultNamespace
                     _model.ToNotRunning();
                     newPosition = _expectedPosition;
                     _isReset = true;
+                    
                 }
                 else
                 {

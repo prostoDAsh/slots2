@@ -13,3 +13,6 @@ MonoBehaviour:
   m_Name: New Final Screen 3
   m_EditorClassIdentifier: 
   finalScreen: 000000000000000000000000000000000000000000000000000000000000000000000000
+  winSymbol1: 0
+  winSymbol2: 0
+  winSymbol3: 0

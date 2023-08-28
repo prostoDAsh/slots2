@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.18018606, g: 0.22559257, b: 0.30678663, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028326, g: 0.22571333, b: 0.30692202, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -412,7 +412,8 @@ MonoBehaviour:
   wheel1: {fileID: 184576883}
   wheel2: {fileID: 106210362}
   wheel3: {fileID: 1538005005}
-  BtnPnl: {fileID: 1297144762}
+  finalScreen: {fileID: 11400000, guid: 8e90690f26d7248629db7bf73d54d536, type: 2}
+  btnPnl: {fileID: 1297144762}
 --- !u!1 &527561943
 GameObject:
   m_ObjectHideFlags: 0
@@ -992,6 +993,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 195092602}
     m_Modifications:
+    - target: {fileID: 53968450567166906, guid: 9ab3e184e8aa54fb7bc8cbb8b26ce14d, type: 3}
+      propertyPath: symbolId
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 825526740899768143, guid: 9ab3e184e8aa54fb7bc8cbb8b26ce14d, type: 3}
+      propertyPath: symbolId
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1033494594113154282, guid: 9ab3e184e8aa54fb7bc8cbb8b26ce14d, type: 3}
+      propertyPath: symbolId
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 6376770701095361129, guid: 9ab3e184e8aa54fb7bc8cbb8b26ce14d, type: 3}
       propertyPath: wheelId
       value: 2
@@ -1004,6 +1017,10 @@ PrefabInstance:
       propertyPath: gameConfig
       value: 
       objectReference: {fileID: 11400000, guid: 407a4336569a542be94aaea29f169eba, type: 2}
+    - target: {fileID: 6376770701095361129, guid: 9ab3e184e8aa54fb7bc8cbb8b26ce14d, type: 3}
+      propertyPath: finalScreenData
+      value: 
+      objectReference: {fileID: 11400000, guid: 8e90690f26d7248629db7bf73d54d536, type: 2}
     - target: {fileID: 6376770701095361129, guid: 9ab3e184e8aa54fb7bc8cbb8b26ce14d, type: 3}
       propertyPath: sprites.Array.size
       value: 10
@@ -1140,6 +1157,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Wheel1
       objectReference: {fileID: 0}
+    - target: {fileID: 8980510138746664980, guid: 9ab3e184e8aa54fb7bc8cbb8b26ce14d, type: 3}
+      propertyPath: symbolId
+      value: 5
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 4388286666413419665, guid: 9ab3e184e8aa54fb7bc8cbb8b26ce14d, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 9ab3e184e8aa54fb7bc8cbb8b26ce14d, type: 3}
@@ -1226,6 +1247,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 195092602}
     m_Modifications:
+    - target: {fileID: 53968450567166906, guid: 9ab3e184e8aa54fb7bc8cbb8b26ce14d, type: 3}
+      propertyPath: symbolId
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 825526740899768143, guid: 9ab3e184e8aa54fb7bc8cbb8b26ce14d, type: 3}
+      propertyPath: symbolId
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1033494594113154282, guid: 9ab3e184e8aa54fb7bc8cbb8b26ce14d, type: 3}
+      propertyPath: symbolId
+      value: 9
+      objectReference: {fileID: 0}
     - target: {fileID: 6376770701095361129, guid: 9ab3e184e8aa54fb7bc8cbb8b26ce14d, type: 3}
       propertyPath: wheelId
       value: 3
@@ -1238,6 +1271,10 @@ PrefabInstance:
       propertyPath: gameConfig
       value: 
       objectReference: {fileID: 11400000, guid: 407a4336569a542be94aaea29f169eba, type: 2}
+    - target: {fileID: 6376770701095361129, guid: 9ab3e184e8aa54fb7bc8cbb8b26ce14d, type: 3}
+      propertyPath: finalScreenData
+      value: 
+      objectReference: {fileID: 11400000, guid: 8e90690f26d7248629db7bf73d54d536, type: 2}
     - target: {fileID: 6376770701095361129, guid: 9ab3e184e8aa54fb7bc8cbb8b26ce14d, type: 3}
       propertyPath: sprites.Array.size
       value: 10
@@ -1373,6 +1410,10 @@ PrefabInstance:
     - target: {fileID: 8759608736662771673, guid: 9ab3e184e8aa54fb7bc8cbb8b26ce14d, type: 3}
       propertyPath: m_Name
       value: Wheel2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8980510138746664980, guid: 9ab3e184e8aa54fb7bc8cbb8b26ce14d, type: 3}
+      propertyPath: symbolId
+      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9ab3e184e8aa54fb7bc8cbb8b26ce14d, type: 3}
@@ -1693,6 +1734,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 168136774936114104, guid: bc8c12a43474b4c1b9eabcd387c352fe, type: 3}
   m_PrefabInstance: {fileID: 2776843409547439681}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1939105200 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8980510138746664980, guid: 9ab3e184e8aa54fb7bc8cbb8b26ce14d, type: 3}
+  m_PrefabInstance: {fileID: 8759608736847314103}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6151c332d5cf407682f779aa160712ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!224 &2134979292 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 8759608735928684139, guid: 9ab3e184e8aa54fb7bc8cbb8b26ce14d, type: 3}
@@ -1819,6 +1871,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 195092602}
     m_Modifications:
     - target: {fileID: 53968450567166906, guid: 9ab3e184e8aa54fb7bc8cbb8b26ce14d, type: 3}
+      propertyPath: symbolId
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 53968450567166906, guid: 9ab3e184e8aa54fb7bc8cbb8b26ce14d, type: 3}
       propertyPath: _rectTransform
       value: 
       objectReference: {fileID: 662953326}
@@ -1827,9 +1883,17 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 916931394}
     - target: {fileID: 1033494594113154282, guid: 9ab3e184e8aa54fb7bc8cbb8b26ce14d, type: 3}
+      propertyPath: symbolId
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1033494594113154282, guid: 9ab3e184e8aa54fb7bc8cbb8b26ce14d, type: 3}
       propertyPath: _rectTransform
       value: 
       objectReference: {fileID: 2134979292}
+    - target: {fileID: 6376770701095361129, guid: 9ab3e184e8aa54fb7bc8cbb8b26ce14d, type: 3}
+      propertyPath: symbol
+      value: 
+      objectReference: {fileID: 1939105200}
     - target: {fileID: 6376770701095361129, guid: 9ab3e184e8aa54fb7bc8cbb8b26ce14d, type: 3}
       propertyPath: wheelId
       value: 1
@@ -1842,6 +1906,10 @@ PrefabInstance:
       propertyPath: gameConfig
       value: 
       objectReference: {fileID: 11400000, guid: 407a4336569a542be94aaea29f169eba, type: 2}
+    - target: {fileID: 6376770701095361129, guid: 9ab3e184e8aa54fb7bc8cbb8b26ce14d, type: 3}
+      propertyPath: finalScreenData
+      value: 
+      objectReference: {fileID: 11400000, guid: 8e90690f26d7248629db7bf73d54d536, type: 2}
     - target: {fileID: 6376770701095361129, guid: 9ab3e184e8aa54fb7bc8cbb8b26ce14d, type: 3}
       propertyPath: sprites.Array.size
       value: 10
@@ -1985,6 +2053,10 @@ PrefabInstance:
     - target: {fileID: 8759608736662771673, guid: 9ab3e184e8aa54fb7bc8cbb8b26ce14d, type: 3}
       propertyPath: m_Name
       value: Wheel
+      objectReference: {fileID: 0}
+    - target: {fileID: 8980510138746664980, guid: 9ab3e184e8aa54fb7bc8cbb8b26ce14d, type: 3}
+      propertyPath: symbolId
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8980510138746664980, guid: 9ab3e184e8aa54fb7bc8cbb8b26ce14d, type: 3}
       propertyPath: _rectTransform

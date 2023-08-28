@@ -9,20 +9,22 @@ using Random = UnityEngine.Random;
 
 public class SlotMachineController : MonoBehaviour
 {
-    public Transform[] wheels;
-    
     [SerializeField] private SlotWheel wheel1;
     
     [SerializeField] private SlotWheel wheel2;
     
     [SerializeField] private SlotWheel wheel3;
+
+    [SerializeField] private FinalScreenData finalScreen;
+
+    [SerializeField] private FinalScreenData[] finalScreenData;
     
     [FormerlySerializedAs("BtnPnl")] [SerializeField] private ButtonsPanel btnPnl;
-
+    
     private Coroutine _runningCoroutine;
-
     private void Start()
     {
+        SetIndexes();
         btnPnl.stopButton.interactable = false;
         btnPnl.stopButton.transform.localScale = Vector3.zero;
         
@@ -33,6 +35,13 @@ public class SlotMachineController : MonoBehaviour
         wheel3.Model.Started += EnableStopButton;
         wheel1.Model.Stopping += DisableStopButton;
         wheel3.Model.Stopped += EnableStartButton;
+    }
+
+    private void SetIndexes()
+    {
+        wheel1.SetWinIndex(finalScreen.WinSymbols[0]);
+        wheel2.SetWinIndex(finalScreen.WinSymbols[1]);
+        wheel3.SetWinIndex(finalScreen.WinSymbols[2]);
     }
 
     private void EnableStartButton()
@@ -102,5 +111,14 @@ public class SlotMachineController : MonoBehaviour
         wheel2.StopMove();
         yield return new WaitForSeconds(0.5f);
         wheel3.StopMove();
+        yield return new WaitForSeconds(3f);
+        ScaleWheels();
+    }
+
+    private void ScaleWheels()
+    {
+        wheel1.ScaleWin();
+        wheel2.ScaleWin();
+        wheel3.ScaleWin();
     }
 }

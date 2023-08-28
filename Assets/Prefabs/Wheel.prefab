@@ -267,7 +267,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
-  m_PresetInfoIsWorld: 1
+  m_PresetInfoIsWorld: 0
 --- !u!114 &8759608736662771655
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -298,10 +298,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sprites: []
-  btnPanel: {fileID: 0}
   gameConfig: {fileID: 0}
   wheelId: 0
-  isMove: 0
 --- !u!1 &8759608737155940342
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,4 +1,5 @@
 using UnityEngine;
+using DG.Tweening;
 
 namespace DefaultNamespace
 {
@@ -9,6 +10,8 @@ namespace DefaultNamespace
         private readonly int _wheelIndex;
 
         private int _nextFinalSet = -1;
+
+        private readonly Symbol _symbol;
 
         public SpriteProvider(GameConfig config, int wheelIndex) //конструктор класса, сохраняет переданные значения в соответсвующие поля
         {
