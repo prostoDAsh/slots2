@@ -20,11 +20,13 @@ public class SlotMachineController : MonoBehaviour
     [SerializeField] private FinalScreenData[] finalScreenData;
     
     [FormerlySerializedAs("BtnPnl")] [SerializeField] private ButtonsPanel btnPnl;
+
+    private int currentFinalScreenIndex = 0;
     
     private Coroutine _runningCoroutine;
     private void Start()
     {
-        SetIndexes();
+        //sSetIndexes();
         btnPnl.stopButton.interactable = false;
         btnPnl.stopButton.transform.localScale = Vector3.zero;
         
@@ -39,9 +41,9 @@ public class SlotMachineController : MonoBehaviour
 
     private void SetIndexes()
     {
-        wheel1.SetWinIndex(finalScreen.WinSymbols[0]);
-        wheel2.SetWinIndex(finalScreen.WinSymbols[1]);
-        wheel3.SetWinIndex(finalScreen.WinSymbols[2]);
+        wheel1.SetWinIndex(finalScreenData[currentFinalScreenIndex].WinSymbols[0]);
+        wheel2.SetWinIndex(finalScreenData[currentFinalScreenIndex].WinSymbols[1]);
+        wheel3.SetWinIndex(finalScreenData[currentFinalScreenIndex].WinSymbols[2]);
     }
 
     private void EnableStartButton()
@@ -82,6 +84,7 @@ public class SlotMachineController : MonoBehaviour
     private void StartEveryWheelSpinning()
     {
         _runningCoroutine = StartCoroutine(StartSpinning());
+        SetIndexes();
     }
 
     private void StopEveryWheelSpinning()
@@ -113,6 +116,7 @@ public class SlotMachineController : MonoBehaviour
         wheel3.StopMove();
         yield return new WaitForSeconds(3f);
         ScaleWheels();
+        
     }
 
     private void ScaleWheels()
@@ -120,5 +124,6 @@ public class SlotMachineController : MonoBehaviour
         wheel1.ScaleWin();
         wheel2.ScaleWin();
         wheel3.ScaleWin();
+        currentFinalScreenIndex = (currentFinalScreenIndex + 1) % finalScreenData.Length;
     }
 }

@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using Unity.VisualScripting;
 using DG.Tweening;
+using UnityEngine.UI;
+using Sequence = DG.Tweening.Sequence;
 
 namespace DefaultNamespace
 {
@@ -19,14 +21,19 @@ namespace DefaultNamespace
         
         [SerializeField] private int wheelId;
 
-        public Symbol winSymbol;
+        private Symbol _winSymbol;
         
         private int _winIndex;
+
+        private Sequence _sequence;
+
+        private CanvasGroup _dark;
         
         public WheelModel Model { get; } = new();
         
         private void Awake()
         {
+            _dark = GetComponentInChildren<CanvasGroup>();
             _symbols = GetComponentsInChildren<Symbol>().ToList();
             _spriteProvider = new SpriteProvider(gameConfig, wheelId - 1);
             foreach (Symbol symbol in _symbols)
@@ -41,16 +48,18 @@ namespace DefaultNamespace
             _winIndex = index;
             Debug.Log(index);
             var correctSymbol = _symbols.FirstOrDefault(o => o.symbolId == index);
-            winSymbol = correctSymbol;
+            _winSymbol = correctSymbol;
         }
 
         public void ScaleWin()
         {
-            winSymbol.gameObject.transform.DOScale(1.5f, 1.5f)
-                .OnComplete(() =>
-                {
-                    winSymbol.gameObject.transform.DOScale(1, 1.5f);
-                });
+            _sequence = DOTween.Sequence();
+            _sequence.Join(_winSymbol.gameObject.transform.DOScale(1.3f, 2f))
+                //.Join(_dark.DOFade(1f, 2f))
+                .Join(_winSymbol.gameObject.transform.DOShakePosition(2f, 8f))
+                .Append(_winSymbol.gameObject.transform.DOScale(1f, 2f))
+                .Join(_winSymbol.gameObject.transform.DOShakePosition(2f, 8f));
+            //.Join((_dark.DOFade(0f, 2f)));
         }
         
         private void Update()
