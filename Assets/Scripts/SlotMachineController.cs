@@ -36,24 +36,20 @@ public class SlotMachineController : MonoBehaviour
         wheel1.Model.Stopping += DisableStopButton;
         wheel3.Model.Stopped += EnableStartButton;
     }
-
-    private void CheckForWinSymbols()
-    {
-        if (finalScreenData[_currentFinalScreenIndex].HaveWinLine == true)
-        {
-            SetIndexes();
-        }
-        else
-        {
-            return;
-        }
-    }
     
     private void SetIndexes()
     {
-        wheel1.SetWinIndex(finalScreenData[_currentFinalScreenIndex].WinSymbols[0]);
-        wheel2.SetWinIndex(finalScreenData[_currentFinalScreenIndex].WinSymbols[1]);
-        wheel3.SetWinIndex(finalScreenData[_currentFinalScreenIndex].WinSymbols[2]);
+        if (_currentFinalScreenIndex >= 0 && _currentFinalScreenIndex < finalScreenData.Length)
+        {
+            int[] winSymbols = finalScreenData[_currentFinalScreenIndex].WinSymbols;
+
+            if (winSymbols.Length >= 3)
+            {
+                wheel1.SetWinIndex(winSymbols[0]);
+                wheel2.SetWinIndex(winSymbols[1]);
+                wheel3.SetWinIndex(winSymbols[2]);
+            }
+        }
     }
 
     private void EnableStartButton()
@@ -94,7 +90,7 @@ public class SlotMachineController : MonoBehaviour
     private void StartEveryWheelSpinning()
     {
         _runningCoroutine = StartCoroutine(StartSpinning());
-        CheckForWinSymbols();
+        SetIndexes();
     }
 
     private void StopEveryWheelSpinning()
