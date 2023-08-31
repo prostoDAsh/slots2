@@ -12,6 +12,13 @@ public class FinalScreenData : ScriptableObject
 
     public int[] WinSymbols => winSymbols;
 
+    public bool HaveWinLine
+    {
+        get => haveWinLine;
+        set => haveWinLine = value;
+    }
+
     [SerializeField] private int[] winSymbols;
 
+    [SerializeField] private bool haveWinLine;
 }

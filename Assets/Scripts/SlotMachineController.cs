@@ -15,13 +15,11 @@ public class SlotMachineController : MonoBehaviour
     
     [SerializeField] private SlotWheel wheel3;
 
-    [SerializeField] private FinalScreenData finalScreen;
-
     [SerializeField] private FinalScreenData[] finalScreenData;
     
     [FormerlySerializedAs("BtnPnl")] [SerializeField] private ButtonsPanel btnPnl;
 
-    private int currentFinalScreenIndex = 0;
+    private int _currentFinalScreenIndex = 0;
     
     private Coroutine _runningCoroutine;
     private void Start()
@@ -39,11 +37,23 @@ public class SlotMachineController : MonoBehaviour
         wheel3.Model.Stopped += EnableStartButton;
     }
 
+    private void CheckForWinSymbols()
+    {
+        if (finalScreenData[_currentFinalScreenIndex].HaveWinLine == true)
+        {
+            SetIndexes();
+        }
+        else
+        {
+            return;
+        }
+    }
+    
     private void SetIndexes()
     {
-        wheel1.SetWinIndex(finalScreenData[currentFinalScreenIndex].WinSymbols[0]);
-        wheel2.SetWinIndex(finalScreenData[currentFinalScreenIndex].WinSymbols[1]);
-        wheel3.SetWinIndex(finalScreenData[currentFinalScreenIndex].WinSymbols[2]);
+        wheel1.SetWinIndex(finalScreenData[_currentFinalScreenIndex].WinSymbols[0]);
+        wheel2.SetWinIndex(finalScreenData[_currentFinalScreenIndex].WinSymbols[1]);
+        wheel3.SetWinIndex(finalScreenData[_currentFinalScreenIndex].WinSymbols[2]);
     }
 
     private void EnableStartButton()
@@ -84,7 +94,7 @@ public class SlotMachineController : MonoBehaviour
     private void StartEveryWheelSpinning()
     {
         _runningCoroutine = StartCoroutine(StartSpinning());
-        SetIndexes();
+        CheckForWinSymbols();
     }
 
     private void StopEveryWheelSpinning()
@@ -110,20 +120,24 @@ public class SlotMachineController : MonoBehaviour
         StopCoroutine(_runningCoroutine);
         
         wheel1.StopMove();
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.2f);
         wheel2.StopMove();
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.2f);
         wheel3.StopMove();
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(1.5f);
+        
         ScaleWheels();
         
     }
 
     private void ScaleWheels()
     {
-        wheel1.ScaleWin();
-        wheel2.ScaleWin();
-        wheel3.ScaleWin();
-        currentFinalScreenIndex = (currentFinalScreenIndex + 1) % finalScreenData.Length;
+        if (finalScreenData[_currentFinalScreenIndex].HaveWinLine)
+        {
+            wheel1.ScaleWin();
+            wheel2.ScaleWin();
+            wheel3.ScaleWin();
+        }
+        _currentFinalScreenIndex = (_currentFinalScreenIndex + 1) % finalScreenData.Length;
     }
 }

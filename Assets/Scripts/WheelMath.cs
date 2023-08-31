@@ -8,7 +8,7 @@ namespace DefaultNamespace
         
         public static readonly TimeSpan StartingTime = TimeSpan.FromSeconds(2); // время разгона
 
-        public static readonly TimeSpan StoppingTime = TimeSpan.FromSeconds(3); // время остановки
+        public static readonly TimeSpan StoppingTime = TimeSpan.FromSeconds(1.5); // время остановки
         
         private static readonly double Speed = StartingAcceleration * StartingTime.TotalSeconds; //скорость при равномерном движении в средней фазе, на основе начльного ускорения и времени
 

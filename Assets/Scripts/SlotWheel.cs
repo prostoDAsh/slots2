@@ -26,12 +26,14 @@ namespace DefaultNamespace
         private int _winIndex;
 
         private Sequence _sequence;
-
-        private CanvasGroup _dark;
         
+        private CanvasGroup _dark;
+
+        [SerializeField] private ButtonsPanel btnPanel;
+
         public WheelModel Model { get; } = new();
         
-        private void Awake()
+        private void Start()
         {
             _dark = GetComponentInChildren<CanvasGroup>();
             _symbols = GetComponentsInChildren<Symbol>().ToList();
@@ -41,6 +43,8 @@ namespace DefaultNamespace
                 SymbolModel symbolModel = Model.AddSymbol();
                 symbol.Initialize(_spriteProvider, symbolModel);
             }
+            
+            btnPanel.OnStartButtonClick += StopAnimation;
         }
 
         public void SetWinIndex(int index)
@@ -61,6 +65,15 @@ namespace DefaultNamespace
                 .Join(_winSymbol.gameObject.transform.DOShakePosition(2f, 8f));
             //.Join((_dark.DOFade(0f, 2f)));
         }
+
+        private void StopAnimation()
+        {
+            _sequence.Kill();
+            for (int i = 0; i < _symbols.Count; i++)
+            {
+                _symbols[i].transform.DOScale(1f, 0.1f);
+            }
+        }
         
         private void Update()
         {
@@ -77,6 +90,10 @@ namespace DefaultNamespace
         {
             Model.Stop();
         }
-        
+
+        private void OnDestroy()
+        {
+            btnPanel.OnStartButtonClick -= StopAnimation;
+        }
     }
 }
