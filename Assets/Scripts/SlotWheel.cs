@@ -26,16 +26,16 @@ namespace DefaultNamespace
         private int _winIndex;
 
         private Sequence _sequence;
-        
-        private CanvasGroup _dark;
 
         [SerializeField] private ButtonsPanel btnPanel;
+
+        private List<CanvasGroup> _symbolsCanvasGroup;
 
         public WheelModel Model { get; } = new();
         
         private void Start()
         {
-            _dark = GetComponentInChildren<CanvasGroup>();
+            _symbolsCanvasGroup = GetComponentsInChildren<CanvasGroup>().ToList();
             _symbols = GetComponentsInChildren<Symbol>().ToList();
             _spriteProvider = new SpriteProvider(gameConfig, wheelId - 1);
             foreach (Symbol symbol in _symbols)
@@ -57,6 +57,7 @@ namespace DefaultNamespace
 
         public void ScaleWin()
         {
+            
             _sequence = DOTween.Sequence();
             _sequence.Join(_winSymbol.gameObject.transform.DOScale(1.3f, 2f))
                 //.Join(_dark.DOFade(1f, 2f))
@@ -64,6 +65,15 @@ namespace DefaultNamespace
                 .Append(_winSymbol.gameObject.transform.DOScale(1f, 2f))
                 .Join(_winSymbol.gameObject.transform.DOShakePosition(2f, 8f));
             //.Join((_dark.DOFade(0f, 2f)));
+            
+            for (int i = 0; i < _symbolsCanvasGroup.Count; i++)
+            {
+                if (i != _winIndex)
+                {
+                    _symbolsCanvasGroup[i].DOFade(0.2f, 0.3f);
+                    Debug.Log("потемнели");
+                }
+            }
         }
 
         private void StopAnimation()

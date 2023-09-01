@@ -24,7 +24,6 @@ public class SlotMachineController : MonoBehaviour
     private Coroutine _runningCoroutine;
     private void Start()
     {
-        //sSetIndexes();
         btnPnl.stopButton.interactable = false;
         btnPnl.stopButton.transform.localScale = Vector3.zero;
         

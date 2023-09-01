@@ -27,5 +27,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 8e90690f26d7248629db7bf73d54d536, type: 2}
   - {fileID: 11400000, guid: b7ce59734fa6b4984bd6c1a5ba82d097, type: 2}
   - {fileID: 11400000, guid: 19bd9285149da4056a2b9582587c60e3, type: 2}
-  winLines: []
+  - {fileID: 11400000, guid: 1e1c13f004262492da3997fa209c4e5d, type: 2}
+  - {fileID: 11400000, guid: 906025ed8990f4a3d816f9df04368ff9, type: 2}
   visibleSymbolsOnReel: 3
