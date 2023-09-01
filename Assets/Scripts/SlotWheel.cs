@@ -66,14 +66,14 @@ namespace DefaultNamespace
                 .Join(_winSymbol.gameObject.transform.DOShakePosition(2f, 8f));
             //.Join((_dark.DOFade(0f, 2f)));
             
-            for (int i = 0; i < _symbolsCanvasGroup.Count; i++)
-            {
-                if (i != _winIndex)
-                {
-                    _symbolsCanvasGroup[i].DOFade(0.2f, 0.3f);
-                    Debug.Log("потемнели");
-                }
-            }
+            // for (int i = 0; i < _symbolsCanvasGroup.Count; i++)
+            // {
+            //     if (i != _winIndex)
+            //     {
+            //         _symbolsCanvasGroup[i].DOFade(0.2f, 0.3f);
+            //         Debug.Log("потемнели");
+            //     }
+            // }
         }
 
         private void StopAnimation()
