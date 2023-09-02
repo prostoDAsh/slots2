@@ -122,7 +122,6 @@ public class SlotMachineController : MonoBehaviour
         yield return new WaitForSeconds(1.5f);
         
         ScaleWheels();
-        
     }
 
     private void ScaleWheels()

@@ -1,7 +1,10 @@
 using System;
+using System.Collections;
 using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
+using Cysharp.Threading.Tasks;
 using Unity.VisualScripting;
 using DG.Tweening;
 using UnityEngine.UI;
@@ -22,6 +25,8 @@ namespace DefaultNamespace
         [SerializeField] private int wheelId;
 
         private Symbol _winSymbol;
+
+        private readonly List<Symbol> _symbolsForDark = new List<Symbol>(3);
         
         private int _winIndex;
 
@@ -29,14 +34,13 @@ namespace DefaultNamespace
 
         [SerializeField] private ButtonsPanel btnPanel;
 
-        private List<CanvasGroup> _symbolsCanvasGroup;
-
+        private bool _isCoroutineRunning;
         public WheelModel Model { get; } = new();
         
         private void Start()
         {
-            _symbolsCanvasGroup = GetComponentsInChildren<CanvasGroup>().ToList();
             _symbols = GetComponentsInChildren<Symbol>().ToList();
+            
             _spriteProvider = new SpriteProvider(gameConfig, wheelId - 1);
             foreach (Symbol symbol in _symbols)
             {
@@ -47,41 +51,71 @@ namespace DefaultNamespace
             btnPanel.OnStartButtonClick += StopAnimation;
         }
 
-        public void SetWinIndex(int index)
+        public async void SetWinIndex(int index)
         {
             _winIndex = index;
-            Debug.Log(index);
             var correctSymbol = _symbols.FirstOrDefault(o => o.symbolId == index);
             _winSymbol = correctSymbol;
+
+            await UniTask.WaitUntil((() => !_isCoroutineRunning));
+            _symbolsForDark?.Clear();
+
+            foreach (var symbol in _symbols)
+            {
+                if (symbol.symbolId != index)
+                {
+                   _symbolsForDark?.Add(symbol);
+                }
+            }
         }
 
         public void ScaleWin()
         {
-            
+            Debug.Log(_symbolsForDark.Count);
+            StartCoroutine(DarkSymbols());
             _sequence = DOTween.Sequence();
             _sequence.Join(_winSymbol.gameObject.transform.DOScale(1.3f, 2f))
-                //.Join(_dark.DOFade(1f, 2f))
                 .Join(_winSymbol.gameObject.transform.DOShakePosition(2f, 8f))
                 .Append(_winSymbol.gameObject.transform.DOScale(1f, 2f))
                 .Join(_winSymbol.gameObject.transform.DOShakePosition(2f, 8f));
-            //.Join((_dark.DOFade(0f, 2f)));
+        }
+
+        private IEnumerator DarkSymbols()
+        {
+            _isCoroutineRunning = true;
             
-            // for (int i = 0; i < _symbolsCanvasGroup.Count; i++)
-            // {
-            //     if (i != _winIndex)
-            //     {
-            //         _symbolsCanvasGroup[i].DOFade(0.2f, 0.3f);
-            //         Debug.Log("потемнели");
-            //     }
-            // }
+            for (int i = 0; i < _symbolsForDark.Count; i++)
+            {
+                _symbolsForDark[i].gameObject.GetComponent<CanvasGroup>().alpha = 0.4f;
+            }
+            
+            yield return new WaitForSeconds(3.5f);
+            
+            for (int i = 0; i < _symbolsForDark.Count; i++)
+            {
+                _symbolsForDark[i].gameObject.GetComponent<CanvasGroup>().alpha = 1f;
+            }
+
+            _isCoroutineRunning = false;
+        }
+
+        private IEnumerator ForceDarkSymbols()
+        {
+            for (int i = 0; i < _symbolsForDark.Count; i++)
+            {
+                _symbolsForDark[i].gameObject.GetComponent<CanvasGroup>().DOFade(1f, 0.1f);
+            }
+            yield break;
         }
 
         private void StopAnimation()
         {
             _sequence.Kill();
-            for (int i = 0; i < _symbols.Count; i++)
+            StopCoroutine(DarkSymbols());
+            StartCoroutine(ForceDarkSymbols());
+            foreach (var t in _symbols)
             {
-                _symbols[i].transform.DOScale(1f, 0.1f);
+                t.transform.DOScale(1f, 0.1f);
             }
         }
         

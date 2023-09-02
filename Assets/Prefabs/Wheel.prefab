@@ -106,6 +106,7 @@ GameObject:
   - component: {fileID: 8759608735928684137}
   - component: {fileID: 8759608735928684138}
   - component: {fileID: 1033494594113154282}
+  - component: {fileID: 1493642793}
   m_Layer: 5
   m_Name: Symbol3
   m_TagString: Untagged
@@ -183,6 +184,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6151c332d5cf407682f779aa160712ba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  symbolId: 9
+--- !u!225 &1493642793
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8759608735928684140}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &8759608736662771673
 GameObject:
   m_ObjectHideFlags: 0
@@ -297,9 +311,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b073bae99f44512898c45d4221729ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sprites: []
-  gameConfig: {fileID: 0}
-  wheelId: 0
+  sprites:
+  - {fileID: 21300000, guid: 9ed4889cd8afc49cd9b07daf1a836592, type: 3}
+  - {fileID: 21300000, guid: fef10ea308719456fb2bf3ed11d16a4f, type: 3}
+  - {fileID: 21300000, guid: 9caf8d5fe8971424eb4827425241d96e, type: 3}
+  - {fileID: 21300000, guid: 8aec8f9d9c07b4b799cf26baee74ed0e, type: 3}
+  - {fileID: 21300000, guid: e1e788207c4784448a334408f7881f47, type: 3}
+  - {fileID: 21300000, guid: 7c21d53ca0db643b589e344a83c20de4, type: 3}
+  - {fileID: 21300000, guid: 90d12b84ddf4e4586ad0f70193494a0a, type: 3}
+  - {fileID: 21300000, guid: 48556d6555dcc48a3b406b9fbe934190, type: 3}
+  - {fileID: 21300000, guid: 43467948bcd594c67a2f3eefe95578c8, type: 3}
+  - {fileID: 21300000, guid: f79c94cd926d94d83988a13b898de77c, type: 3}
+  gameConfig: {fileID: 11400000, guid: 407a4336569a542be94aaea29f169eba, type: 2}
+  wheelId: 3
+  btnPanel: {fileID: 0}
 --- !u!1 &8759608737155940342
 GameObject:
   m_ObjectHideFlags: 0
@@ -312,6 +337,7 @@ GameObject:
   - component: {fileID: 8759608737155940339}
   - component: {fileID: 8759608737155940340}
   - component: {fileID: 825526740899768143}
+  - component: {fileID: 1208919824}
   m_Layer: 5
   m_Name: Symbol0
   m_TagString: Untagged
@@ -389,6 +415,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6151c332d5cf407682f779aa160712ba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  symbolId: 0
+--- !u!225 &1208919824
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8759608737155940342}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &8759608737360779947
 GameObject:
   m_ObjectHideFlags: 0
@@ -401,6 +440,7 @@ GameObject:
   - component: {fileID: 8759608737360779944}
   - component: {fileID: 8759608737360779945}
   - component: {fileID: 8980510138746664980}
+  - component: {fileID: 1136849226}
   m_Layer: 5
   m_Name: Symbol2
   m_TagString: Untagged
@@ -478,6 +518,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6151c332d5cf407682f779aa160712ba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  symbolId: 8
+--- !u!225 &1136849226
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8759608737360779947}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &8759608737409458650
 GameObject:
   m_ObjectHideFlags: 0
@@ -490,6 +543,7 @@ GameObject:
   - component: {fileID: 8759608737409458631}
   - component: {fileID: 8759608737409458648}
   - component: {fileID: 53968450567166906}
+  - component: {fileID: 901824976}
   m_Layer: 5
   m_Name: Symbol1
   m_TagString: Untagged
@@ -567,3 +621,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6151c332d5cf407682f779aa160712ba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  symbolId: 7
+--- !u!225 &901824976
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8759608737409458650}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0

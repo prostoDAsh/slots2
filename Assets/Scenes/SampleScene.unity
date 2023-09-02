@@ -474,7 +474,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -106.75406, y: 43.66145}
+  m_AnchoredPosition: {x: -106.75391, y: 43.66145}
   m_SizeDelta: {x: 213.50812, y: 87.3229}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &527561945
@@ -815,23 +815,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 852604886}
   m_CullTransparentMesh: 1
---- !u!1 &901824971 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8759608737409458650, guid: 9ab3e184e8aa54fb7bc8cbb8b26ce14d, type: 3}
-  m_PrefabInstance: {fileID: 1288877450}
-  m_PrefabAsset: {fileID: 0}
---- !u!225 &901824976
-CanvasGroup:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 901824971}
-  m_Enabled: 1
-  m_Alpha: 1
-  m_Interactable: 1
-  m_BlocksRaycasts: 1
-  m_IgnoreParentGroups: 0
 --- !u!224 &916931394 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 8759608737155940341, guid: 9ab3e184e8aa54fb7bc8cbb8b26ce14d, type: 3}
@@ -958,7 +941,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -106.75406, y: 43.66145}
+  m_AnchoredPosition: {x: -106.75391, y: 43.66145}
   m_SizeDelta: {x: 213.50812, y: 87.3229}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1054889864
@@ -1043,23 +1026,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1054889862}
   m_CullTransparentMesh: 1
---- !u!1 &1136849221 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8759608737360779947, guid: 9ab3e184e8aa54fb7bc8cbb8b26ce14d, type: 3}
-  m_PrefabInstance: {fileID: 1288877450}
-  m_PrefabAsset: {fileID: 0}
---- !u!225 &1136849226
-CanvasGroup:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1136849221}
-  m_Enabled: 1
-  m_Alpha: 1
-  m_Interactable: 1
-  m_BlocksRaycasts: 1
-  m_IgnoreParentGroups: 0
 --- !u!1001 &1154532749
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1143,6 +1109,26 @@ PrefabInstance:
       propertyPath: sprites.Array.data[9]
       value: 
       objectReference: {fileID: 21300000, guid: f79c94cd926d94d83988a13b898de77c, type: 3}
+    - target: {fileID: 6376770701095361129, guid: 9ab3e184e8aa54fb7bc8cbb8b26ce14d, type: 3}
+      propertyPath: symbolsCanvasGroup.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 6376770701095361129, guid: 9ab3e184e8aa54fb7bc8cbb8b26ce14d, type: 3}
+      propertyPath: symbolsCanvasGroup.Array.data[0]
+      value: 
+      objectReference: {fileID: 481668051}
+    - target: {fileID: 6376770701095361129, guid: 9ab3e184e8aa54fb7bc8cbb8b26ce14d, type: 3}
+      propertyPath: symbolsCanvasGroup.Array.data[1]
+      value: 
+      objectReference: {fileID: 1928518251}
+    - target: {fileID: 6376770701095361129, guid: 9ab3e184e8aa54fb7bc8cbb8b26ce14d, type: 3}
+      propertyPath: symbolsCanvasGroup.Array.data[2]
+      value: 
+      objectReference: {fileID: 1341725298}
+    - target: {fileID: 6376770701095361129, guid: 9ab3e184e8aa54fb7bc8cbb8b26ce14d, type: 3}
+      propertyPath: symbolsCanvasGroup.Array.data[3]
+      value: 
+      objectReference: {fileID: 2080654020}
     - target: {fileID: 8759608736662771654, guid: 9ab3e184e8aa54fb7bc8cbb8b26ce14d, type: 3}
       propertyPath: m_PresetInfoIsWorld
       value: 0
@@ -1318,23 +1304,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1157861993}
   m_CullTransparentMesh: 1
---- !u!1 &1208919819 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8759608737155940342, guid: 9ab3e184e8aa54fb7bc8cbb8b26ce14d, type: 3}
-  m_PrefabInstance: {fileID: 1288877450}
-  m_PrefabAsset: {fileID: 0}
---- !u!225 &1208919824
-CanvasGroup:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1208919819}
-  m_Enabled: 1
-  m_Alpha: 1
-  m_Interactable: 1
-  m_BlocksRaycasts: 1
-  m_IgnoreParentGroups: 0
 --- !u!1001 &1288877450
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1342,86 +1311,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 195092602}
     m_Modifications:
-    - target: {fileID: 53968450567166906, guid: 9ab3e184e8aa54fb7bc8cbb8b26ce14d, type: 3}
-      propertyPath: symbolId
-      value: 7
-      objectReference: {fileID: 0}
-    - target: {fileID: 825526740899768143, guid: 9ab3e184e8aa54fb7bc8cbb8b26ce14d, type: 3}
-      propertyPath: symbolId
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1033494594113154282, guid: 9ab3e184e8aa54fb7bc8cbb8b26ce14d, type: 3}
-      propertyPath: symbolId
-      value: 9
-      objectReference: {fileID: 0}
-    - target: {fileID: 6376770701095361129, guid: 9ab3e184e8aa54fb7bc8cbb8b26ce14d, type: 3}
-      propertyPath: dark
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 6376770701095361129, guid: 9ab3e184e8aa54fb7bc8cbb8b26ce14d, type: 3}
-      propertyPath: wheelId
-      value: 3
-      objectReference: {fileID: 0}
     - target: {fileID: 6376770701095361129, guid: 9ab3e184e8aa54fb7bc8cbb8b26ce14d, type: 3}
       propertyPath: btnPanel
       value: 
       objectReference: {fileID: 1297144762}
-    - target: {fileID: 6376770701095361129, guid: 9ab3e184e8aa54fb7bc8cbb8b26ce14d, type: 3}
-      propertyPath: gameConfig
-      value: 
-      objectReference: {fileID: 11400000, guid: 407a4336569a542be94aaea29f169eba, type: 2}
-    - target: {fileID: 6376770701095361129, guid: 9ab3e184e8aa54fb7bc8cbb8b26ce14d, type: 3}
-      propertyPath: finalScreenData
-      value: 
-      objectReference: {fileID: 11400000, guid: 8e90690f26d7248629db7bf73d54d536, type: 2}
-    - target: {fileID: 6376770701095361129, guid: 9ab3e184e8aa54fb7bc8cbb8b26ce14d, type: 3}
-      propertyPath: sprites.Array.size
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 6376770701095361129, guid: 9ab3e184e8aa54fb7bc8cbb8b26ce14d, type: 3}
-      propertyPath: sprites.Array.data[0]
-      value: 
-      objectReference: {fileID: 21300000, guid: 9ed4889cd8afc49cd9b07daf1a836592, type: 3}
-    - target: {fileID: 6376770701095361129, guid: 9ab3e184e8aa54fb7bc8cbb8b26ce14d, type: 3}
-      propertyPath: sprites.Array.data[1]
-      value: 
-      objectReference: {fileID: 21300000, guid: fef10ea308719456fb2bf3ed11d16a4f, type: 3}
-    - target: {fileID: 6376770701095361129, guid: 9ab3e184e8aa54fb7bc8cbb8b26ce14d, type: 3}
-      propertyPath: sprites.Array.data[2]
-      value: 
-      objectReference: {fileID: 21300000, guid: 9caf8d5fe8971424eb4827425241d96e, type: 3}
-    - target: {fileID: 6376770701095361129, guid: 9ab3e184e8aa54fb7bc8cbb8b26ce14d, type: 3}
-      propertyPath: sprites.Array.data[3]
-      value: 
-      objectReference: {fileID: 21300000, guid: 8aec8f9d9c07b4b799cf26baee74ed0e, type: 3}
-    - target: {fileID: 6376770701095361129, guid: 9ab3e184e8aa54fb7bc8cbb8b26ce14d, type: 3}
-      propertyPath: sprites.Array.data[4]
-      value: 
-      objectReference: {fileID: 21300000, guid: e1e788207c4784448a334408f7881f47, type: 3}
-    - target: {fileID: 6376770701095361129, guid: 9ab3e184e8aa54fb7bc8cbb8b26ce14d, type: 3}
-      propertyPath: sprites.Array.data[5]
-      value: 
-      objectReference: {fileID: 21300000, guid: 7c21d53ca0db643b589e344a83c20de4, type: 3}
-    - target: {fileID: 6376770701095361129, guid: 9ab3e184e8aa54fb7bc8cbb8b26ce14d, type: 3}
-      propertyPath: sprites.Array.data[6]
-      value: 
-      objectReference: {fileID: 21300000, guid: 90d12b84ddf4e4586ad0f70193494a0a, type: 3}
-    - target: {fileID: 6376770701095361129, guid: 9ab3e184e8aa54fb7bc8cbb8b26ce14d, type: 3}
-      propertyPath: sprites.Array.data[7]
-      value: 
-      objectReference: {fileID: 21300000, guid: 48556d6555dcc48a3b406b9fbe934190, type: 3}
-    - target: {fileID: 6376770701095361129, guid: 9ab3e184e8aa54fb7bc8cbb8b26ce14d, type: 3}
-      propertyPath: sprites.Array.data[8]
-      value: 
-      objectReference: {fileID: 21300000, guid: 43467948bcd594c67a2f3eefe95578c8, type: 3}
-    - target: {fileID: 6376770701095361129, guid: 9ab3e184e8aa54fb7bc8cbb8b26ce14d, type: 3}
-      propertyPath: sprites.Array.data[9]
-      value: 
-      objectReference: {fileID: 21300000, guid: f79c94cd926d94d83988a13b898de77c, type: 3}
-    - target: {fileID: 8759608736662771654, guid: 9ab3e184e8aa54fb7bc8cbb8b26ce14d, type: 3}
-      propertyPath: m_PresetInfoIsWorld
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 8759608736662771672, guid: 9ab3e184e8aa54fb7bc8cbb8b26ce14d, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -1509,10 +1402,6 @@ PrefabInstance:
     - target: {fileID: 8759608736662771673, guid: 9ab3e184e8aa54fb7bc8cbb8b26ce14d, type: 3}
       propertyPath: m_Name
       value: Wheel2
-      objectReference: {fileID: 0}
-    - target: {fileID: 8980510138746664980, guid: 9ab3e184e8aa54fb7bc8cbb8b26ce14d, type: 3}
-      propertyPath: symbolId
-      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9ab3e184e8aa54fb7bc8cbb8b26ce14d, type: 3}
@@ -1756,23 +1645,6 @@ CanvasGroup:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1341725293}
-  m_Enabled: 1
-  m_Alpha: 1
-  m_Interactable: 1
-  m_BlocksRaycasts: 1
-  m_IgnoreParentGroups: 0
---- !u!1 &1493642788 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8759608735928684140, guid: 9ab3e184e8aa54fb7bc8cbb8b26ce14d, type: 3}
-  m_PrefabInstance: {fileID: 1288877450}
-  m_PrefabAsset: {fileID: 0}
---- !u!225 &1493642793
-CanvasGroup:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1493642788}
   m_Enabled: 1
   m_Alpha: 1
   m_Interactable: 1
@@ -2179,6 +2051,26 @@ PrefabInstance:
       propertyPath: sprites.Array.data[10]
       value: 
       objectReference: {fileID: 21300000, guid: 8aec8f9d9c07b4b799cf26baee74ed0e, type: 3}
+    - target: {fileID: 6376770701095361129, guid: 9ab3e184e8aa54fb7bc8cbb8b26ce14d, type: 3}
+      propertyPath: symbolsCanvasGroup.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 6376770701095361129, guid: 9ab3e184e8aa54fb7bc8cbb8b26ce14d, type: 3}
+      propertyPath: symbolsCanvasGroup.Array.data[0]
+      value: 
+      objectReference: {fileID: 2056363198}
+    - target: {fileID: 6376770701095361129, guid: 9ab3e184e8aa54fb7bc8cbb8b26ce14d, type: 3}
+      propertyPath: symbolsCanvasGroup.Array.data[1]
+      value: 
+      objectReference: {fileID: 662953330}
+    - target: {fileID: 6376770701095361129, guid: 9ab3e184e8aa54fb7bc8cbb8b26ce14d, type: 3}
+      propertyPath: symbolsCanvasGroup.Array.data[2]
+      value: 
+      objectReference: {fileID: 1939105203}
+    - target: {fileID: 6376770701095361129, guid: 9ab3e184e8aa54fb7bc8cbb8b26ce14d, type: 3}
+      propertyPath: symbolsCanvasGroup.Array.data[3]
+      value: 
+      objectReference: {fileID: 2134979296}
     - target: {fileID: 8759608736662771654, guid: 9ab3e184e8aa54fb7bc8cbb8b26ce14d, type: 3}
       propertyPath: m_PresetInfoIsWorld
       value: 0

@@ -15,10 +15,26 @@ namespace DefaultNamespace
 
         [SerializeField] public int symbolId;
 
+        // private CanvasGroup _symbolCanvas;
+
         private void Awake()
         {
             _image = GetComponent<Image>();
+            // _symbolCanvas = GetComponent<CanvasGroup>();
         }
+
+        // public void isDark(bool isOn)
+        // {
+        //     if (isOn)
+        //     {
+        //         _symbolCanvas.DOFade(0.2f, 1f);
+        //     }
+        //     else
+        //     {
+        //         _symbolCanvas.DOFade(1f, 2f);
+        //     }
+        // }
+        
         public void Initialize(SpriteProvider spriteProvider, SymbolModel model)
         {
             _spriteProvider = spriteProvider;
