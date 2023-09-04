@@ -13,6 +13,8 @@ namespace DefaultNamespace
 
         private readonly Symbol _symbol;
 
+        private const int SymbolsOnWheel = 3;
+
         public SpriteProvider(GameConfig config, int wheelIndex) //конструктор класса, сохраняет переданные значения в соответсвующие поля
         {
             _config = config;
@@ -22,7 +24,7 @@ namespace DefaultNamespace
         public Sprite GetFinalSprite(int finalIndex)
         {
             int[] finalScreen = _config.FinalScreens[_nextFinalSet].FinalScreen;
-            int index = _wheelIndex * 3 + finalIndex;
+            int index = _wheelIndex * SymbolsOnWheel + finalIndex;
             SymbolData data = _config.Symbols[finalScreen[index]];
 
             return data.SymbolImage;

@@ -71,7 +71,6 @@ namespace DefaultNamespace
 
         public void ScaleWin()
         {
-            Debug.Log(_symbolsForDark.Count);
             StartCoroutine(DarkSymbols());
             _sequence = DOTween.Sequence();
             _sequence.Join(_winSymbol.gameObject.transform.DOScale(1.3f, 2f))

@@ -20,6 +20,10 @@ public class SlotMachineController : MonoBehaviour
     [FormerlySerializedAs("BtnPnl")] [SerializeField] private ButtonsPanel btnPnl;
 
     private int _currentFinalScreenIndex = 0;
+
+    private float _delayBetweenStartWheels = 0.5f;
+
+    private float _delayBetweenStopWheels = 0.2f;
     
     private Coroutine _runningCoroutine;
     private void Start()
@@ -42,7 +46,7 @@ public class SlotMachineController : MonoBehaviour
         {
             int[] winSymbols = finalScreenData[_currentFinalScreenIndex].WinSymbols;
 
-            if (winSymbols.Length >= 3)
+            if (finalScreenData[_currentFinalScreenIndex].HaveWinLine)
             {
                 wheel1.SetWinIndex(winSymbols[0]);
                 wheel2.SetWinIndex(winSymbols[1]);
@@ -100,9 +104,9 @@ public class SlotMachineController : MonoBehaviour
     private IEnumerator StartSpinning()
     {
         wheel1.StartMove();
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(_delayBetweenStartWheels);
         wheel2.StartMove();
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(_delayBetweenStartWheels);
         wheel3.StartMove();
 
         yield return new WaitForSeconds(6.0f);
@@ -115,9 +119,9 @@ public class SlotMachineController : MonoBehaviour
         StopCoroutine(_runningCoroutine);
         
         wheel1.StopMove();
-        yield return new WaitForSeconds(0.2f);
+        yield return new WaitForSeconds(_delayBetweenStopWheels);
         wheel2.StopMove();
-        yield return new WaitForSeconds(0.2f);
+        yield return new WaitForSeconds(_delayBetweenStopWheels);
         wheel3.StopMove();
         yield return new WaitForSeconds(1.5f);
         
