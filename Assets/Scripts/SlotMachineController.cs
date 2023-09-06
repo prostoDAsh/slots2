@@ -1,5 +1,7 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using DefaultNamespace;
 using UnityEngine;
 using DG.Tweening;
@@ -21,11 +23,20 @@ public class SlotMachineController : MonoBehaviour
 
     private int _currentFinalScreenIndex = 0;
 
-    private float _delayBetweenStartWheels = 0.5f;
+    private readonly float _delayBetweenStartWheels = 0.5f;
 
-    private float _delayBetweenStopWheels = 0.2f;
+    private readonly float _delayBetweenStopWheels = 0.2f;
+
+    [SerializeField] private ScoreTxt score;
+
+    [SerializeField] private GameConfig config;
+    
+    int _totalScore = 0;
     
     private Coroutine _runningCoroutine;
+
+    private List<int> _winId;
+
     private void Start()
     {
         btnPnl.stopButton.interactable = false;
@@ -54,6 +65,41 @@ public class SlotMachineController : MonoBehaviour
             }
         }
     }
+
+    private void CalculateWin()
+    {
+        if (finalScreenData[_currentFinalScreenIndex].WinSymbolsId != null && finalScreenData[_currentFinalScreenIndex].WinSymbolsId.Length >= 3)
+        {
+            _winId = finalScreenData[_currentFinalScreenIndex].WinSymbolsId.ToList();
+
+            SymbolData symbol1 = config.Symbols[_winId[0]];
+            SymbolData symbol2 = config.Symbols[_winId[1]];
+            SymbolData symbol3 = config.Symbols[_winId[2]];
+        
+            int winAmount = (int)symbol1.SymbolCoast
+                            + (int)symbol2.SymbolCoast
+                            + (int)symbol3.SymbolCoast;
+        
+            _totalScore += winAmount;
+        }
+    }
+
+    private void UpdateScoreText()
+    {
+        if (finalScreenData[_currentFinalScreenIndex].WinSymbolsId != null)
+        {
+            score.UpdateScore(_totalScore);
+        }
+    }
+
+    // private void UpdateScoreTextImmediately()
+    // {
+    //     if (finalScreenData[_currentFinalScreenIndex].WinSymbolsId != null)
+    //     {
+    //         score.UpdateScoreImmediately(_totalScore);
+    //     }
+    //     StopCoroutine(score.AnimateScoreChange());
+    // }
 
     private void EnableStartButton()
     {
@@ -94,6 +140,7 @@ public class SlotMachineController : MonoBehaviour
     {
         _runningCoroutine = StartCoroutine(StartSpinning());
         SetIndexes();
+        CalculateWin();
     }
 
     private void StopEveryWheelSpinning()
@@ -103,6 +150,7 @@ public class SlotMachineController : MonoBehaviour
     
     private IEnumerator StartSpinning()
     {
+        // UpdateScoreTextImmediately();
         wheel1.StartMove();
         yield return new WaitForSeconds(_delayBetweenStartWheels);
         wheel2.StartMove();
@@ -126,6 +174,8 @@ public class SlotMachineController : MonoBehaviour
         yield return new WaitForSeconds(1.5f);
         
         ScaleWheels();
+        yield return new WaitForSeconds(4f);
+        UpdateScoreText();
     }
 
     private void ScaleWheels()

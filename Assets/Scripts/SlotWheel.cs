@@ -68,7 +68,7 @@ namespace DefaultNamespace
                 }
             }
         }
-
+        
         public void ScaleWin()
         {
             StartCoroutine(DarkSymbols());
@@ -112,6 +112,7 @@ namespace DefaultNamespace
             _sequence.Kill();
             StopCoroutine(DarkSymbols());
             StartCoroutine(ForceDarkSymbols());
+            
             foreach (var t in _symbols)
             {
                 t.transform.DOScale(1f, 0.1f);
