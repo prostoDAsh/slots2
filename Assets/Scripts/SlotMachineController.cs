@@ -1,13 +1,9 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using DefaultNamespace;
 using UnityEngine;
-using DG.Tweening;
-using Unity.VisualScripting;
 using UnityEngine.Serialization;
-using Random = UnityEngine.Random;
 
 public class SlotMachineController : MonoBehaviour
 {
@@ -21,7 +17,7 @@ public class SlotMachineController : MonoBehaviour
     
     [FormerlySerializedAs("BtnPnl")] [SerializeField] private ButtonsPanel btnPnl;
 
-    private int _currentFinalScreenIndex = 0;
+    private int _currentFinalScreenIndex;
 
     private readonly float _delayBetweenStartWheels = 0.5f;
 
@@ -31,12 +27,12 @@ public class SlotMachineController : MonoBehaviour
 
     [SerializeField] private GameConfig config;
     
-    int _totalScore = 0;
+    private int _totalScore;
     
     private Coroutine _runningCoroutine;
 
     private List<int> _winId;
-
+    
     private void Start()
     {
         btnPnl.stopButton.interactable = false;
@@ -84,22 +80,16 @@ public class SlotMachineController : MonoBehaviour
         }
     }
 
-    private void UpdateScoreText()
+    public void UpdateScoreText()
     {
-        if (finalScreenData[_currentFinalScreenIndex].WinSymbolsId != null)
-        {
-            score.UpdateScore(_totalScore);
-        }
+        // if (finalScreenData[_currentFinalScreenIndex].WinSymbolsId.Length <= 2) return;
+        score.UpdateScore(_totalScore);
     }
 
-    // private void UpdateScoreTextImmediately()
-    // {
-    //     if (finalScreenData[_currentFinalScreenIndex].WinSymbolsId != null)
-    //     {
-    //         score.UpdateScoreImmediately(_totalScore);
-    //     }
-    //     StopCoroutine(score.AnimateScoreChange());
-    // }
+    public void UpdateScoreTextImmediately()
+    {
+        score.UpdateScoreImmediately(_totalScore);
+    }
 
     private void EnableStartButton()
     {
@@ -139,8 +129,8 @@ public class SlotMachineController : MonoBehaviour
     private void StartEveryWheelSpinning()
     {
         _runningCoroutine = StartCoroutine(StartSpinning());
+        
         SetIndexes();
-        CalculateWin();
     }
 
     private void StopEveryWheelSpinning()
@@ -150,15 +140,17 @@ public class SlotMachineController : MonoBehaviour
     
     private IEnumerator StartSpinning()
     {
-        // UpdateScoreTextImmediately();
+        
         wheel1.StartMove();
         yield return new WaitForSeconds(_delayBetweenStartWheels);
         wheel2.StartMove();
         yield return new WaitForSeconds(_delayBetweenStartWheels);
         wheel3.StartMove();
-
+        
+        CalculateWin();
+        
         yield return new WaitForSeconds(6.0f);
-
+        
         StopEveryWheelSpinning();
     }
 
@@ -174,8 +166,6 @@ public class SlotMachineController : MonoBehaviour
         yield return new WaitForSeconds(1.5f);
         
         ScaleWheels();
-        yield return new WaitForSeconds(4f);
-        UpdateScoreText();
     }
 
     private void ScaleWheels()

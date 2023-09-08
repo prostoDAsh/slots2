@@ -1,6 +1,4 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
@@ -8,11 +6,11 @@ public class ScoreTxt : MonoBehaviour
 {
     private TextMeshProUGUI _scoreTxt;
     [SerializeField] private TextMeshProUGUI moneyChangeTxt;
-    private int _currentScore = 0;
-    private int _targetScore = 0;
-    private int _moneyChange = 0; 
-    private readonly float _duration = 1.5f;
-    private float _elapsedTime = 0.0f;
+    private int _currentScore;
+    private int _targetScore;
+    private int _moneyChange; 
+    private const float Duration = 1.5f;
+    private float _elapsedTime;
 
     private void Awake()
     {
@@ -33,27 +31,28 @@ public class ScoreTxt : MonoBehaviour
         StartCoroutine(AnimateScoreChange());
     }
     
-    // public void UpdateScoreImmediately(int newScore)
-    // {
-    //     _scoreTxt.text += newScore.ToString();
-    // }
+    public void UpdateScoreImmediately(int newScore)
+    { 
+        _moneyChange = newScore - _currentScore;
+        _scoreTxt.text = newScore.ToString();
+        _currentScore = newScore;
+    }
 
-    public IEnumerator AnimateScoreChange()
+    private IEnumerator AnimateScoreChange()
     {
-        int startScore = _currentScore;
+        var startScore = _currentScore;
 
-        while (_elapsedTime < _duration)
+        while (_elapsedTime < Duration)
         {
             _elapsedTime += Time.deltaTime;
-            float progress = _elapsedTime / _duration;
+            var progress = _elapsedTime / Duration;
             _currentScore = Mathf.RoundToInt(Mathf.Lerp(startScore, _targetScore, progress));
             _scoreTxt.text = _currentScore.ToString();
-            
             
             if (_moneyChange != 0)
             {
                 moneyChangeTxt.gameObject.SetActive(true);
-                moneyChangeTxt.text = (_moneyChange > 0 ? "+" : "") + _moneyChange.ToString();
+                moneyChangeTxt.text = "+" + _moneyChange;
                 moneyChangeTxt.alpha = Mathf.Lerp(1.0f, 0.0f, progress); 
             }
             
@@ -63,6 +62,6 @@ public class ScoreTxt : MonoBehaviour
         _currentScore = _targetScore;
         _scoreTxt.text = _currentScore.ToString();
         _moneyChange = 0;
-        moneyChangeTxt.gameObject.SetActive(false); // Скрываем текст изменения денег
+        moneyChangeTxt.gameObject.SetActive(false); 
     }
 }
