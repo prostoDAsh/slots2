@@ -14,12 +14,20 @@ namespace DefaultNamespace
         private SymbolModel _model;
 
         [SerializeField] public int symbolId;
+
+        public new ParticleSystem particleSystem;
         
         private void Awake()
         {
             _image = GetComponent<Image>();
+            particleSystem = GetComponentInChildren<ParticleSystem>();
         }
-        
+
+        private void Start()
+        { 
+            particleSystem.Stop();
+        }
+
         public void Initialize(SpriteProvider spriteProvider, SymbolModel model)
         {
             _spriteProvider = spriteProvider;
@@ -38,7 +46,7 @@ namespace DefaultNamespace
             transform.localPosition = new Vector3(0, y, 0);
         }
 
-        private void UpdateImage() //обновляет изображение символа, на случайный
+        private void UpdateImage() 
         {
             _image.sprite = _spriteProvider.GetNextRandomSprite(); 
         }

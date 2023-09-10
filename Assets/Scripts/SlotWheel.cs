@@ -79,12 +79,20 @@ namespace DefaultNamespace
             
             _sequence = DOTween.Sequence();
             
+            for (int i = 0; i < _symbols.Count; i++)
+            {
+                if (_symbols[i] == _winSymbol)
+                {
+                    _symbols[i].particleSystem.Play();
+                }
+            }
+            
             _sequence.Join(_winSymbol.gameObject.transform.DOScale(1.3f, 2f))
                 .Join(_winSymbol.gameObject.transform.DOShakePosition(2f, 8f))
                 .Append(_winSymbol.gameObject.transform.DOScale(1f, 2f))
                 .Join(_winSymbol.gameObject.transform.DOShakePosition(2f, 8f)).OnComplete(()=>
             {
-                _slotMachineController.UpdateScoreText();  
+                _slotMachineController.UpdateScoreText();
             });
         }
 
@@ -103,7 +111,15 @@ namespace DefaultNamespace
             {
                 _symbolsForDark[i].gameObject.GetComponent<CanvasGroup>().alpha = 1f;
             }
-
+            
+            for (int i = 0; i < _symbols.Count; i++) 
+            {
+                if (_symbols[i] == _winSymbol)
+                {
+                    _symbols[i].particleSystem.Stop();
+                }
+            }
+            
             _isCoroutineRunning = false;
         }
 
@@ -113,12 +129,18 @@ namespace DefaultNamespace
             {
                 _symbolsForDark[i].gameObject.GetComponent<CanvasGroup>().DOFade(1f, 0.1f);
             }
-
+            
             yield break;
         }
 
         private void StopAnimation()
         {
+            for (int i = 0; i < _symbols.Count; i++) 
+            {
+                _symbols[i].particleSystem.Clear();
+                _symbols[i].particleSystem.Stop();
+            }
+            
             _sequence.Kill();
             
             StopCoroutine(DarkSymbols());
