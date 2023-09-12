@@ -15,7 +15,7 @@ namespace DefaultNamespace
 
         private const int SymbolsOnWheel = 3;
 
-        public SpriteProvider(GameConfig config, int wheelIndex) //конструктор класса, сохраняет переданные значения в соответсвующие поля
+        public SpriteProvider(GameConfig config, int wheelIndex) //конструктор
         {
             _config = config;
             _wheelIndex = wheelIndex;
@@ -36,7 +36,7 @@ namespace DefaultNamespace
             return _config.Symbols[random].SymbolImage;
         }
 
-        public void Reset() //выполняет сброс состояния для следующего набора окончательных спрайтов(увеличивает финальныйСет на 1 и обнуляет в случае конца массива)
+        public void Reset() 
         {
             _nextFinalSet = (_nextFinalSet + 1) % _config.FinalScreens.Length;
         }

@@ -8,17 +8,21 @@ using UnityEngine;
 public class FinalScreenData : ScriptableObject
 {
     [SerializeField] private int[] finalScreen;
-    public int[] FinalScreen => finalScreen;
-
-    public int[] WinSymbols => winSymbols;
-
-    public bool HaveWinLine
-    {
-        get => haveWinLine;
-        set => haveWinLine = value;
-    }
-
+    
     [SerializeField] private int[] winSymbols;
 
     [SerializeField] private bool haveWinLine;
+    
+    [SerializeField] private int[] winSymbolsId;
+    public int[] FinalScreen => finalScreen;
+
+    public int[] WinSymbols => winSymbols;
+    
+    public bool HaveWinLine
+    { 
+        get => haveWinLine;
+        set => haveWinLine = value;
+    }
+    
+    public int[] WinSymbolsId => winSymbolsId;
 }

@@ -1,13 +1,9 @@
-using System;
 using System.Collections;
 using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using Cysharp.Threading.Tasks;
-using Unity.VisualScripting;
 using DG.Tweening;
-using UnityEngine.UI;
 using Sequence = DG.Tweening.Sequence;
 
 namespace DefaultNamespace
@@ -35,12 +31,20 @@ namespace DefaultNamespace
         [SerializeField] private ButtonsPanel btnPanel;
 
         private bool _isCoroutineRunning;
-        public WheelModel Model { get; } = new();
+
+        private SlotMachineController _slotMachineController;
         
+        public WheelModel Model { get; } = new();
+
+        private void Awake()
+        {
+            _slotMachineController = GetComponentInParent<SlotMachineController>();
+        }
+
         private void Start()
         {
             _symbols = GetComponentsInChildren<Symbol>().ToList();
-            
+
             _spriteProvider = new SpriteProvider(gameConfig, wheelId - 1);
             foreach (Symbol symbol in _symbols)
             {
@@ -68,15 +72,28 @@ namespace DefaultNamespace
                 }
             }
         }
-
+        
         public void ScaleWin()
         {
             StartCoroutine(DarkSymbols());
+            
             _sequence = DOTween.Sequence();
+            
+            for (int i = 0; i < _symbols.Count; i++)
+            {
+                if (_symbols[i] == _winSymbol)
+                {
+                    _symbols[i].particleSystem.Play();
+                }
+            }
+            
             _sequence.Join(_winSymbol.gameObject.transform.DOScale(1.3f, 2f))
                 .Join(_winSymbol.gameObject.transform.DOShakePosition(2f, 8f))
                 .Append(_winSymbol.gameObject.transform.DOScale(1f, 2f))
-                .Join(_winSymbol.gameObject.transform.DOShakePosition(2f, 8f));
+                .Join(_winSymbol.gameObject.transform.DOShakePosition(2f, 8f)).OnComplete(()=>
+            {
+                _slotMachineController.UpdateScoreText();
+            });
         }
 
         private IEnumerator DarkSymbols()
@@ -94,7 +111,15 @@ namespace DefaultNamespace
             {
                 _symbolsForDark[i].gameObject.GetComponent<CanvasGroup>().alpha = 1f;
             }
-
+            
+            for (int i = 0; i < _symbols.Count; i++) 
+            {
+                if (_symbols[i] == _winSymbol)
+                {
+                    _symbols[i].particleSystem.Stop();
+                }
+            }
+            
             _isCoroutineRunning = false;
         }
 
@@ -104,14 +129,26 @@ namespace DefaultNamespace
             {
                 _symbolsForDark[i].gameObject.GetComponent<CanvasGroup>().DOFade(1f, 0.1f);
             }
+            
             yield break;
         }
 
         private void StopAnimation()
         {
+            for (int i = 0; i < _symbols.Count; i++) 
+            {
+                _symbols[i].particleSystem.Clear();
+                _symbols[i].particleSystem.Stop();
+            }
+            
             _sequence.Kill();
+            
             StopCoroutine(DarkSymbols());
+            
             StartCoroutine(ForceDarkSymbols());
+            
+            _slotMachineController.UpdateScoreTextImmediately();
+
             foreach (var t in _symbols)
             {
                 t.transform.DOScale(1f, 0.1f);
@@ -126,6 +163,7 @@ namespace DefaultNamespace
         public void StartMove()
         {
             _spriteProvider.Reset();
+            
             Model.Start();
         }
 

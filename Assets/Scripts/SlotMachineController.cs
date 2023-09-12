@@ -1,11 +1,9 @@
-using System;
 using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using DefaultNamespace;
 using UnityEngine;
-using DG.Tweening;
-using Unity.VisualScripting;
 using UnityEngine.Serialization;
-using Random = UnityEngine.Random;
 
 public class SlotMachineController : MonoBehaviour
 {
@@ -19,13 +17,22 @@ public class SlotMachineController : MonoBehaviour
     
     [FormerlySerializedAs("BtnPnl")] [SerializeField] private ButtonsPanel btnPnl;
 
-    private int _currentFinalScreenIndex = 0;
+    private int _currentFinalScreenIndex;
 
-    private float _delayBetweenStartWheels = 0.5f;
+    private readonly float _delayBetweenStartWheels = 0.5f;
 
-    private float _delayBetweenStopWheels = 0.2f;
+    private readonly float _delayBetweenStopWheels = 0.2f;
+
+    [SerializeField] private ScoreTxt score;
+
+    [SerializeField] private GameConfig config;
+    
+    private int _totalScore;
     
     private Coroutine _runningCoroutine;
+
+    private List<int> _winId;
+    
     private void Start()
     {
         btnPnl.stopButton.interactable = false;
@@ -53,6 +60,35 @@ public class SlotMachineController : MonoBehaviour
                 wheel3.SetWinIndex(winSymbols[2]);
             }
         }
+    }
+
+    private void CalculateWin()
+    {
+        if (finalScreenData[_currentFinalScreenIndex].WinSymbolsId != null && finalScreenData[_currentFinalScreenIndex].WinSymbolsId.Length >= 3)
+        {
+            _winId = finalScreenData[_currentFinalScreenIndex].WinSymbolsId.ToList();
+
+            SymbolData symbol1 = config.Symbols[_winId[0]];
+            SymbolData symbol2 = config.Symbols[_winId[1]];
+            SymbolData symbol3 = config.Symbols[_winId[2]];
+        
+            int winAmount = (int)symbol1.SymbolCoast
+                            + (int)symbol2.SymbolCoast
+                            + (int)symbol3.SymbolCoast;
+        
+            _totalScore += winAmount;
+        }
+    }
+
+    public void UpdateScoreText()
+    {
+        // if (finalScreenData[_currentFinalScreenIndex].WinSymbolsId.Length <= 2) return;
+        score.UpdateScore(_totalScore);
+    }
+
+    public void UpdateScoreTextImmediately()
+    {
+       score.UpdateScoreImmediately(_totalScore);
     }
 
     private void EnableStartButton()
@@ -93,6 +129,7 @@ public class SlotMachineController : MonoBehaviour
     private void StartEveryWheelSpinning()
     {
         _runningCoroutine = StartCoroutine(StartSpinning());
+        
         SetIndexes();
     }
 
@@ -103,14 +140,17 @@ public class SlotMachineController : MonoBehaviour
     
     private IEnumerator StartSpinning()
     {
+        
         wheel1.StartMove();
         yield return new WaitForSeconds(_delayBetweenStartWheels);
         wheel2.StartMove();
         yield return new WaitForSeconds(_delayBetweenStartWheels);
         wheel3.StartMove();
-
+        
+        CalculateWin();
+        
         yield return new WaitForSeconds(6.0f);
-
+        
         StopEveryWheelSpinning();
     }
 

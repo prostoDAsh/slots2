@@ -16,12 +16,20 @@ namespace DefaultNamespace
         [SerializeField] public int symbolId;
 
         private readonly float _symbolHeight = 200f;
+
+        public new ParticleSystem particleSystem;
         
         private void Awake()
         {
             _image = GetComponent<Image>();
+            particleSystem = GetComponentInChildren<ParticleSystem>();
         }
-        
+
+        private void Start()
+        { 
+            particleSystem.Stop();
+        }
+
         public void Initialize(SpriteProvider spriteProvider, SymbolModel model)
         {
             _spriteProvider = spriteProvider;
@@ -38,12 +46,12 @@ namespace DefaultNamespace
             transform.localPosition = new Vector3(0, y, 0);
         }
 
-        private void UpdateImage()
+        private void UpdateImage() 
         {
             _image.sprite = _spriteProvider.GetNextRandomSprite(); 
         }
 
-        private void UpdateFinalImage(int finalIndex)
+        private void UpdateFinalImage(int finalIndex) 
         {
             _image.sprite = _spriteProvider.GetFinalSprite(finalIndex);
         }

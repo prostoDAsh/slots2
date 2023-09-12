@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Symbol7
   m_EditorClassIdentifier: 
   symbolImage: {fileID: 21300000, guid: 48556d6555dcc48a3b406b9fbe934190, type: 3}
-  symbolCoast: 0
+  symbolCoast: 10
   symbolType: 0
