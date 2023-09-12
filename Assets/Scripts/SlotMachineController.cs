@@ -88,7 +88,7 @@ public class SlotMachineController : MonoBehaviour
 
     public void UpdateScoreTextImmediately()
     {
-        score.UpdateScoreImmediately(_totalScore);
+       score.UpdateScoreImmediately(_totalScore);
     }
 
     private void EnableStartButton()
