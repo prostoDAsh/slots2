@@ -26,8 +26,12 @@ public class SlotMachineController : MonoBehaviour
     [SerializeField] private ScoreTxt score;
 
     [SerializeField] private GameConfig config;
+
+    [SerializeField] private FreeSpinsScore freeSpinsScore;
     
     private int _totalScore;
+
+    private int _totalFreeSpinsScore;
     
     private Coroutine _runningCoroutine;
 
@@ -61,7 +65,6 @@ public class SlotMachineController : MonoBehaviour
             }
         }
     }
-
     private void CalculateWin()
     {
         if (finalScreenData[_currentFinalScreenIndex].WinSymbolsId != null && finalScreenData[_currentFinalScreenIndex].WinSymbolsId.Length >= 3)
@@ -71,26 +74,42 @@ public class SlotMachineController : MonoBehaviour
             SymbolData symbol1 = config.Symbols[_winId[0]];
             SymbolData symbol2 = config.Symbols[_winId[1]];
             SymbolData symbol3 = config.Symbols[_winId[2]];
+
+            if (symbol1.SymbolCoast != 0 && symbol2.SymbolCoast != 0 && symbol3.SymbolCoast != 0 )
+            {
+                int winAmount = (int)symbol1.SymbolCoast
+                                + (int)symbol2.SymbolCoast
+                                + (int)symbol3.SymbolCoast;
         
-            int winAmount = (int)symbol1.SymbolCoast
-                            + (int)symbol2.SymbolCoast
-                            + (int)symbol3.SymbolCoast;
-        
-            _totalScore += winAmount;
+                _totalScore += winAmount;
+            }
+        }
+    }
+
+    private void CheckForFreeSpins()
+    {
+        if (finalScreenData[_currentFinalScreenIndex].HaveThreeScatters)
+        {
+            _totalFreeSpinsScore += 3;
+            freeSpinsScore.isFreeSpinsRunning = true;
         }
     }
 
     public void UpdateScoreText()
     {
-        // if (finalScreenData[_currentFinalScreenIndex].WinSymbolsId.Length <= 2) return;
         score.UpdateScore(_totalScore);
+    }
+
+    public void UpdateFsScoreText()
+    {
+        freeSpinsScore.UpdateFreeSpinsScore(_totalFreeSpinsScore);
     }
 
     public void UpdateScoreTextImmediately()
     {
        score.UpdateScoreImmediately(_totalScore);
     }
-
+    
     private void EnableStartButton()
     {
         btnPnl.playButton.transform.localScale = Vector3.one;
@@ -148,6 +167,7 @@ public class SlotMachineController : MonoBehaviour
         wheel3.StartMove();
         
         CalculateWin();
+        CheckForFreeSpins();
         
         yield return new WaitForSeconds(6.0f);
         

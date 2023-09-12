@@ -30,6 +30,8 @@ namespace DefaultNamespace
 
         [SerializeField] private ButtonsPanel btnPanel;
 
+        [SerializeField] private FreeSpinsScore freeSpinsScore;
+
         private bool _isCoroutineRunning;
 
         private SlotMachineController _slotMachineController;
@@ -93,6 +95,7 @@ namespace DefaultNamespace
                 .Join(_winSymbol.gameObject.transform.DOShakePosition(2f, 8f)).OnComplete(()=>
             {
                 _slotMachineController.UpdateScoreText();
+                _slotMachineController.UpdateFsScoreText();
             });
         }
 

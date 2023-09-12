@@ -10,10 +10,12 @@ public class FinalScreenData : ScriptableObject
     [SerializeField] private int[] finalScreen;
     
     [SerializeField] private int[] winSymbols;
-
-    [SerializeField] private bool haveWinLine;
     
     [SerializeField] private int[] winSymbolsId;
+    
+    [SerializeField] private bool haveWinLine;
+        
+    [SerializeField] private bool haveThreeScatters;
     public int[] FinalScreen => finalScreen;
 
     public int[] WinSymbols => winSymbols;
@@ -25,4 +27,10 @@ public class FinalScreenData : ScriptableObject
     }
     
     public int[] WinSymbolsId => winSymbolsId;
+
+    public bool HaveThreeScatters
+    {
+        get => haveThreeScatters;
+        set => haveThreeScatters = value;
+    }
 }

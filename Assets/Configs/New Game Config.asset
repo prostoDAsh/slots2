@@ -23,10 +23,12 @@ MonoBehaviour:
   - {fileID: 11400000, guid: c8a11b878ba4e451798cd6effb702147, type: 2}
   - {fileID: 11400000, guid: ee23dc49575f540f794cafd03ed6fbbd, type: 2}
   - {fileID: 11400000, guid: 88c46d65c0a2b4c19bac531190c8e87e, type: 2}
+  - {fileID: 11400000, guid: 7b918d416e7fc487ab0bfb12464ddfaa, type: 2}
   finalScreens:
   - {fileID: 11400000, guid: 8e90690f26d7248629db7bf73d54d536, type: 2}
   - {fileID: 11400000, guid: b7ce59734fa6b4984bd6c1a5ba82d097, type: 2}
   - {fileID: 11400000, guid: 19bd9285149da4056a2b9582587c60e3, type: 2}
   - {fileID: 11400000, guid: 1e1c13f004262492da3997fa209c4e5d, type: 2}
   - {fileID: 11400000, guid: 906025ed8990f4a3d816f9df04368ff9, type: 2}
+  - {fileID: 11400000, guid: b7af26d348d1a43f4a8d16657fc2536b, type: 2}
   visibleSymbolsOnReel: 3
