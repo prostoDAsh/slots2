@@ -29,12 +29,12 @@ namespace DefaultNamespace
         private Sequence _sequence;
 
         [SerializeField] private ButtonsPanel btnPanel;
-
-        [SerializeField] private FreeSpinsScore freeSpinsScore;
-
+        
         private bool _isCoroutineRunning;
 
         private SlotMachineController _slotMachineController;
+
+        [SerializeField] private FreeSpinsScore freeSpinsScore;
         
         public WheelModel Model { get; } = new();
 

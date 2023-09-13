@@ -517,9 +517,13 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 1e1c13f004262492da3997fa209c4e5d, type: 2}
   - {fileID: 11400000, guid: 906025ed8990f4a3d816f9df04368ff9, type: 2}
   - {fileID: 11400000, guid: b7af26d348d1a43f4a8d16657fc2536b, type: 2}
+  - {fileID: 11400000, guid: 767155809b83347edb7422df40cf7382, type: 2}
+  - {fileID: 11400000, guid: a5ac559285efa49e7b84106773e8549c, type: 2}
+  - {fileID: 11400000, guid: f02e37a80cede4efdaf13df2337bbf24, type: 2}
   btnPnl: {fileID: 1297144762}
   score: {fileID: 975753112}
   config: {fileID: 11400000, guid: 407a4336569a542be94aaea29f169eba, type: 2}
+  freeSpinsScore: {fileID: 1011594687}
 --- !u!1 &422082155
 GameObject:
   m_ObjectHideFlags: 0
@@ -2068,6 +2072,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 766067e97bd92476aa97d936050216f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  freeSpinsScorePlus: {fileID: 1000875588}
+  isFreeSpinsRunning: 0
 --- !u!1 &1054889862
 GameObject:
   m_ObjectHideFlags: 0
@@ -2322,6 +2328,10 @@ PrefabInstance:
       propertyPath: gameConfig
       value: 
       objectReference: {fileID: 11400000, guid: 407a4336569a542be94aaea29f169eba, type: 2}
+    - target: {fileID: 6376770701095361129, guid: 9ab3e184e8aa54fb7bc8cbb8b26ce14d, type: 3}
+      propertyPath: freeSpinsScore
+      value: 
+      objectReference: {fileID: 1011594687}
     - target: {fileID: 6376770701095361129, guid: 9ab3e184e8aa54fb7bc8cbb8b26ce14d, type: 3}
       propertyPath: finalScreenData
       value: 
@@ -2597,6 +2607,10 @@ PrefabInstance:
       propertyPath: btnPanel
       value: 
       objectReference: {fileID: 1297144762}
+    - target: {fileID: 6376770701095361129, guid: 9ab3e184e8aa54fb7bc8cbb8b26ce14d, type: 3}
+      propertyPath: freeSpinsScore
+      value: 
+      objectReference: {fileID: 1011594687}
     - target: {fileID: 8759608736662771672, guid: 9ab3e184e8aa54fb7bc8cbb8b26ce14d, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -3931,6 +3945,10 @@ PrefabInstance:
       propertyPath: gameConfig
       value: 
       objectReference: {fileID: 11400000, guid: 407a4336569a542be94aaea29f169eba, type: 2}
+    - target: {fileID: 6376770701095361129, guid: 9ab3e184e8aa54fb7bc8cbb8b26ce14d, type: 3}
+      propertyPath: freeSpinsScore
+      value: 
+      objectReference: {fileID: 1011594687}
     - target: {fileID: 6376770701095361129, guid: 9ab3e184e8aa54fb7bc8cbb8b26ce14d, type: 3}
       propertyPath: finalScreenData
       value: 

@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6a1e9722a69c741838584e9a8244c6dc, type: 3}
-  m_Name: New Final Screen 6
+  m_Name: New Final Screen 7
   m_EditorClassIdentifier: 
-  finalScreen: 0a000000030000000700000004000000080000000a000000050000000a00000001000000
-  winSymbols: 010000000600000008000000
+  finalScreen: 050000000800000002000000040000000a00000007000000060000000000000003000000
+  winSymbols: 
   winSymbolsId: 
-  haveWinLine: 1
-  haveThreeScatters: 1
+  haveWinLine: 0
+  haveThreeScatters: 0

@@ -120,10 +120,10 @@ namespace DefaultNamespace
         private interface IWheelState //интерфейс определяет методы, которые должны быть реализованы в каждом состоянии колеса
         {
             void Start() => throw new NotSupportedException(
-                $"Start operation is not supported for {this.GetType()}."); //вызывается при старте колеса
+                $"Start operation is not supported for {this.GetType()}."); 
             
             void Stop() => throw new NotSupportedException(
-                $"Stop operation is not supported for {this.GetType()}."); //вызывается при остановке колеса
+                $"Stop operation is not supported for {this.GetType()}."); 
             
             void Update();//метод, вызываемый для обновления состояния колес
         }

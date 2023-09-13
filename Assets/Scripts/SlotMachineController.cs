@@ -35,8 +35,9 @@ public class SlotMachineController : MonoBehaviour
     
     private Coroutine _runningCoroutine;
 
+    public bool isFreeSpinsRunning = false;
+
     private List<int> _winId;
-    
     private void Start()
     {
         btnPnl.stopButton.interactable = false;
@@ -91,7 +92,7 @@ public class SlotMachineController : MonoBehaviour
         if (finalScreenData[_currentFinalScreenIndex].HaveThreeScatters)
         {
             _totalFreeSpinsScore += 3;
-            freeSpinsScore.isFreeSpinsRunning = true;
+            isFreeSpinsRunning = true;
         }
     }
 
@@ -112,8 +113,11 @@ public class SlotMachineController : MonoBehaviour
     
     private void EnableStartButton()
     {
+        if (isFreeSpinsRunning == true && finalScreenData[_currentFinalScreenIndex].ScreenForFreeSpins == true) return;
         btnPnl.playButton.transform.localScale = Vector3.one;
         btnPnl.playButton.interactable = true;
+        // btnPnl.playButton.transform.localScale = Vector3.one;
+        // btnPnl.playButton.interactable = true;
     }
 
     private void DisableStartButton()
@@ -186,6 +190,11 @@ public class SlotMachineController : MonoBehaviour
         yield return new WaitForSeconds(1.5f);
         
         ScaleWheels();
+        
+        if (finalScreenData[_currentFinalScreenIndex].HaveThreeScatters)
+        {
+            _runningCoroutine = StartCoroutine(StartSpinning());
+        }
     }
 
     private void ScaleWheels()

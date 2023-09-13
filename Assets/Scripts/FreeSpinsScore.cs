@@ -13,7 +13,6 @@ public class FreeSpinsScore : MonoBehaviour
     private int _fsScorePlus;
     private const float Duration = 1.5f;
     private float _elapsedTime;
-    public bool isFreeSpinsRunning = false;
 
     private void Awake()
     {

@@ -16,6 +16,8 @@ public class FinalScreenData : ScriptableObject
     [SerializeField] private bool haveWinLine;
         
     [SerializeField] private bool haveThreeScatters;
+
+    [SerializeField] private bool screenForFreeSpins;
     public int[] FinalScreen => finalScreen;
 
     public int[] WinSymbols => winSymbols;
@@ -33,4 +35,6 @@ public class FinalScreenData : ScriptableObject
         get => haveThreeScatters;
         set => haveThreeScatters = value;
     }
+
+    public bool ScreenForFreeSpins => screenForFreeSpins;
 }
