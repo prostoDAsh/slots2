@@ -35,7 +35,7 @@ namespace DefaultNamespace
         private SlotMachineController _slotMachineController;
 
         [SerializeField] private FreeSpinsScore freeSpinsScore;
-        
+
         public WheelModel Model { get; } = new();
 
         private void Awake()

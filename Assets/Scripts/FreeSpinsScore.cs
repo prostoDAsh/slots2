@@ -12,7 +12,7 @@ public class FreeSpinsScore : MonoBehaviour
     private int _targetFreeSpinsScore;
     private int _fsScorePlus;
     private const float Duration = 1.5f;
-    private float _elapsedTime;
+    private float _elapsedTime; 
 
     private void Awake()
     {
@@ -47,7 +47,7 @@ public class FreeSpinsScore : MonoBehaviour
             if (_fsScorePlus != 0)
             {
                 freeSpinsScorePlus.gameObject.SetActive(true);
-                freeSpinsScorePlus.text = "+" + _fsScorePlus;
+                freeSpinsScorePlus.text = _fsScorePlus.ToString();
                 freeSpinsScorePlus.alpha = Mathf.Lerp(1.0f, 0.0f, progress);
             }
             

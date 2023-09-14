@@ -1,7 +1,10 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using DefaultNamespace;
+using DG.Tweening;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -35,9 +38,20 @@ public class SlotMachineController : MonoBehaviour
     
     private Coroutine _runningCoroutine;
 
-    public bool isFreeSpinsRunning = false;
+    public bool isFreeSpinsRunning;
+
+    private PopupAfterFS _popup;
 
     private List<int> _winId;
+
+    private int _scoreAfterPopup;
+
+    private bool _isPopupCoroutineRunning = false;
+    private void Awake()
+    {
+        _popup = GetComponentInChildren<PopupAfterFS>();
+    }
+
     private void Start()
     {
         btnPnl.stopButton.interactable = false;
@@ -68,7 +82,8 @@ public class SlotMachineController : MonoBehaviour
     }
     private void CalculateWin()
     {
-        if (finalScreenData[_currentFinalScreenIndex].WinSymbolsId != null && finalScreenData[_currentFinalScreenIndex].WinSymbolsId.Length >= 3)
+        if (finalScreenData[_currentFinalScreenIndex].WinSymbolsId != null 
+            && finalScreenData[_currentFinalScreenIndex].WinSymbolsId.Length >= 3)
         {
             _winId = finalScreenData[_currentFinalScreenIndex].WinSymbolsId.ToList();
 
@@ -83,17 +98,22 @@ public class SlotMachineController : MonoBehaviour
                                 + (int)symbol3.SymbolCoast;
         
                 _totalScore += winAmount;
+                
+                if (isFreeSpinsRunning)
+                {
+                    _scoreAfterPopup += winAmount;
+                    _popup.UpdatePopupTxt(_scoreAfterPopup);
+                }
             }
         }
     }
 
     private void CheckForFreeSpins()
     {
-        if (finalScreenData[_currentFinalScreenIndex].HaveThreeScatters)
-        {
-            _totalFreeSpinsScore += 3;
-            isFreeSpinsRunning = true;
-        }
+        if (!finalScreenData[_currentFinalScreenIndex].HaveThreeScatters) return;
+        
+        _totalFreeSpinsScore += 3;
+        isFreeSpinsRunning = true;
     }
 
     public void UpdateScoreText()
@@ -113,11 +133,15 @@ public class SlotMachineController : MonoBehaviour
     
     private void EnableStartButton()
     {
-        if (isFreeSpinsRunning == true && finalScreenData[_currentFinalScreenIndex].ScreenForFreeSpins == true) return;
+        if (finalScreenData[_currentFinalScreenIndex].ShowPlayBtn)
+        {
+            isFreeSpinsRunning = false;
+        }
+        if (isFreeSpinsRunning) return;
+        if (_isPopupCoroutineRunning) return;
+
         btnPnl.playButton.transform.localScale = Vector3.one;
         btnPnl.playButton.interactable = true;
-        // btnPnl.playButton.transform.localScale = Vector3.one;
-        // btnPnl.playButton.interactable = true;
     }
 
     private void DisableStartButton()
@@ -191,10 +215,6 @@ public class SlotMachineController : MonoBehaviour
         
         ScaleWheels();
         
-        if (finalScreenData[_currentFinalScreenIndex].HaveThreeScatters)
-        {
-            _runningCoroutine = StartCoroutine(StartSpinning());
-        }
     }
 
     private void ScaleWheels()
@@ -205,6 +225,81 @@ public class SlotMachineController : MonoBehaviour
             wheel2.ScaleWin();
             wheel3.ScaleWin();
         }
+        if (finalScreenData[_currentFinalScreenIndex].FsScreen)
+        {
+            _totalFreeSpinsScore -= 1;
+            
+            UpdateFsScoreText();
+            Debug.Log(finalScreenData[_currentFinalScreenIndex].FsScreen);
+        }
+
+        if (finalScreenData[_currentFinalScreenIndex].LastFsScreen)
+        {
+            _isPopupCoroutineRunning = true;
+            StartCoroutine(ShowPopup());
+            isFreeSpinsRunning = false;
+        }
+        
+        AutoStartWheels();
+        
         _currentFinalScreenIndex = (_currentFinalScreenIndex + 1) % finalScreenData.Length;
+    }
+
+    private void AutoStartWheels()
+    {
+        if (isFreeSpinsRunning
+            && finalScreenData[_currentFinalScreenIndex].HaveThreeScatters)
+        {
+            StartCoroutine(WaitForScatters());
+        }
+        
+        if (isFreeSpinsRunning
+            && finalScreenData[_currentFinalScreenIndex].ScreenForFreeSpins)
+        {
+            StartCoroutine(WaitForMinusOneFsScore());
+        }
+    }
+
+    private IEnumerator WaitForScatters()
+    {
+        yield return new WaitForSeconds(4f);
+        
+        StartEveryWheelSpinning();
+    }
+
+    private IEnumerator WaitForMinusOneFsScore()
+    {
+        switch (finalScreenData[_currentFinalScreenIndex].HaveWinLine)
+        {
+            case true:
+            {
+                yield return new WaitForSeconds(4f);
+                break;
+            }
+            case false:
+            {
+                yield return new WaitForSeconds(1);
+                break;
+            }
+        }
+        
+        StartEveryWheelSpinning();
+    }
+
+    private IEnumerator ShowPopup()
+    {
+        yield return new WaitForSeconds(4f);
+        
+        _popup.transform.DOScale(1f, 1.5f);
+
+        yield return new WaitForSeconds(2f);
+
+        _popup.transform.DOScale(0f, 1.5f).OnComplete((() =>
+        {
+            _isPopupCoroutineRunning = false;
+        
+            btnPnl.playButton.transform.localScale = Vector3.one;
+            btnPnl.playButton.interactable = true;
+        }));
     }
 }

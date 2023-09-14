@@ -17,3 +17,6 @@ MonoBehaviour:
   winSymbolsId: 
   haveWinLine: 0
   haveThreeScatters: 0
+  screenForFreeSpins: 1
+  fsScreen: 1
+  showPlayBtn: 0

@@ -12,8 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a1e9722a69c741838584e9a8244c6dc, type: 3}
   m_Name: New Final Screen 9
   m_EditorClassIdentifier: 
-  finalScreen: 090000000200000001000000060000000400000000000000080000000500000007000000
-  winSymbols: 
-  winSymbolsId: 
-  haveWinLine: 0
+  finalScreen: 090000000800000002000000060000000200000000000000020000000500000007000000
+  winSymbols: 030000000500000007000000
+  winSymbolsId: 020000000200000002000000
+  haveWinLine: 1
   haveThreeScatters: 0
+  screenForFreeSpins: 0
+  fsScreen: 1
+  showPlayBtn: 0
+  lastFsScreen: 1

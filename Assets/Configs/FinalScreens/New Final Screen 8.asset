@@ -14,4 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   finalScreen: 040000000000000008000000020000000300000005000000010000000600000007000000
   winSymbols: 
+  winSymbolsId: 
   haveWinLine: 0
+  haveThreeScatters: 0
+  screenForFreeSpins: 1
+  fsScreen: 1
+  showPlayBtn: 0

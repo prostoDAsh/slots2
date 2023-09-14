@@ -18,6 +18,12 @@ public class FinalScreenData : ScriptableObject
     [SerializeField] private bool haveThreeScatters;
 
     [SerializeField] private bool screenForFreeSpins;
+
+    [SerializeField] private bool fsScreen;
+
+    [SerializeField] private bool showPlayBtn;
+
+    [SerializeField] private bool lastFsScreen;
     public int[] FinalScreen => finalScreen;
 
     public int[] WinSymbols => winSymbols;
@@ -37,4 +43,10 @@ public class FinalScreenData : ScriptableObject
     }
 
     public bool ScreenForFreeSpins => screenForFreeSpins;
+
+    public bool ShowPlayBtn => showPlayBtn;
+
+    public bool FsScreen => fsScreen;
+
+    public bool LastFsScreen => lastFsScreen;
 }
