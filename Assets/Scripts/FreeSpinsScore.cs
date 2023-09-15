@@ -7,11 +7,17 @@ using UnityEngine;
 public class FreeSpinsScore : MonoBehaviour
 {
     private TextMeshProUGUI _freeSpinsScoreTxt;
+    
     [SerializeField] private TextMeshProUGUI freeSpinsScorePlus;
-    private int _currentFreeSpinsScore;
-    private int _targetFreeSpinsScore;
-    private int _fsScorePlus;
+    
     private const float Duration = 1.5f;
+    
+    private int _currentFreeSpinsScore;
+    
+    private int _targetFreeSpinsScore;
+    
+    private int _fsScorePlus;
+    
     private float _elapsedTime; 
 
     private void Awake()

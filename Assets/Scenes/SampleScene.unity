@@ -525,6 +525,7 @@ MonoBehaviour:
   score: {fileID: 975753112}
   config: {fileID: 11400000, guid: 407a4336569a542be94aaea29f169eba, type: 2}
   freeSpinsScore: {fileID: 1011594687}
+  numbersConfig: {fileID: 11400000, guid: 82f778daaed514e64ae9a77a4ff41782, type: 2}
   isFreeSpinsRunning: 0
 --- !u!1 &379871790
 GameObject:
@@ -1931,7 +1932,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 190, y: -48.9}
+  m_AnchoredPosition: {x: 172, y: -48.9}
   m_SizeDelta: {x: 227.7263, y: 82.8582}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &890726447

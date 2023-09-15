@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using DefaultNamespace;
+using DefaultNamespace.Configs;
 using DG.Tweening;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -19,26 +20,22 @@ public class SlotMachineController : MonoBehaviour
     [SerializeField] private FinalScreenData[] finalScreenData;
     
     [FormerlySerializedAs("BtnPnl")] [SerializeField] private ButtonsPanel btnPnl;
-
-    private int _currentFinalScreenIndex;
-
-    private readonly float _delayBetweenStartWheels = 0.5f;
-
-    private readonly float _delayBetweenStopWheels = 0.2f;
-
+    
     [SerializeField] private ScoreTxt score;
 
     [SerializeField] private GameConfig config;
 
     [SerializeField] private FreeSpinsScore freeSpinsScore;
+
+    [SerializeField] private NumbersConfig numbersConfig;
+
+    private int _currentFinalScreenIndex;
     
     private int _totalScore;
 
     private int _totalFreeSpinsScore;
     
     private Coroutine _runningCoroutine;
-
-    public bool isFreeSpinsRunning;
 
     private PopupAfterFS _popup;
 
@@ -47,6 +44,9 @@ public class SlotMachineController : MonoBehaviour
     private int _scoreAfterPopup;
 
     private bool _isPopupCoroutineRunning = false;
+    
+    public bool isFreeSpinsRunning;
+    
     private void Awake()
     {
         _popup = GetComponentInChildren<PopupAfterFS>();
@@ -189,15 +189,15 @@ public class SlotMachineController : MonoBehaviour
     {
         
         wheel1.StartMove();
-        yield return new WaitForSeconds(_delayBetweenStartWheels);
+        yield return new WaitForSeconds(numbersConfig.DelayBetweenStartWheels);
         wheel2.StartMove();
-        yield return new WaitForSeconds(_delayBetweenStartWheels);
+        yield return new WaitForSeconds(numbersConfig.DelayBetweenStartWheels);
         wheel3.StartMove();
         
         CalculateWin();
         CheckForFreeSpins();
         
-        yield return new WaitForSeconds(6.0f);
+        yield return new WaitForSeconds(numbersConfig.DelayAfterStartToStopWheels);
         
         StopEveryWheelSpinning();
     }
@@ -207,11 +207,11 @@ public class SlotMachineController : MonoBehaviour
         StopCoroutine(_runningCoroutine);
         
         wheel1.StopMove();
-        yield return new WaitForSeconds(_delayBetweenStopWheels);
+        yield return new WaitForSeconds(numbersConfig.DelayBetweenStopWheels);
         wheel2.StopMove();
-        yield return new WaitForSeconds(_delayBetweenStopWheels);
+        yield return new WaitForSeconds(numbersConfig.DelayBetweenStopWheels);
         wheel3.StopMove();
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(numbersConfig.DelayAfterStopToStartScaleAnimation);
         
         ScaleWheels();
         
@@ -262,7 +262,7 @@ public class SlotMachineController : MonoBehaviour
 
     private IEnumerator WaitForScatters()
     {
-        yield return new WaitForSeconds(4f);
+        yield return new WaitForSeconds(numbersConfig.DelayForAutoStartWithAnimation);
         
         StartEveryWheelSpinning();
     }
@@ -273,12 +273,12 @@ public class SlotMachineController : MonoBehaviour
         {
             case true:
             {
-                yield return new WaitForSeconds(4f);
+                yield return new WaitForSeconds(numbersConfig.DelayForAutoStartWithAnimation);
                 break;
             }
             case false:
             {
-                yield return new WaitForSeconds(1);
+                yield return new WaitForSeconds(numbersConfig.DelayForAutoStartWithoutAnimation);
                 break;
             }
         }
@@ -288,18 +288,17 @@ public class SlotMachineController : MonoBehaviour
 
     private IEnumerator ShowPopup()
     {
-        yield return new WaitForSeconds(4f);
-        
-        _popup.transform.DOScale(1f, 1.5f);
+        yield return new WaitForSeconds(numbersConfig.DelayForStartPopupAnimation);
 
-        yield return new WaitForSeconds(2f);
-
-        _popup.transform.DOScale(0f, 1.5f).OnComplete((() =>
+        _popup.transform.DOScale(1f, 1.5f).OnComplete((() =>
         {
-            _isPopupCoroutineRunning = false;
-        
-            btnPnl.playButton.transform.localScale = Vector3.one;
-            btnPnl.playButton.interactable = true;
+            _popup.transform.DOScale(0f, 1.5f).OnComplete((() =>
+            {
+                _isPopupCoroutineRunning = false;
+
+                btnPnl.playButton.transform.localScale = Vector3.one;
+                btnPnl.playButton.interactable = true;
+            }));
         }));
     }
 }

@@ -15,26 +15,26 @@ namespace DefaultNamespace
         public Sprite[] sprites;
         
         private List<Symbol> _symbols;
+        
+        private readonly List<Symbol> _symbolsForDark = new List<Symbol>(3);
 
         [SerializeField] private GameConfig gameConfig;
         
         [SerializeField] private int wheelId;
+        
+        [SerializeField] private ButtonsPanel btnPanel;
+        
+        [SerializeField] private FreeSpinsScore freeSpinsScore;
 
         private Symbol _winSymbol;
-
-        private readonly List<Symbol> _symbolsForDark = new List<Symbol>(3);
+        
+        private Sequence _sequence;
+        
+        private SlotMachineController _slotMachineController;
         
         private int _winIndex;
 
-        private Sequence _sequence;
-
-        [SerializeField] private ButtonsPanel btnPanel;
-        
         private bool _isCoroutineRunning;
-
-        private SlotMachineController _slotMachineController;
-
-        [SerializeField] private FreeSpinsScore freeSpinsScore;
 
         public WheelModel Model { get; } = new();
 

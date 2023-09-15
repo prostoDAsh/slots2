@@ -5,11 +5,17 @@ using UnityEngine;
 public class ScoreTxt : MonoBehaviour
 {
     private TextMeshProUGUI _scoreTxt;
+    
     [SerializeField] private TextMeshProUGUI moneyChangeTxt;
-    private int _currentScore;
-    private int _targetScore;
-    private int _moneyChange; 
+    
     private const float Duration = 1.5f;
+    
+    private int _currentScore;
+    
+    private int _targetScore;
+    
+    private int _moneyChange; 
+    
     private float _elapsedTime;
 
     private void Awake()

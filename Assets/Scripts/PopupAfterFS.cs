@@ -8,7 +8,8 @@ using UnityEngine;
 public class PopupAfterFS : MonoBehaviour
 {
     private TextMeshProUGUI _popupText;
-    private int _totalScore = 0;
+    
+    private int _totalScore;
 
     private GameObject _popup;
 
