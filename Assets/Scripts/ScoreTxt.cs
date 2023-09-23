@@ -4,70 +4,69 @@ using UnityEngine;
 
 public class ScoreTxt : MonoBehaviour
 {
-    private TextMeshProUGUI _scoreTxt;
-    
     [SerializeField] private TextMeshProUGUI moneyChangeTxt;
+    
+    private TextMeshProUGUI scoreTxt;
     
     private const float Duration = 1.5f;
     
-    private int _currentScore;
+    private int currentScore;
     
-    private int _targetScore;
+    private int targetScore;
     
-    private int _moneyChange; 
+    private int moneyChange; 
     
-    private float _elapsedTime;
+    private float elapsedTime;
 
     private void Awake()
     {
-        _scoreTxt = GetComponentInChildren<TextMeshProUGUI>(); 
+        scoreTxt = GetComponentInChildren<TextMeshProUGUI>(); 
         moneyChangeTxt.gameObject.SetActive(false); 
     }
 
     private void Start()
     {
-        UpdateScore(_currentScore);
+        UpdateScore(currentScore);
     }
 
     public void UpdateScore(int newScore)
     {
-        _targetScore = newScore;
-        _moneyChange = _targetScore - _currentScore; 
-        _elapsedTime = 0.0f;
+        targetScore = newScore;
+        moneyChange = targetScore - currentScore; 
+        elapsedTime = 0.0f;
         StartCoroutine(AnimateScoreChange());
     }
     
     public void UpdateScoreImmediately(int newScore)
-    { 
-        _moneyChange = newScore - _currentScore;
-        _scoreTxt.text = newScore.ToString();
-        _currentScore = newScore;
+    {
+        scoreTxt.text = newScore.ToString();
+        currentScore = newScore;
     }
 
     private IEnumerator AnimateScoreChange()
     {
-        var startScore = _currentScore;
+        var startScore = currentScore;
 
-        while (_elapsedTime < Duration)
+        while (elapsedTime < Duration)
         {
-            _elapsedTime += Time.deltaTime;
-            var progress = _elapsedTime / Duration;
-            _currentScore = Mathf.RoundToInt(Mathf.Lerp(startScore, _targetScore, progress));
-            _scoreTxt.text = _currentScore.ToString();
+            elapsedTime += Time.deltaTime;
+            var progress = elapsedTime / Duration;
+            currentScore = Mathf.RoundToInt(Mathf.Lerp(startScore, targetScore, progress));
+            scoreTxt.text = currentScore.ToString();
             
-            if (_moneyChange != 0)
+            if (moneyChange != 0)
             {
                 moneyChangeTxt.gameObject.SetActive(true);
-                moneyChangeTxt.text = "+" + _moneyChange;
+                moneyChangeTxt.text = "+" + moneyChange;
                 moneyChangeTxt.alpha = Mathf.Lerp(1.0f, 0.0f, progress); 
             }
             
             yield return null;
         }
 
-        _currentScore = _targetScore;
-        _scoreTxt.text = _currentScore.ToString();
-        _moneyChange = 0;
+        currentScore = targetScore;
+        scoreTxt.text = currentScore.ToString();
+        moneyChange = 0;
         moneyChangeTxt.gameObject.SetActive(false); 
     }
 }

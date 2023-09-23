@@ -7,26 +7,26 @@ namespace DefaultNamespace
     {
         private const int WheelLength = 4;
         
-        private readonly int _index; //индекс символа, используется для определения позиции симовла на колесе и для вычислений в методах
+        private readonly int index; //индекс символа, используется для определения позиции симовла на колесе и для вычислений в методах
 
-        private double _position; //текущая поз символа на колесе
+        private double position; //текущая поз символа на колесе
 
-        private double? _finalSymbolPosition; //поз окончателного символа, ? означает что может быть равна null
+        private double? finalSymbolPosition; //поз окончателного символа, ? означает что может быть равна null
 
         public SymbolModel(int index) //конструктор класса, инициализирует _index и _position начальным значением _index
         {
-            _index = index;
-            _position = _index;
+            this.index = index;
+            position = this.index;
         }
 
         public void UpdateFinalPosition(double finalPosition)
         {
-            _finalSymbolPosition = finalPosition + _index - WheelLength + 1;
+            finalSymbolPosition = finalPosition + index - WheelLength + 1;
         }
 
         public void UpdatePosition(double position)
         {
-            double newPosition = position + _index;
+            double newPosition = position + index;
 
             if (IsLongChange(newPosition) || IsBelowScreen(newPosition))
             {
@@ -40,24 +40,24 @@ namespace DefaultNamespace
                 }
             }
 
-            _position = newPosition;
+            this.position = newPosition;
             
-            Moving?.Invoke(_position % WheelLength);
+            Moving?.Invoke(this.position % WheelLength);
         }
 
         private bool IsLongChange(double newPosition) => 
-            newPosition - _position > WheelLength; //возвращает тру, если разница между новой и текущ позициями больше длины колеса
+            newPosition - position > WheelLength; //возвращает тру, если разница между новой и текущ позициями больше длины колеса
 
         private bool IsBelowScreen(double newPosition) => 
-            _position % WheelLength > newPosition % WheelLength; //определяет, находится ли новая позиция ниже текущей позиции на колесе
+            position % WheelLength > newPosition % WheelLength; //определяет, находится ли новая позиция ниже текущей позиции на колесе
 
         private bool TrySetFinalSymbol(double newPosition, out int finalIndex)
         {
-            if (_finalSymbolPosition.HasValue &&
-                newPosition >= _finalSymbolPosition.Value)
+            if (finalSymbolPosition.HasValue &&
+                newPosition >= finalSymbolPosition.Value)
             {
-                finalIndex = Math.Abs(_index -1);
-                _finalSymbolPosition = null;
+                finalIndex = Math.Abs(index -1);
+                finalSymbolPosition = null;
                 
                 return true;
             }

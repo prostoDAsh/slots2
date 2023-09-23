@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 2
   tags:
   - Popup
+  - FreeSpinsPanel
   layers:
   - Default
   - TransparentFX

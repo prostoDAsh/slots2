@@ -7,21 +7,21 @@ using UnityEngine;
 
 public class PopupAfterFS : MonoBehaviour
 {
-    private TextMeshProUGUI _popupText;
+    private TextMeshProUGUI popupText;
     
-    private int _totalScore;
+    private int totalScore;
 
-    private GameObject _popup;
+    private GameObject popup;
 
     private void Awake()
     {
-        _popupText = GetComponentInChildren<TextMeshProUGUI>();
-        _popup = GameObject.FindGameObjectWithTag("Popup");
+        popupText = GetComponentInChildren<TextMeshProUGUI>();
+        popup = GameObject.FindGameObjectWithTag("Popup");
     }
 
     public void UpdatePopupTxt(int newScore)
     {
-        _totalScore += newScore;
-        _popupText.text = _totalScore.ToString();
+        totalScore += newScore;
+        popupText.text = totalScore.ToString();
     }
 }

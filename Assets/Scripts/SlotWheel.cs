@@ -3,6 +3,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
 using Cysharp.Threading.Tasks;
+using DefaultNamespace.Configs;
 using DG.Tweening;
 using Sequence = DG.Tweening.Sequence;
 
@@ -10,13 +11,13 @@ namespace DefaultNamespace
 {
     public class SlotWheel : MonoBehaviour
     {
-        private SpriteProvider _spriteProvider;
+        private SpriteProvider spriteProvider;
 
         public Sprite[] sprites;
         
-        private List<Symbol> _symbols;
+        private List<Symbol> symbols;
         
-        private readonly List<Symbol> _symbolsForDark = new List<Symbol>(3);
+        private readonly List<Symbol> symbolsForDark = new List<Symbol>(3);
 
         [SerializeField] private GameConfig gameConfig;
         
@@ -24,34 +25,36 @@ namespace DefaultNamespace
         
         [SerializeField] private ButtonsPanel btnPanel;
         
-        [SerializeField] private FreeSpinsScore freeSpinsScore;
+        // [SerializeField] private FreeSpinsScore freeSpinsScore;
 
-        private Symbol _winSymbol;
-        
-        private Sequence _sequence;
-        
-        private SlotMachineController _slotMachineController;
-        
-        private int _winIndex;
+        [SerializeField] private NumbersConfig numbersConfig;
 
-        private bool _isCoroutineRunning;
+        private Symbol winSymbol;
+        
+        private Sequence sequence;
+        
+        private SlotMachineController slotMachineController;
+        
+        private int winIndex;
+
+        private bool isAnimationRunning;
 
         public WheelModel Model { get; } = new();
-
+        
         private void Awake()
         {
-            _slotMachineController = GetComponentInParent<SlotMachineController>();
+            slotMachineController = GetComponentInParent<SlotMachineController>();
         }
-
+        
         private void Start()
         {
-            _symbols = GetComponentsInChildren<Symbol>().ToList();
+            symbols = GetComponentsInChildren<Symbol>().ToList();
 
-            _spriteProvider = new SpriteProvider(gameConfig, wheelId - 1);
-            foreach (Symbol symbol in _symbols)
+            spriteProvider = new SpriteProvider(gameConfig, wheelId - 1);
+            foreach (Symbol symbol in symbols)
             {
                 SymbolModel symbolModel = Model.AddSymbol();
-                symbol.Initialize(_spriteProvider, symbolModel);
+                symbol.Initialize(spriteProvider, symbolModel);
             }
             
             btnPanel.OnStartButtonClick += StopAnimation;
@@ -59,18 +62,18 @@ namespace DefaultNamespace
 
         public async void SetWinIndex(int index)
         {
-            _winIndex = index;
-            var correctSymbol = _symbols.FirstOrDefault(o => o.symbolId == index);
-            _winSymbol = correctSymbol;
+            winIndex = index;
+            var correctSymbol = symbols.FirstOrDefault(o => o.symbolId == index);
+            winSymbol = correctSymbol;
 
-            await UniTask.WaitUntil((() => !_isCoroutineRunning));
-            _symbolsForDark?.Clear();
+            await UniTask.WaitUntil((() => !isAnimationRunning));
+            symbolsForDark?.Clear();
 
-            foreach (var symbol in _symbols)
+            foreach (var symbol in symbols)
             {
                 if (symbol.symbolId != index)
                 {
-                   _symbolsForDark?.Add(symbol);
+                   symbolsForDark?.Add(symbol);
                 }
             }
         }
@@ -79,83 +82,85 @@ namespace DefaultNamespace
         {
             StartCoroutine(DarkSymbols());
             
-            _sequence = DOTween.Sequence();
+            sequence = DOTween.Sequence();
             
-            for (int i = 0; i < _symbols.Count; i++)
+            for (int i = 0; i < symbols.Count; i++)
             {
-                if (_symbols[i] == _winSymbol)
+                if (symbols[i] == winSymbol)
                 {
-                    _symbols[i].particleSystem.Play();
+                    symbols[i].particleSystem.Play();
                 }
             }
             
-            _sequence.Join(_winSymbol.gameObject.transform.DOScale(1.3f, 2f))
-                .Join(_winSymbol.gameObject.transform.DOShakePosition(2f, 8f))
-                .Append(_winSymbol.gameObject.transform.DOScale(1f, 2f))
-                .Join(_winSymbol.gameObject.transform.DOShakePosition(2f, 8f)).OnComplete(()=>
+            sequence.Join(winSymbol.gameObject.transform.DOScale(numbersConfig.EndValueForScale, numbersConfig.DurationForScale))
+                .Join(winSymbol.gameObject.transform.DOShakePosition(numbersConfig.DurationForScale, numbersConfig.StrengthForShake))
+                .Append(winSymbol.gameObject.transform.DOScale(1f, numbersConfig.DurationForScale))
+                .Join(winSymbol.gameObject.transform.DOShakePosition(numbersConfig.DurationForScale, numbersConfig.StrengthForShake)).OnComplete(()=>
             {
-                _slotMachineController.UpdateScoreText();
-                _slotMachineController.UpdateFsScoreText();
+                slotMachineController.UpdateScoreText();
+                slotMachineController.UpdateFsScoreText();
             });
         }
-
+        
         private IEnumerator DarkSymbols()
         {
-            _isCoroutineRunning = true;
+            isAnimationRunning = true;
             
-            for (int i = 0; i < _symbolsForDark.Count; i++)
+            CanvasGroup[] canvasGroups = new CanvasGroup[symbolsForDark.Count];
+            for (int i = 0; i < symbolsForDark.Count; i++)
             {
-                _symbolsForDark[i].gameObject.GetComponent<CanvasGroup>().alpha = 0.4f;
+                canvasGroups[i] = symbolsForDark[i].GetComponent<CanvasGroup>();
+                canvasGroups[i].alpha = numbersConfig.EndValueForAlpha;
+            }
+
+            yield return new WaitForSeconds(numbersConfig.DelayBetweenDarken);
+            
+            for (int i = 0; i < symbolsForDark.Count; i++)
+            {
+                canvasGroups[i].alpha = 1f;
             }
             
-            yield return new WaitForSeconds(3.5f);
-            
-            for (int i = 0; i < _symbolsForDark.Count; i++)
+            for (int i = 0; i < symbols.Count; i++)
             {
-                _symbolsForDark[i].gameObject.GetComponent<CanvasGroup>().alpha = 1f;
-            }
-            
-            for (int i = 0; i < _symbols.Count; i++) 
-            {
-                if (_symbols[i] == _winSymbol)
+                if (symbols[i] == winSymbol)
                 {
-                    _symbols[i].particleSystem.Stop();
+                    symbols[i].particleSystem.Stop();
                 }
             }
-            
-            _isCoroutineRunning = false;
-        }
 
-        private IEnumerator ForceDarkSymbols()
-        {
-            for (int i = 0; i < _symbolsForDark.Count; i++)
-            {
-                _symbolsForDark[i].gameObject.GetComponent<CanvasGroup>().DOFade(1f, 0.1f);
-            }
-            
-            yield break;
+            isAnimationRunning = false;
         }
-
+        
         private void StopAnimation()
         {
-            for (int i = 0; i < _symbols.Count; i++) 
+            for (int i = 0; i < symbols.Count; i++) 
             {
-                _symbols[i].particleSystem.Clear();
-                _symbols[i].particleSystem.Stop();
+                symbols[i].particleSystem.Clear();
+                symbols[i].particleSystem.Stop();
             }
             
-            _sequence.Kill();
+            sequence.Kill();
             
             StopCoroutine(DarkSymbols());
             
             StartCoroutine(ForceDarkSymbols());
             
-            _slotMachineController.UpdateScoreTextImmediately();
+            slotMachineController.UpdateScoreTextImmediately();
 
-            foreach (var t in _symbols)
+            foreach (var t in symbols)
             {
                 t.transform.DOScale(1f, 0.1f);
             }
+        }
+        
+        private IEnumerator ForceDarkSymbols()
+        {
+            for (int i = 0; i < symbolsForDark.Count; i++)
+            {
+                symbolsForDark[i].gameObject.GetComponent<CanvasGroup>().DOFade(1f, 0.1f);
+            }
+            
+            yield break;
         }
         
         private void Update()
@@ -165,7 +170,7 @@ namespace DefaultNamespace
 
         public void StartMove()
         {
-            _spriteProvider.Reset();
+            spriteProvider.Reset();
             
             Model.Start();
         }

@@ -1,11 +1,9 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using DefaultNamespace;
 using DefaultNamespace.Configs;
 using DG.Tweening;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -28,28 +26,31 @@ public class SlotMachineController : MonoBehaviour
     [SerializeField] private FreeSpinsScore freeSpinsScore;
 
     [SerializeField] private NumbersConfig numbersConfig;
-
-    private int _currentFinalScreenIndex;
     
-    private int _totalScore;
-
-    private int _totalFreeSpinsScore;
+    private int currentFinalScreenIndex;
     
-    private Coroutine _runningCoroutine;
+    private int totalScore;
 
-    private PopupAfterFS _popup;
+    private int totalFreeSpinsScore;
+    
+    private Coroutine runningCoroutine;
 
-    private List<int> _winId;
+    private PopupAfterFS popup;
 
-    private int _scoreAfterPopup;
+    private List<int> winId;
 
-    private bool _isPopupCoroutineRunning = false;
+    private int scoreAfterPopup;
+
+    private bool isPopupCoroutineRunning = false;
     
     public bool isFreeSpinsRunning;
+
+    private GameObject freeSpinsScorePanel;
     
     private void Awake()
     {
-        _popup = GetComponentInChildren<PopupAfterFS>();
+        popup = GetComponentInChildren<PopupAfterFS>();
+        freeSpinsScorePanel = GameObject.FindGameObjectWithTag("FreeSpinsPanel");
     }
 
     private void Start()
@@ -68,11 +69,11 @@ public class SlotMachineController : MonoBehaviour
     
     private void SetIndexes()
     {
-        if (_currentFinalScreenIndex >= 0 && _currentFinalScreenIndex < finalScreenData.Length)
+        if (currentFinalScreenIndex >= 0 && currentFinalScreenIndex < finalScreenData.Length)
         {
-            int[] winSymbols = finalScreenData[_currentFinalScreenIndex].WinSymbols;
+            int[] winSymbols = finalScreenData[currentFinalScreenIndex].WinSymbols;
 
-            if (finalScreenData[_currentFinalScreenIndex].HaveWinLine)
+            if (finalScreenData[currentFinalScreenIndex].HaveWinLine)
             {
                 wheel1.SetWinIndex(winSymbols[0]);
                 wheel2.SetWinIndex(winSymbols[1]);
@@ -82,14 +83,14 @@ public class SlotMachineController : MonoBehaviour
     }
     private void CalculateWin()
     {
-        if (finalScreenData[_currentFinalScreenIndex].WinSymbolsId != null 
-            && finalScreenData[_currentFinalScreenIndex].WinSymbolsId.Length >= 3)
+        if (finalScreenData[currentFinalScreenIndex].WinSymbolsId != null 
+            && finalScreenData[currentFinalScreenIndex].WinSymbolsId.Length >= 3)
         {
-            _winId = finalScreenData[_currentFinalScreenIndex].WinSymbolsId.ToList();
+            winId = finalScreenData[currentFinalScreenIndex].WinSymbolsId.ToList();
 
-            SymbolData symbol1 = config.Symbols[_winId[0]];
-            SymbolData symbol2 = config.Symbols[_winId[1]];
-            SymbolData symbol3 = config.Symbols[_winId[2]];
+            SymbolData symbol1 = config.Symbols[winId[0]];
+            SymbolData symbol2 = config.Symbols[winId[1]];
+            SymbolData symbol3 = config.Symbols[winId[2]];
 
             if (symbol1.SymbolCoast != 0 && symbol2.SymbolCoast != 0 && symbol3.SymbolCoast != 0 )
             {
@@ -97,12 +98,12 @@ public class SlotMachineController : MonoBehaviour
                                 + (int)symbol2.SymbolCoast
                                 + (int)symbol3.SymbolCoast;
         
-                _totalScore += winAmount;
+                totalScore += winAmount;
                 
                 if (isFreeSpinsRunning)
                 {
-                    _scoreAfterPopup += winAmount;
-                    _popup.UpdatePopupTxt(_scoreAfterPopup);
+                    scoreAfterPopup += winAmount;
+                    popup.UpdatePopupTxt(scoreAfterPopup);
                 }
             }
         }
@@ -110,35 +111,35 @@ public class SlotMachineController : MonoBehaviour
 
     private void CheckForFreeSpins()
     {
-        if (!finalScreenData[_currentFinalScreenIndex].HaveThreeScatters) return;
+        if (!finalScreenData[currentFinalScreenIndex].HaveThreeScatters) return;
         
-        _totalFreeSpinsScore += 3;
+        totalFreeSpinsScore += 3;
         isFreeSpinsRunning = true;
     }
 
     public void UpdateScoreText()
     {
-        score.UpdateScore(_totalScore);
+        score.UpdateScore(totalScore);
     }
 
     public void UpdateFsScoreText()
     {
-        freeSpinsScore.UpdateFreeSpinsScore(_totalFreeSpinsScore);
+        freeSpinsScore.UpdateFreeSpinsScore(totalFreeSpinsScore);
     }
 
     public void UpdateScoreTextImmediately()
     {
-       score.UpdateScoreImmediately(_totalScore);
+       score.UpdateScoreImmediately(totalScore);
     }
     
     private void EnableStartButton()
     {
-        if (finalScreenData[_currentFinalScreenIndex].ShowPlayBtn)
+        if (finalScreenData[currentFinalScreenIndex].ShowPlayBtn)
         {
             isFreeSpinsRunning = false;
         }
         if (isFreeSpinsRunning) return;
-        if (_isPopupCoroutineRunning) return;
+        if (isPopupCoroutineRunning) return;
 
         btnPnl.playButton.transform.localScale = Vector3.one;
         btnPnl.playButton.interactable = true;
@@ -175,7 +176,7 @@ public class SlotMachineController : MonoBehaviour
 
     private void StartEveryWheelSpinning()
     {
-        _runningCoroutine = StartCoroutine(StartSpinning());
+        runningCoroutine = StartCoroutine(StartSpinning());
         
         SetIndexes();
     }
@@ -204,7 +205,7 @@ public class SlotMachineController : MonoBehaviour
 
     private IEnumerator StopSpinning()
     {
-        StopCoroutine(_runningCoroutine);
+        StopCoroutine(runningCoroutine);
         
         wheel1.StopMove();
         yield return new WaitForSeconds(numbersConfig.DelayBetweenStopWheels);
@@ -219,42 +220,42 @@ public class SlotMachineController : MonoBehaviour
 
     private void ScaleWheels()
     {
-        if (finalScreenData[_currentFinalScreenIndex].HaveWinLine)
+        if (finalScreenData[currentFinalScreenIndex].HaveWinLine)
         {
             wheel1.ScaleWin();
             wheel2.ScaleWin();
             wheel3.ScaleWin();
         }
-        if (finalScreenData[_currentFinalScreenIndex].FsScreen)
+        if (finalScreenData[currentFinalScreenIndex].FsScreen)
         {
-            _totalFreeSpinsScore -= 1;
+            totalFreeSpinsScore -= 1;
             
             UpdateFsScoreText();
-            Debug.Log(finalScreenData[_currentFinalScreenIndex].FsScreen);
+            Debug.Log(finalScreenData[currentFinalScreenIndex].FsScreen);
         }
 
-        if (finalScreenData[_currentFinalScreenIndex].LastFsScreen)
+        if (finalScreenData[currentFinalScreenIndex].LastFsScreen)
         {
-            _isPopupCoroutineRunning = true;
+            isPopupCoroutineRunning = true;
             StartCoroutine(ShowPopup());
             isFreeSpinsRunning = false;
         }
         
         AutoStartWheels();
         
-        _currentFinalScreenIndex = (_currentFinalScreenIndex + 1) % finalScreenData.Length;
+        currentFinalScreenIndex = (currentFinalScreenIndex + 1) % finalScreenData.Length;
     }
 
     private void AutoStartWheels()
     {
         if (isFreeSpinsRunning
-            && finalScreenData[_currentFinalScreenIndex].HaveThreeScatters)
+            && finalScreenData[currentFinalScreenIndex].HaveThreeScatters)
         {
             StartCoroutine(WaitForScatters());
         }
         
         if (isFreeSpinsRunning
-            && finalScreenData[_currentFinalScreenIndex].ScreenForFreeSpins)
+            && finalScreenData[currentFinalScreenIndex].ScreenForFreeSpins)
         {
             StartCoroutine(WaitForMinusOneFsScore());
         }
@@ -269,7 +270,7 @@ public class SlotMachineController : MonoBehaviour
 
     private IEnumerator WaitForMinusOneFsScore()
     {
-        switch (finalScreenData[_currentFinalScreenIndex].HaveWinLine)
+        switch (finalScreenData[currentFinalScreenIndex].HaveWinLine)
         {
             case true:
             {
@@ -290,14 +291,19 @@ public class SlotMachineController : MonoBehaviour
     {
         yield return new WaitForSeconds(numbersConfig.DelayForStartPopupAnimation);
 
-        _popup.transform.DOScale(1f, 1.5f).OnComplete((() =>
+        popup.transform.DOScale(1f, 1.5f).OnComplete((() =>
         {
-            _popup.transform.DOScale(0f, 1.5f).OnComplete((() =>
+            popup.transform.DOScale(0f, 1.5f).OnComplete((() =>
             {
-                _isPopupCoroutineRunning = false;
+                isPopupCoroutineRunning = false;
 
                 btnPnl.playButton.transform.localScale = Vector3.one;
                 btnPnl.playButton.interactable = true;
+                
+                if (totalFreeSpinsScore <= 0)
+                {
+                    freeSpinsScorePanel.gameObject.SetActive(false);
+                }
             }));
         }));
     }

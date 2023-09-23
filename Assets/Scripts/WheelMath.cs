@@ -1,4 +1,5 @@
 using System;
+using DefaultNamespace.Configs;
 
 namespace DefaultNamespace
 {

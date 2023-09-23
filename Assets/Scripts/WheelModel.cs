@@ -7,101 +7,101 @@ namespace DefaultNamespace
 {
     public sealed class WheelModel //класс, от которого нельзя наследоваться, представляет модель вращающегося колеса с разными состояниями
     {
-        private readonly List<SymbolModel> _symbols = new();
+        private readonly List<SymbolModel> symbols = new();
         
-        private readonly NotRunningWheel _notRunningWheel; //колесо не крутиться, скорость = 0
+        private readonly NotRunningWheel notRunningWheel; //колесо не крутиться, скорость = 0
 
-        private readonly StartingWheel _startingWheel; //колесо разгоняется
+        private readonly StartingWheel startingWheel; //колесо разгоняется
 
-        private readonly RunningWheel _runningWheel; //колесо крутиться, скорость постоянная
+        private readonly RunningWheel runningWheel; //колесо крутиться, скорость постоянная
 
-        private readonly StoppingWheel _stoppingWheel; //колесо останавливается
+        private readonly StoppingWheel stoppingWheel; //колесо останавливается
         
-        private SpriteProvider _spriteProvider;
+        private SpriteProvider spriteProvider;
 
-        private FinalScreenData _finalScreenData;
+        private FinalScreenData finalScreenData;
 
-        private Symbol _symbol;
+        private Symbol symbol;
 
-        private IWheelState _state;
+        private IWheelState state;
 
-        private double _position;
+        private double position;
 
         public WheelModel() //конструктор класса, + устанавливает начальное состояние
         {
-            _notRunningWheel = new NotRunningWheel(this);
-            _startingWheel = new StartingWheel(this);
-            _runningWheel = new RunningWheel(this);
-            _stoppingWheel = new StoppingWheel(this);
-            _state = _notRunningWheel;
+            notRunningWheel = new NotRunningWheel(this);
+            startingWheel = new StartingWheel(this);
+            runningWheel = new RunningWheel(this);
+            stoppingWheel = new StoppingWheel(this);
+            state = notRunningWheel;
         }
         private Stopwatch Stopwatch { get; } = new(); // таймер
 
-        private double Position => _position; 
+        private double Position => position; 
 
         private void ToStarting() //метод устанавливает состояние разгона, обновляет поз колеса, запускает таймер
         {
             Starting?.Invoke();
             UpdatePosition(.0);
-            _state = _startingWheel;
+            state = startingWheel;
             Stopwatch.Restart();  
         }
 
         private void ToRunning() //метод устанавливает состояние колеса - крутящееся и вызыввакт update текущего состояния
         {
             Started?.Invoke();
-            _state = _runningWheel;
-            _state.Update();
+            state = runningWheel;
+            state.Update();
         }
 
         private void ToStopping() //метод устанавливает состояние змедления
         {
             Stopping?.Invoke();
-            _state = _stoppingWheel;
+            state = stoppingWheel;
         }
 
         private void ToNotRunning() //устанавливает состояние - колесо не крутиться, останавливает таймер
         {
             Stopped?.Invoke();
-            _state = _notRunningWheel;
+            state = notRunningWheel;
             Stopwatch.Stop();
         }
 
         public SymbolModel AddSymbol() //метод создает новую модель симовла, добавляет в список и возвращает созданный символ
         {
-            var symbol = new SymbolModel(_symbols.Count);
-            _symbols.Add(symbol);
+            var symbol = new SymbolModel(symbols.Count);
+            symbols.Add(symbol);
 
             return symbol;
         }
 
         public void Start() 
         {
-            _state.Start();
+            state.Start();
         }
 
         public void Stop()
         {
-            _state.Stop();
+            state.Stop();
         }
         
         public void Update()
         {
-            _state.Update();
+            state.Update();
         }
 
         private void UpdatePosition(double newPosition)
         {
-            _position = newPosition; //обновляет позицию колеса
-            foreach (SymbolModel symbol in _symbols) //одновляет позицию всех символов
+            position = newPosition; //обновляет позицию колеса
+            foreach (SymbolModel symbol in symbols) //одновляет позицию всех символов
             {
-                symbol.UpdatePosition(_position);
+                symbol.UpdatePosition(position);
             }
         }
 
         private void UpdateFinalPosition(double expectedPosition) //обновляет фин позицию всех символов на колесе до нужной позиции
         {
-            foreach (SymbolModel symbolModel in _symbols)
+            foreach (SymbolModel symbolModel in symbols)
             {
                 symbolModel.UpdateFinalPosition(expectedPosition);
             }
@@ -188,54 +188,54 @@ namespace DefaultNamespace
         {
             private readonly WheelModel _model;
 
-            private TimeSpan _eventTime;// время начала остановки
+            private TimeSpan eventTime;// время начала остановки
 
-            private double _initialPosition;
+            private double initialPosition;
 
-            private double _expectedPosition;
+            private double expectedPosition;
 
-            private double _acceleration;
+            private double acceleration;
 
-            private bool _isReset = true;
+            private bool isReset = true;
             
             public StoppingWheel(WheelModel model) => _model = model;
 
             private void CalculateStopping()
             {
-                _eventTime = _model.Stopwatch.Elapsed;
-                _initialPosition = _model.Position;
+                eventTime = _model.Stopwatch.Elapsed;
+                initialPosition = _model.Position;
                 
-                (_expectedPosition, _acceleration) = WheelMath.GetStoppingAcceleration(_initialPosition);
+                (expectedPosition, acceleration) = WheelMath.GetStoppingAcceleration(initialPosition);
                 
-                _model.UpdateFinalPosition(_expectedPosition);
+                _model.UpdateFinalPosition(expectedPosition);
             }
 
             public void Update()
             {
-                if (_isReset)
+                if (isReset)
                 {
                     CalculateStopping();
-                    _isReset = false;
+                    isReset = false;
                 }
                 
-                TimeSpan stoppingDuration = _model.Stopwatch.Elapsed - _eventTime;
+                TimeSpan stoppingDuration = _model.Stopwatch.Elapsed - eventTime;
                 double time;
                 double newPosition;
                 if (stoppingDuration > WheelMath.StoppingTime)
                 {
                     _model.ToNotRunning();
-                    newPosition = _expectedPosition;
-                    _isReset = true;
+                    newPosition = expectedPosition;
+                    isReset = true;
                     
                 }
                 else
                 {
                     time = stoppingDuration.TotalSeconds;
-                    newPosition = WheelMath.GetStoppingPath(_initialPosition, _acceleration, time);
+                    newPosition = WheelMath.GetStoppingPath(initialPosition, acceleration, time);
 
-                    if (newPosition > _expectedPosition)
+                    if (newPosition > expectedPosition)
                     {
-                        newPosition = _expectedPosition;
+                        newPosition = expectedPosition;
                     }
                 }
 

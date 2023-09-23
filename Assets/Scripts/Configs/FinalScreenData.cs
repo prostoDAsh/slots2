@@ -25,7 +25,7 @@ public class FinalScreenData : ScriptableObject
 
     [SerializeField] private bool lastFsScreen;
     public int[] FinalScreen => finalScreen;
-
+    
     public int[] WinSymbols => winSymbols;
     
     public bool HaveWinLine
