@@ -16,7 +16,6 @@ public class PopupAfterFS : MonoBehaviour
     private void Awake()
     {
         popupText = GetComponentInChildren<TextMeshProUGUI>();
-        popup = GameObject.FindGameObjectWithTag("Popup");
     }
 
     public void UpdatePopupTxt(int newScore)

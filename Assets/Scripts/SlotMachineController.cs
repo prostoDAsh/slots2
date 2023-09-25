@@ -26,6 +26,8 @@ public class SlotMachineController : MonoBehaviour
     [SerializeField] private FreeSpinsScore freeSpinsScore;
 
     [SerializeField] private NumbersConfig numbersConfig;
+
+    [SerializeField] private FreespinsScorePanel freeSpinsScorePanel;
     
     private int currentFinalScreenIndex;
     
@@ -44,17 +46,17 @@ public class SlotMachineController : MonoBehaviour
     private bool isPopupCoroutineRunning = false;
     
     public bool isFreeSpinsRunning;
-
-    private GameObject freeSpinsScorePanel;
     
+
+    private readonly int freeSpinsCount = 3;
     private void Awake()
     {
         popup = GetComponentInChildren<PopupAfterFS>();
-        freeSpinsScorePanel = GameObject.FindGameObjectWithTag("FreeSpinsPanel");
     }
 
     private void Start()
     {
+        freeSpinsScorePanel.gameObject.SetActive(false);
         btnPnl.stopButton.interactable = false;
         btnPnl.stopButton.transform.localScale = Vector3.zero;
         
@@ -113,7 +115,7 @@ public class SlotMachineController : MonoBehaviour
     {
         if (!finalScreenData[currentFinalScreenIndex].HaveThreeScatters) return;
         
-        totalFreeSpinsScore += 3;
+        totalFreeSpinsScore += freeSpinsCount;
         isFreeSpinsRunning = true;
     }
 
@@ -124,6 +126,7 @@ public class SlotMachineController : MonoBehaviour
 
     public void UpdateFsScoreText()
     {
+        freeSpinsScorePanel.gameObject.SetActive(true);
         freeSpinsScore.UpdateFreeSpinsScore(totalFreeSpinsScore);
     }
 
@@ -291,9 +294,9 @@ public class SlotMachineController : MonoBehaviour
     {
         yield return new WaitForSeconds(numbersConfig.DelayForStartPopupAnimation);
 
-        popup.transform.DOScale(1f, 1.5f).OnComplete((() =>
+        popup.transform.DOScale(1f, numbersConfig.DurationForScalePopup).OnComplete((() =>
         {
-            popup.transform.DOScale(0f, 1.5f).OnComplete((() =>
+            popup.transform.DOScale(0f, numbersConfig.DurationForScalePopup).OnComplete((() =>
             {
                 isPopupCoroutineRunning = false;
 

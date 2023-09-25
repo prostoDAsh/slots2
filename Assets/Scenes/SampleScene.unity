@@ -526,7 +526,7 @@ MonoBehaviour:
   config: {fileID: 11400000, guid: 407a4336569a542be94aaea29f169eba, type: 2}
   freeSpinsScore: {fileID: 1011594687}
   numbersConfig: {fileID: 11400000, guid: 82f778daaed514e64ae9a77a4ff41782, type: 2}
-  buttonsPanel: {fileID: 1297144762}
+  freeSpinsScorePanel: {fileID: 890726449}
   isFreeSpinsRunning: 0
 --- !u!1 &379871790
 GameObject:
@@ -1907,6 +1907,7 @@ GameObject:
   - component: {fileID: 890726446}
   - component: {fileID: 890726448}
   - component: {fileID: 890726447}
+  - component: {fileID: 890726449}
   m_Layer: 5
   m_Name: FreeSpinsScorePanel
   m_TagString: FreeSpinsPanel
@@ -1974,6 +1975,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 890726445}
   m_CullTransparentMesh: 1
+--- !u!114 &890726449
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 890726445}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dae1c613ab89e42eaaa6852bfd510cce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!224 &916931394 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 8759608737155940341, guid: 9ab3e184e8aa54fb7bc8cbb8b26ce14d, type: 3}
@@ -2573,6 +2586,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   freeSpinsScorePlus: {fileID: 1000875588}
+  slotMachineController: {fileID: 217176245}
 --- !u!1 &1054889862
 GameObject:
   m_ObjectHideFlags: 0
@@ -3302,7 +3316,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playButton: {fileID: 1054889864}
   stopButton: {fileID: 527561945}
-  freeSpinsScore: {fileID: 1011594687}
 --- !u!1 &1302433843
 GameObject:
   m_ObjectHideFlags: 0

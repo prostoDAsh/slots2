@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace DefaultNamespace.Configs
 {
@@ -20,6 +21,8 @@ namespace DefaultNamespace.Configs
         [SerializeField] private float delayForAutoStartWithoutAnimation = 1f;
 
         [SerializeField] private float delayForStartPopupAnimation = 4f;
+
+        [SerializeField] private float durationForScalePopup = 1.5f;
         
         [Header("Wheel Math")]
 
@@ -31,11 +34,11 @@ namespace DefaultNamespace.Configs
         
         [SerializeField] private float delayBetweenDarken = 3.5f;
 
-        [SerializeField] private float durationForScale = 2f;
+        [FormerlySerializedAs("durationForScale")] [SerializeField] private float durationForScaleAnimation = 2f;
 
         [SerializeField] private float strengthForShake = 8f;
 
-        [SerializeField] private float endValueForScale = 1.3f;
+        [FormerlySerializedAs("endValueForScale")] [SerializeField] private float endValueForScaleAnimation = 1.3f;
 
         [SerializeField] private float endValueForAlpha = 0.4f;
         public float DelayBetweenStartWheels => delayBetweenStartWheels;
@@ -58,12 +61,14 @@ namespace DefaultNamespace.Configs
 
         public double StartingTime => startingTime;
 
-        public float DurationForScale => durationForScale;
+        public float DurationForScaleAnimation => durationForScaleAnimation;
 
         public float StrengthForShake => strengthForShake;
 
-        public float EndValueForScale => endValueForScale;
+        public float EndValueForScaleAnimation => endValueForScaleAnimation;
 
         public float EndValueForAlpha => endValueForAlpha;
+
+        public float DurationForScalePopup => durationForScalePopup;
     }
 }

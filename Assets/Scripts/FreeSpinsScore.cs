@@ -3,13 +3,16 @@ using System.Collections;
 using System.Collections.Generic;
 using DefaultNamespace;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class FreeSpinsScore : MonoBehaviour
 {
-    private TextMeshProUGUI freeSpinsScoreTxt;
-    
     [SerializeField] private TextMeshProUGUI freeSpinsScorePlus;
+    
+    [SerializeField] private SlotMachineController slotMachineController;
+    
+    private TextMeshProUGUI freeSpinsScoreTxt;
     
     private const float Duration = 1.5f;
     
@@ -20,24 +23,22 @@ public class FreeSpinsScore : MonoBehaviour
     private int fsScorePlus;
     
     private float elapsedTime;
-
-    private GameObject freeSpinsScorePanel;
-
+    
     private void Awake()
     {
-        freeSpinsScorePanel = GameObject.FindGameObjectWithTag("FreeSpinsPanel");
         freeSpinsScoreTxt = GetComponentInChildren<TextMeshProUGUI>();
         freeSpinsScorePlus.gameObject.SetActive(false);
-        freeSpinsScorePanel.gameObject.SetActive(false);
     }
     
     public void UpdateFreeSpinsScore(int newFreeSpinsScore)
     {
-        freeSpinsScorePanel.gameObject.SetActive(true);
-        targetFreeSpinsScore = newFreeSpinsScore;
-        elapsedTime = 0.0f;
-        fsScorePlus = targetFreeSpinsScore - currentFreeSpinsScore;
-        StartCoroutine(AnimateFreeSpinsScoreChange());
+        if (slotMachineController.isFreeSpinsRunning)
+        {
+            targetFreeSpinsScore = newFreeSpinsScore;
+            elapsedTime = 0.0f;
+            fsScorePlus = targetFreeSpinsScore - currentFreeSpinsScore;
+            StartCoroutine(AnimateFreeSpinsScoreChange());
+        }
     }
     
     private IEnumerator AnimateFreeSpinsScoreChange()

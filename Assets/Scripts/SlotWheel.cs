@@ -13,8 +13,6 @@ namespace DefaultNamespace
     {
         private SpriteProvider spriteProvider;
 
-        public Sprite[] sprites;
-        
         private List<Symbol> symbols;
         
         private readonly List<Symbol> symbolsForDark = new List<Symbol>(3);
@@ -25,8 +23,6 @@ namespace DefaultNamespace
         
         [SerializeField] private ButtonsPanel btnPanel;
         
-        // [SerializeField] private FreeSpinsScore freeSpinsScore;
-
         [SerializeField] private NumbersConfig numbersConfig;
 
         private Symbol winSymbol;
@@ -92,12 +88,13 @@ namespace DefaultNamespace
                 }
             }
             
-            sequence.Join(winSymbol.gameObject.transform.DOScale(numbersConfig.EndValueForScale, numbersConfig.DurationForScale))
-                .Join(winSymbol.gameObject.transform.DOShakePosition(numbersConfig.DurationForScale, numbersConfig.StrengthForShake))
-                .Append(winSymbol.gameObject.transform.DOScale(1f, numbersConfig.DurationForScale))
-                .Join(winSymbol.gameObject.transform.DOShakePosition(numbersConfig.DurationForScale, numbersConfig.StrengthForShake)).OnComplete(()=>
+            sequence.Join(winSymbol.gameObject.transform.DOScale(numbersConfig.EndValueForScaleAnimation, numbersConfig.DurationForScaleAnimation))
+                .Join(winSymbol.gameObject.transform.DOShakePosition(numbersConfig.DurationForScaleAnimation, numbersConfig.StrengthForShake))
+                .Append(winSymbol.gameObject.transform.DOScale(1f, numbersConfig.DurationForScaleAnimation))
+                .Join(winSymbol.gameObject.transform.DOShakePosition(numbersConfig.DurationForScaleAnimation, numbersConfig.StrengthForShake)).OnComplete(()=>
             {
                 slotMachineController.UpdateScoreText();
+                if(!slotMachineController.isFreeSpinsRunning) return;
                 slotMachineController.UpdateFsScoreText();
             });
         }

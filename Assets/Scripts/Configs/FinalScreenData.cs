@@ -24,6 +24,7 @@ public class FinalScreenData : ScriptableObject
     [SerializeField] private bool showPlayBtn;
 
     [SerializeField] private bool lastFsScreen;
+    
     public int[] FinalScreen => finalScreen;
     
     public int[] WinSymbols => winSymbols;
@@ -49,4 +50,5 @@ public class FinalScreenData : ScriptableObject
     public bool FsScreen => fsScreen;
 
     public bool LastFsScreen => lastFsScreen;
+    
 }
