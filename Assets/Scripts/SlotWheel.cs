@@ -31,8 +31,6 @@ namespace DefaultNamespace
         
         private SlotMachineController slotMachineController;
         
-        private int winIndex;
-
         private bool isAnimationRunning;
 
         public WheelModel Model { get; } = new();
@@ -58,7 +56,6 @@ namespace DefaultNamespace
 
         public async void SetWinIndex(int index)
         {
-            winIndex = index;
             var correctSymbol = symbols.FirstOrDefault(o => o.symbolId == index);
             winSymbol = correctSymbol;
 
