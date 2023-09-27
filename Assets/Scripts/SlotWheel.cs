@@ -25,6 +25,8 @@ namespace DefaultNamespace
         
         [SerializeField] private NumbersConfig numbersConfig;
 
+        [SerializeField] public ParticleSystem wheelParticleSystem;
+
         private Symbol winSymbol;
         
         private Sequence sequence;
@@ -38,6 +40,7 @@ namespace DefaultNamespace
         private void Awake()
         {
             slotMachineController = GetComponentInParent<SlotMachineController>();
+            wheelParticleSystem.Stop();
         }
         
         private void Start()

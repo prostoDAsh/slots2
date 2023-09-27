@@ -9,9 +9,9 @@ namespace DefaultNamespace
         
         public static readonly TimeSpan StartingTime = TimeSpan.FromSeconds(2); // время разгона
 
-        public static readonly TimeSpan StoppingTime = TimeSpan.FromSeconds(1.5); // время остановки
+        public static TimeSpan StoppingTime = TimeSpan.FromSeconds(1.5); // время остановки
         
-        private static readonly double Speed = StartingAcceleration * StartingTime.TotalSeconds; //скорость при равномерном движении в средней фазе, на основе начльного ускорения и времени
+        public static double Speed = StartingAcceleration * StartingTime.TotalSeconds; //скорость при равномерном движении в средней фазе, на основе начльного ускорения и времени
 
         private static readonly double StoppingAcceleration = -(Speed / StoppingTime.TotalSeconds); //ускорение остановки символа, на основе скорости(в средн. фазе) и времени остановки
         

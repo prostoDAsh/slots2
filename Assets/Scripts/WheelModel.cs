@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using DefaultNamespace.Configs;
 using DG.Tweening;
+using UnityEngine;
 
 namespace DefaultNamespace
 {
@@ -26,7 +28,7 @@ namespace DefaultNamespace
         private IWheelState state;
 
         private double position;
-
+        
         public WheelModel() //конструктор класса, + устанавливает начальное состояние
         {
             notRunningWheel = new NotRunningWheel(this);
@@ -34,6 +36,7 @@ namespace DefaultNamespace
             runningWheel = new RunningWheel(this);
             stoppingWheel = new StoppingWheel(this);
             state = notRunningWheel;
+            
         }
         private Stopwatch Stopwatch { get; } = new(); // таймер
 
@@ -168,9 +171,12 @@ namespace DefaultNamespace
         private sealed class RunningWheel : IWheelState
         {
             private readonly WheelModel _model;
-
             public RunningWheel(WheelModel model) => _model = model;
 
+            private readonly double speedIncrease = 1.5;
+
+            private readonly double timeSpanIncrease = 2;
+            
             public void Stop()
             {
                 _model.ToStopping();
@@ -181,6 +187,24 @@ namespace DefaultNamespace
                 TimeSpan elapsed = _model.Stopwatch.Elapsed - WheelMath.StartingTime;
                 double newPosition = WheelMath.GetRunningPath(elapsed.TotalSeconds);
                 _model.UpdatePosition(newPosition);
+            }
+
+            public void IncreaseSpeed()
+            {
+                WheelMath.Speed *= speedIncrease;
+            }
+
+            public void IncreaseSpinTime()
+            {
+                var newStoppingTime = WheelMath.StoppingTime.TotalSeconds + timeSpanIncrease;
+                WheelMath.StoppingTime = TimeSpan.FromSeconds(newStoppingTime); 
+            }
+
+            public void ReturnSpeedAndSpinTime()
+            {
+                WheelMath.Speed /= speedIncrease;
+                var newStoppingTime = WheelMath.StoppingTime.TotalSeconds - timeSpanIncrease;
+                WheelMath.StoppingTime = TimeSpan.FromSeconds(newStoppingTime); 
             }
         }
 
@@ -241,6 +265,21 @@ namespace DefaultNamespace
 
                 _model.UpdatePosition(newPosition);
             }
+        }
+
+        public void IncreaseSpinSpeed()
+        {
+            runningWheel.IncreaseSpeed();
+        }
+
+        public void IncreaseTimeSpan()
+        {
+            runningWheel.IncreaseSpinTime();
+        }
+
+        public void ReturnSpinSpeedAndTimeSpan()
+        {
+            runningWheel.ReturnSpeedAndSpinTime();
         }
     }
 }

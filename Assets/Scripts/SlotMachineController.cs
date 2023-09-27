@@ -46,7 +46,6 @@ public class SlotMachineController : MonoBehaviour
     private bool isPopupCoroutineRunning = false;
     
     public bool isFreeSpinsRunning;
-    
 
     private readonly int freeSpinsCount = 3;
     private void Awake()
@@ -213,14 +212,37 @@ public class SlotMachineController : MonoBehaviour
         wheel1.StopMove();
         yield return new WaitForSeconds(numbersConfig.DelayBetweenStopWheels);
         wheel2.StopMove();
-        yield return new WaitForSeconds(numbersConfig.DelayBetweenStopWheels);
-        wheel3.StopMove();
-        yield return new WaitForSeconds(numbersConfig.DelayAfterStopToStartScaleAnimation);
         
-        ScaleWheels();
-        
+        if (!finalScreenData[currentFinalScreenIndex].HaveThreeScatters)
+        {
+            yield return new WaitForSeconds(numbersConfig.DelayBetweenStopWheels);
+            wheel3.StopMove();
+            yield return new WaitForSeconds(numbersConfig.DelayAfterStopToStartScaleAnimation);
+            ScaleWheels();
+            
+        }
+        else
+        {
+            yield return new WaitForSeconds(numbersConfig.DelayBeforeIncrease);
+            PlayParticleWithAlpha();
+            wheel3.Model.IncreaseSpinSpeed();
+            wheel3.Model.IncreaseTimeSpan();
+            
+            yield return new WaitForSeconds(numbersConfig.DelayBetweenIncreaseAndStop);
+            wheel3.StopMove();
+            wheel3.wheelParticleSystem.Stop();
+            
+            yield return new WaitForSeconds(numbersConfig.DelayAfterStopToStartScaleAnimation);
+            wheel3.Model.ReturnSpinSpeedAndTimeSpan();
+            ScaleWheels();
+        }
     }
 
+    private void PlayParticleWithAlpha()
+    {
+        wheel3.wheelParticleSystem.Play();
+        wheel3.wheelParticleSystem.gameObject.GetComponent<CanvasGroup>().DOFade(numbersConfig.AlphaValueForWheelParticle, numbersConfig.DurationForAlfaWheelParticle);
+    }
     private void ScaleWheels()
     {
         if (finalScreenData[currentFinalScreenIndex].HaveWinLine)

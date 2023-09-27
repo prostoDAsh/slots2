@@ -13,8 +13,10 @@ GameObject:
   - component: {fileID: 2974455362881559219}
   - component: {fileID: 2974455362881559217}
   - component: {fileID: 4241065743300741924}
+  - component: {fileID: 8893138584117486710}
+  - component: {fileID: -7129876908168889134}
   m_Layer: 0
-  m_Name: Particle System
+  m_Name: Particle System 2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -27,7 +29,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2974455362881559221}
-  m_LocalRotation: {x: -1, y: -0, z: -0, w: 0}
+  m_LocalRotation: {x: -1, y: 0, z: 0, w: 0}
   m_LocalPosition: {x: 0, y: 0, z: -0.0059}
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 0
@@ -292,7 +294,7 @@ ParticleSystem:
     startSize:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 18
+      scalar: 130
       minScalar: 1
       maxCurve:
         serializedVersion: 2
@@ -668,7 +670,7 @@ ParticleSystem:
   ShapeModule:
     serializedVersion: 6
     enabled: 1
-    type: 4
+    type: 5
     angle: 0.5
     length: 5
     boxThickness: {x: 0, y: 0, z: 0}
@@ -676,7 +678,7 @@ ParticleSystem:
     donutRadius: 0.2
     m_Position: {x: 0, y: 0, z: 0}
     m_Rotation: {x: 0, y: 0, z: 0}
-    m_Scale: {x: 1, y: 1, z: 1}
+    m_Scale: {x: 30, y: 60, z: 1}
     placementMode: 0
     m_MeshMaterialIndex: 0
     m_MeshNormalOffset: 0
@@ -1313,7 +1315,7 @@ ParticleSystem:
       maxGradient:
         serializedVersion: 2
         key0: {r: 0.7882353, g: 0.5803922, b: 0.31764707, a: 1}
-        key1: {r: 1, g: 0.27058825, b: 0, a: 1}
+        key1: {r: 1, g: 0.9577489, b: 0, a: 1}
         key2: {r: 1, g: 1, b: 1, a: 0}
         key3: {r: 0, g: 0, b: 0, a: 0}
         key4: {r: 0, g: 0, b: 0, a: 0}
@@ -4850,7 +4852,7 @@ MonoBehaviour:
   m_IsTrail: 0
   m_IgnoreCanvasScaler: 0
   m_AbsoluteMode: 0
-  m_Scale3D: {x: 14, y: 14, z: 14}
+  m_Scale3D: {x: 10, y: 10, z: 10}
   m_AnimatableProperties: []
   m_Particles:
   - {fileID: 2974455362881559218}
@@ -4859,3 +4861,36 @@ MonoBehaviour:
   m_GroupMaxId: 0
   m_PositionMode: 0
   m_AutoScaling: 1
+--- !u!223 &8893138584117486710
+Canvas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2974455362881559221}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_RenderMode: 2
+  m_Camera: {fileID: 0}
+  m_PlaneDistance: 100
+  m_PixelPerfect: 0
+  m_ReceivesEvents: 1
+  m_OverrideSorting: 0
+  m_OverridePixelPerfect: 0
+  m_SortingBucketNormalizedSize: 0
+  m_AdditionalShaderChannelsFlag: 0
+  m_SortingLayerID: 0
+  m_SortingOrder: 0
+  m_TargetDisplay: 0
+--- !u!225 &-7129876908168889134
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2974455362881559221}
+  m_Enabled: 1
+  m_Alpha: 0
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0

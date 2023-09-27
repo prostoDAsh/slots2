@@ -41,6 +41,18 @@ namespace DefaultNamespace.Configs
         [FormerlySerializedAs("endValueForScale")] [SerializeField] private float endValueForScaleAnimation = 1.3f;
 
         [SerializeField] private float endValueForAlpha = 0.4f;
+
+        [Header("Anticipation Numbers")]
+        
+        [SerializeField] private float delayBeforeIncrease = 1.7f;
+
+        [SerializeField] private float delayBetweenIncreaseAndStop = 3f;
+
+        [SerializeField] private float alphaValueForWheelParticle = 0.4f;
+
+        [SerializeField] private float durationForAlfaWheelParticle = 2f;
+        
+        
         public float DelayBetweenStartWheels => delayBetweenStartWheels;
 
         public float DelayBetweenStopWheels => delayBetweenStopWheels;
@@ -70,5 +82,13 @@ namespace DefaultNamespace.Configs
         public float EndValueForAlpha => endValueForAlpha;
 
         public float DurationForScalePopup => durationForScalePopup;
+
+        public float AlphaValueForWheelParticle => alphaValueForWheelParticle;
+
+        public float DelayBetweenIncreaseAndStop => delayBetweenIncreaseAndStop;
+
+        public float DelayBeforeIncrease => delayBeforeIncrease;
+
+        public float DurationForAlfaWheelParticle => durationForAlfaWheelParticle;
     }
 }
