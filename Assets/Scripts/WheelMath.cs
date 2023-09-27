@@ -3,25 +3,56 @@ using DefaultNamespace.Configs;
 
 namespace DefaultNamespace
 {
-    public static class WheelMath //класс с расчетами, связанными с движением символа на колесе
+    public class WheelMath //класс с расчетами, связанными с движением символа на колесе
     {
-        private const double StartingAcceleration = 5.0; //начальное ускорение движения символа
+        private static double startingAcceleration; //начальное ускорение движения символа
         
-        public static readonly TimeSpan StartingTime = TimeSpan.FromSeconds(2); // время разгона
+        public static TimeSpan StartingTime; // время разгона
 
-        public static TimeSpan StoppingTime = TimeSpan.FromSeconds(1.5); // время остановки
+        public static TimeSpan StoppingTime; // время остановки
         
-        public static double Speed = StartingAcceleration * StartingTime.TotalSeconds; //скорость при равномерном движении в средней фазе, на основе начльного ускорения и времени
+        public static double Speed; //скорость при равномерном движении
 
-        private static readonly double StoppingAcceleration = -(Speed / StoppingTime.TotalSeconds); //ускорение остановки символа, на основе скорости(в средн. фазе) и времени остановки
+        private static double stoppingAcceleration; //ускорение остановки символа
         
-        private static readonly double InitialPosition = GetStartingPath(StartingTime.TotalSeconds); //начальная позиция символа
+        private static double initialPosition; //начальная позиция символа
+
+        private static readonly object syncRoot = new object();
+        
+        private static bool isInitialzied = false;
+        
+        public static void Initialize(NumbersConfig config)
+        {
+            if (!isInitialzied)
+            {
+                lock (syncRoot)
+                {
+                    if (!isInitialzied)
+                    {
+                        isInitialzied = true;
+                    
+                        startingAcceleration = config.StartingAcceleration;
+                        
+                        StartingTime = TimeSpan.FromSeconds(config.StartingTime);
+
+                        StoppingTime = TimeSpan.FromSeconds(config.StoppingTime);
+                        
+                        Speed = startingAcceleration * StartingTime.TotalSeconds;
+                        
+                        stoppingAcceleration = -(Speed / StoppingTime.TotalSeconds);
+                        
+                        initialPosition = GetStartingPath(StartingTime.TotalSeconds);
+                    }
+                }
+            }
+        }
+
 
         public static double GetStartingPath(double time) =>
-            StartingAcceleration * time * time * 0.5;//возвращает начальную позицию в зависимости от времени (формула перемещения для равномерноускоренногг движения)
+            startingAcceleration * time * time * 0.5;//возвращает начальную позицию в зависимости от времени (формула перемещения для равномерноускоренногг движения)
         
         public static double GetRunningPath(double time) =>
-            InitialPosition + Speed * time;//возвращает путь во время дижения (используя начальную поз и скорость(в средн. фазе) для рассчета пути)
+            initialPosition + Speed * time;//возвращает путь во время дижения (используя начальную поз и скорость(в средн. фазе) для рассчета пути)
 
         public static double GetStoppingPath(
             double initialPosition,
@@ -34,7 +65,7 @@ namespace DefaultNamespace
             double initialPosition)
         {
             double stoppingTime = StoppingTime.TotalSeconds;
-            double expectedPosition = GetStoppingPath(initialPosition, StoppingAcceleration, stoppingTime);
+            double expectedPosition = GetStoppingPath(initialPosition, stoppingAcceleration, stoppingTime);
             double expectedPositionFixed = Math.Ceiling(expectedPosition / 4) * 4;
             double finalAcceleration =
                 2 * (expectedPositionFixed - initialPosition - Speed * stoppingTime) /

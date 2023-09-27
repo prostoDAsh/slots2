@@ -41,6 +41,7 @@ namespace DefaultNamespace
         {
             slotMachineController = GetComponentInParent<SlotMachineController>();
             wheelParticleSystem.Stop();
+            WheelMath.Initialize(numbersConfig);
         }
         
         private void Start()

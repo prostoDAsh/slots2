@@ -30,6 +30,8 @@ namespace DefaultNamespace.Configs
 
         [SerializeField] private double stoppingTime = 1.5;
 
+        [SerializeField] private double startingAcceleration = 5.0;
+
         [Header("Slot Wheels")] 
         
         [SerializeField] private float delayBetweenDarken = 3.5f;
@@ -90,5 +92,7 @@ namespace DefaultNamespace.Configs
         public float DelayBeforeIncrease => delayBeforeIncrease;
 
         public float DurationForAlfaWheelParticle => durationForAlfaWheelParticle;
+
+        public double StartingAcceleration => startingAcceleration;
     }
 }
