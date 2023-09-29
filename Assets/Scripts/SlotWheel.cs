@@ -58,12 +58,18 @@ namespace DefaultNamespace
             btnPanel.OnStartButtonClick += StopAnimation;
         }
 
-        public async void SetWinIndex(int index)
+        public void SetWinIndex(int index)
+        {
+            StartCoroutine(SetWinIndexC(index));
+        }
+
+        private IEnumerator SetWinIndexC(int index)
         {
             var correctSymbol = symbols.FirstOrDefault(o => o.symbolId == index);
             winSymbol = correctSymbol;
 
-            await UniTask.WaitUntil((() => !isAnimationRunning));
+            yield return new WaitUntil((() => !isAnimationRunning));
+            
             symbolsForDark?.Clear();
 
             foreach (var symbol in symbols)
