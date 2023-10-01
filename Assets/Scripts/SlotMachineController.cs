@@ -28,7 +28,13 @@ public class SlotMachineController : MonoBehaviour
     [SerializeField] private NumbersConfig numbersConfig;
 
     [SerializeField] private FreespinsScorePanel freeSpinsScorePanel;
-    
+
+    [SerializeField] public WheelSounds wheelSound;
+
+    [SerializeField] private AudioSource stopWheelSound;
+
+    [SerializeField] private AudioSource stopWheelWithScatterSound;
+
     private int currentFinalScreenIndex;
     
     private int totalScore;
@@ -66,6 +72,10 @@ public class SlotMachineController : MonoBehaviour
         wheel3.Model.Started += EnableStopButton;
         wheel1.Model.Stopping += DisableStopButton;
         wheel3.Model.Stopped += EnableStartButton;
+
+        wheel1.Model.Stopped += PlayStopWheelSound;
+        wheel2.Model.Stopped += PlayStopWheelSound;
+        wheel3.Model.Stopped += PlayStopWheelSound;
     }
     
     private void SetIndexes()
@@ -121,6 +131,10 @@ public class SlotMachineController : MonoBehaviour
     public void UpdateScoreText()
     {
         score.UpdateScore(totalScore);
+        if (finalScreenData[currentFinalScreenIndex].HaveWinLine && !finalScreenData[0])
+        {
+            score.scoreSound.PlayMoneySound();
+        }
     }
 
     public void UpdateFsScoreText()
@@ -132,6 +146,10 @@ public class SlotMachineController : MonoBehaviour
     public void UpdateScoreTextImmediately()
     {
        score.UpdateScoreImmediately(totalScore);
+       if (finalScreenData[currentFinalScreenIndex].HaveWinLine && !finalScreenData[0])
+       {
+           score.scoreSound.PlayMoneySound();
+       }
     }
     
     private void EnableStartButton()
@@ -174,6 +192,10 @@ public class SlotMachineController : MonoBehaviour
         wheel3.Model.Started -= EnableStopButton;
         wheel1.Model.Stopping -= DisableStopButton;
         wheel3.Model.Stopped -= EnableStartButton;
+        
+        wheel1.Model.Stopped -= PlayStopWheelSound;
+        wheel2.Model.Stopped -= PlayStopWheelSound;
+        wheel3.Model.Stopped -= PlayStopWheelSound;
     }
 
     private void StartEveryWheelSpinning()
@@ -190,10 +212,10 @@ public class SlotMachineController : MonoBehaviour
     
     private IEnumerator StartSpinning()
     {
-        
         wheel1.StartMove();
         yield return new WaitForSeconds(numbersConfig.DelayBetweenStartWheels);
         wheel2.StartMove();
+        wheelSound.PlayWheelsScrollSound();
         yield return new WaitForSeconds(numbersConfig.DelayBetweenStartWheels);
         wheel3.StartMove();
         
@@ -218,6 +240,7 @@ public class SlotMachineController : MonoBehaviour
             yield return new WaitForSeconds(numbersConfig.DelayBetweenStopWheels);
             wheel3.StopMove();
             yield return new WaitForSeconds(numbersConfig.DelayAfterStopToStartScaleAnimation);
+            wheelSound.StopWheelScrollSound();
             ScaleWheels();
             
         }
@@ -225,19 +248,21 @@ public class SlotMachineController : MonoBehaviour
         {
             yield return new WaitForSeconds(numbersConfig.DelayBeforeIncrease);
             PlayParticleWithAlpha();
+            wheelSound.PlayAnticipationSound();
             wheel3.Model.IncreaseSpinSpeed();
             wheel3.Model.IncreaseTimeSpan();
             
             yield return new WaitForSeconds(numbersConfig.DelayBetweenIncreaseAndStop);
             wheel3.StopMove();
             wheel3.wheelParticleSystem.Stop();
-            
+
             yield return new WaitForSeconds(numbersConfig.DelayAfterStopToStartScaleAnimation);
             wheel3.Model.ReturnSpinSpeedAndTimeSpan();
             ScaleWheels();
+            wheelSound.StopAnticipationSound();
         }
     }
-
+    
     private void PlayParticleWithAlpha()
     {
         wheel3.wheelParticleSystem.Play();
@@ -250,13 +275,13 @@ public class SlotMachineController : MonoBehaviour
             wheel1.ScaleWin();
             wheel2.ScaleWin();
             wheel3.ScaleWin();
+            wheelSound.PlayWinSound();
         }
         if (finalScreenData[currentFinalScreenIndex].FsScreen)
         {
             totalFreeSpinsScore -= 1;
             
             UpdateFsScoreText();
-            Debug.Log(finalScreenData[currentFinalScreenIndex].FsScreen);
         }
 
         if (finalScreenData[currentFinalScreenIndex].LastFsScreen)
@@ -286,6 +311,23 @@ public class SlotMachineController : MonoBehaviour
         }
     }
 
+    private void PlayStopWheelSound()
+    {
+        switch (finalScreenData[currentFinalScreenIndex].HaveThreeScatters)
+        {
+            case true:
+            {
+                stopWheelWithScatterSound.Play();
+                break;
+            }
+            case false:
+            {
+                stopWheelSound.Play();
+                break;
+            }
+        }
+    }
+    
     private IEnumerator WaitForScatters()
     {
         yield return new WaitForSeconds(numbersConfig.DelayForAutoStartWithAnimation);

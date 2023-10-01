@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 using System.Collections.Generic;
@@ -5,6 +6,7 @@ using System.Linq;
 using Cysharp.Threading.Tasks;
 using DefaultNamespace.Configs;
 using DG.Tweening;
+using Unity.VisualScripting;
 using Sequence = DG.Tweening.Sequence;
 
 namespace DefaultNamespace
@@ -46,6 +48,7 @@ namespace DefaultNamespace
         
         private void Start()
         {
+            // Model.Stopped += PlayStopSound;
             symbols = GetComponentsInChildren<Symbol>().ToList();
 
             spriteProvider = new SpriteProvider(gameConfig, wheelId - 1);
@@ -143,6 +146,8 @@ namespace DefaultNamespace
                 symbols[i].particleSystem.Stop();
             }
             
+            slotMachineController.wheelSound.StopWinSound();
+            
             sequence.Kill();
             
             StopCoroutine(DarkSymbols());
@@ -166,6 +171,11 @@ namespace DefaultNamespace
             
             yield break;
         }
+
+        // private void PlayStopSound()
+        // {
+        //     stopWheelSound.Play();
+        // }
         
         private void Update()
         {
@@ -187,6 +197,7 @@ namespace DefaultNamespace
         private void OnDestroy()
         {
             btnPanel.OnStartButtonClick -= StopAnimation;
+            // Model.Stopped -= PlayStopSound;
         }
     }
 }

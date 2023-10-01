@@ -5,7 +5,9 @@ using UnityEngine;
 public class ScoreTxt : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI moneyChangeTxt;
-    
+
+    [SerializeField] public ScoreSound scoreSound;
+
     private TextMeshProUGUI scoreTxt;
     
     private const float Duration = 1.5f;
@@ -22,11 +24,6 @@ public class ScoreTxt : MonoBehaviour
     {
         scoreTxt = GetComponentInChildren<TextMeshProUGUI>(); 
         moneyChangeTxt.gameObject.SetActive(false); 
-    }
-
-    private void Start()
-    {
-        UpdateScore(currentScore);
     }
 
     public void UpdateScore(int newScore)
