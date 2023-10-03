@@ -12,7 +12,7 @@ public class FreeSpinsScore : MonoBehaviour
     
     [SerializeField] private SlotMachineController slotMachineController;
     
-    private TextMeshProUGUI freeSpinsScoreTxt;
+    [SerializeField] private TextMeshProUGUI freeSpinsScoreTxt;
     
     private const float Duration = 1.5f;
     
@@ -26,7 +26,6 @@ public class FreeSpinsScore : MonoBehaviour
     
     private void Awake()
     {
-        freeSpinsScoreTxt = GetComponentInChildren<TextMeshProUGUI>();
         freeSpinsScorePlus.gameObject.SetActive(false);
     }
     

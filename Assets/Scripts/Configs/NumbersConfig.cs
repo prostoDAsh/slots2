@@ -14,7 +14,7 @@ namespace DefaultNamespace.Configs
 
         [SerializeField] private float delayAfterStartToStopWheels = 6f;
 
-        [SerializeField] private float delayAfterStopToStartScaleAnimation = 1.5f;
+        [SerializeField] private float delayAfterStopToStartScaleAnimation = 1.7f;
 
         [SerializeField] private float delayForAutoStartWithAnimation = 4f;
 

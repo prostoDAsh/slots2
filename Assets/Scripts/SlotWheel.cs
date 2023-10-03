@@ -48,7 +48,6 @@ namespace DefaultNamespace
         
         private void Start()
         {
-            // Model.Stopped += PlayStopSound;
             symbols = GetComponentsInChildren<Symbol>().ToList();
 
             spriteProvider = new SpriteProvider(gameConfig, wheelId - 1);
@@ -104,6 +103,7 @@ namespace DefaultNamespace
                 .Join(winSymbol.gameObject.transform.DOShakePosition(numbersConfig.DurationForScaleAnimation, numbersConfig.StrengthForShake)).OnComplete(()=>
             {
                 slotMachineController.UpdateScoreText();
+                slotMachineController.PlayMoneySource();
                 if(!slotMachineController.isFreeSpinsRunning) return;
                 slotMachineController.UpdateFsScoreText();
             });
@@ -140,14 +140,16 @@ namespace DefaultNamespace
         
         private void StopAnimation()
         {
+            if (isAnimationRunning)
+            {
+                slotMachineController.PlayForceMoneySource();
+            }
             for (int i = 0; i < symbols.Count; i++) 
             {
                 symbols[i].particleSystem.Clear();
                 symbols[i].particleSystem.Stop();
             }
-            
-            slotMachineController.wheelSound.StopWinSound();
-            
+
             sequence.Kill();
             
             StopCoroutine(DarkSymbols());
@@ -169,13 +171,8 @@ namespace DefaultNamespace
                 symbolsForDark[i].gameObject.GetComponent<CanvasGroup>().DOFade(1f, 0.1f);
             }
             
-            yield break;
+            yield break; 
         }
-
-        // private void PlayStopSound()
-        // {
-        //     stopWheelSound.Play();
-        // }
         
         private void Update()
         {
@@ -197,7 +194,6 @@ namespace DefaultNamespace
         private void OnDestroy()
         {
             btnPanel.OnStartButtonClick -= StopAnimation;
-            // Model.Stopped -= PlayStopSound;
         }
     }
 }

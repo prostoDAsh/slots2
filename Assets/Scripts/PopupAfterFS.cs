@@ -7,16 +7,11 @@ using UnityEngine;
 
 public class PopupAfterFS : MonoBehaviour
 {
-    private TextMeshProUGUI popupText;
+    [SerializeField] private TextMeshProUGUI popupText;
     
     private int totalScore;
 
     private GameObject popup;
-
-    private void Awake()
-    {
-        popupText = GetComponentInChildren<TextMeshProUGUI>();
-    }
 
     public void UpdatePopupTxt(int newScore)
     {

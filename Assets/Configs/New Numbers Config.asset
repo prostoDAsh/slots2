@@ -12,4 +12,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c14d374c4c47403790ccb2fd7613e5c5, type: 3}
   m_Name: New Numbers Config
   m_EditorClassIdentifier: 
-  _delayBetweenStartWheels: 0.5
+  delayBetweenStartWheels: 0.5
+  delayBetweenStopWheels: 0.2
+  delayAfterStartToStopWheels: 6
+  delayAfterStopToStartScaleAnimation: 1.55
+  delayForAutoStartWithAnimation: 4
+  delayForAutoStartWithoutAnimation: 1
+  delayForStartPopupAnimation: 4
+  durationForScalePopup: 1.5
+  startingTime: 2
+  stoppingTime: 1.5
+  startingAcceleration: 5
+  delayBetweenDarken: 3.5
+  durationForScaleAnimation: 2
+  strengthForShake: 8
+  endValueForScaleAnimation: 1.3
+  endValueForAlpha: 0.4
+  delayBeforeIncrease: 1.7
+  delayBetweenIncreaseAndStop: 3
+  alphaValueForWheelParticle: 0.4
+  durationForAlfaWheelParticle: 2

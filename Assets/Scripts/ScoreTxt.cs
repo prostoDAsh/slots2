@@ -6,9 +6,7 @@ public class ScoreTxt : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI moneyChangeTxt;
 
-    [SerializeField] public ScoreSound scoreSound;
-
-    private TextMeshProUGUI scoreTxt;
+    [SerializeField] private TextMeshProUGUI scoreTxt;
     
     private const float Duration = 1.5f;
     
