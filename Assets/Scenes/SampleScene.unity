@@ -2768,18 +2768,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e920f42590f184deca80bc98e13d24ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  musicSource: {fileID: 207883309}
-  fsMusicSource: {fileID: 472599260}
-  btnStartSource: {fileID: 1486659661}
-  btnStopSource: {fileID: 1414901186}
-  spinningSource: {fileID: 908823788}
-  winSource: {fileID: 2020047765}
-  moneySource: {fileID: 258918870}
-  forceMoneySource: {fileID: 1579456645}
-  stopWheelSource: {fileID: 579640346}
-  stopWheelWithScatterSource: {fileID: 1953274739}
-  anticipationSource: {fileID: 1642868622}
-  popupSource: {fileID: 82273222}
+  audioSources:
+  - {fileID: 207883309}
+  - {fileID: 472599260}
+  - {fileID: 1486659661}
+  - {fileID: 1414901186}
+  - {fileID: 908823788}
+  - {fileID: 2020047765}
+  - {fileID: 258918870}
+  - {fileID: 1579456645}
+  - {fileID: 579640346}
+  - {fileID: 1953274739}
+  - {fileID: 1642868622}
+  - {fileID: 82273222}
 --- !u!1 &890726445
 GameObject:
   m_ObjectHideFlags: 0

@@ -61,9 +61,9 @@ public class SlotMachineController : MonoBehaviour
         
         btnPnl.OnStartButtonClick += StartEveryWheelSpinning;
         btnPnl.OnStopButtonClick += StopEveryWheelSpinning;
-        btnPnl.OnStartButtonClick += audioManager.PlayBtnStartSound;
-        btnPnl.OnStopButtonClick += audioManager.PlayBtnStopSound;
-        btnPnl.OnStartButtonClick += audioManager.StopWinSound;
+        btnPnl.OnStartButtonClick += () => audioManager.PlaySound(AudioManager.SoundType.BtnStart);
+        btnPnl.OnStopButtonClick += () => audioManager.PlaySound(AudioManager.SoundType.BtnStop);
+        btnPnl.OnStartButtonClick += () => audioManager.StopSound(AudioManager.SoundType.Win);
         
         wheel1.Model.Starting += DisableStartButton;
         wheel3.Model.Started += EnableStopButton;
@@ -74,7 +74,7 @@ public class SlotMachineController : MonoBehaviour
         wheel2.Model.Stopped += PlayStopWheelSource;
         wheel3.Model.Stopped += PlayStopWheelSource;
         
-        audioManager.PlayBg();
+        audioManager.PlaySound(AudioManager.SoundType.Background);
     }
     
     private void SetIndexes()
@@ -178,9 +178,9 @@ public class SlotMachineController : MonoBehaviour
     {
         btnPnl.OnStartButtonClick -= StartEveryWheelSpinning;
         btnPnl.OnStopButtonClick -= StopEveryWheelSpinning;
-        btnPnl.OnStartButtonClick -= audioManager.PlayBtnStartSound;
-        btnPnl.OnStopButtonClick -= audioManager.PlayBtnStopSound;
-        btnPnl.OnStartButtonClick -= audioManager.StopWinSound;
+        btnPnl.OnStartButtonClick -= () => audioManager.PlaySound(AudioManager.SoundType.BtnStart);
+        btnPnl.OnStartButtonClick -= () => audioManager.PlaySound(AudioManager.SoundType.BtnStop);
+        btnPnl.OnStartButtonClick -= () => audioManager.StopSound(AudioManager.SoundType.Win);
         
         wheel1.Model.Starting -= DisableStartButton;
         wheel3.Model.Started -= EnableStopButton;
@@ -206,7 +206,7 @@ public class SlotMachineController : MonoBehaviour
     
     private IEnumerator StartSpinning()
     {
-        audioManager.PlaySpinningSound();
+        audioManager.PlaySound(AudioManager.SoundType.WheelSpinning);
         wheel1.StartMove();
         yield return new WaitForSeconds(numbersConfig.DelayBetweenStartWheels);
         wheel2.StartMove();
@@ -235,14 +235,14 @@ public class SlotMachineController : MonoBehaviour
             wheel3.StopMove();
             yield return new WaitForSeconds(numbersConfig.DelayAfterStopToStartScaleAnimation);
             ScaleWheels();
-            audioManager.StopSpinningSound();
+            audioManager.StopSound(AudioManager.SoundType.WheelSpinning);
             
         }
         else
         {
             yield return new WaitForSeconds(numbersConfig.DelayBeforeIncrease);
             PlayParticleWithAlpha();
-            audioManager.PlayAnticipationSound();
+            audioManager.PlaySound(AudioManager.SoundType.Anticipation);
             wheel3.Model.IncreaseSpinSpeed();
             wheel3.Model.IncreaseTimeSpan();
             
@@ -253,10 +253,10 @@ public class SlotMachineController : MonoBehaviour
             yield return new WaitForSeconds(numbersConfig.DelayAfterStopToStartScaleAnimation);
             wheel3.Model.ReturnSpinSpeedAndTimeSpan();
             ScaleWheels();
-            audioManager.StopSpinningSound();
-            audioManager.StopAnticipationSound();
-            audioManager.StopBg();
-            audioManager.PlayFsMusic();
+            audioManager.StopSound(AudioManager.SoundType.WheelSpinning);
+            audioManager.StopSound(AudioManager.SoundType.Anticipation);
+            audioManager.StopSound(AudioManager.SoundType.Background);
+            audioManager.PlaySound(AudioManager.SoundType.FreeSpinBg);
         }
     }
     
@@ -269,7 +269,7 @@ public class SlotMachineController : MonoBehaviour
     {
         if (finalScreenData[currentFinalScreenIndex].HaveWinLine)
         {
-            audioManager.PlayWinSound();
+            audioManager.PlaySound(AudioManager.SoundType.Win);
             wheel1.ScaleWin();
             wheel2.ScaleWin();
             wheel3.ScaleWin();
@@ -338,9 +338,9 @@ public class SlotMachineController : MonoBehaviour
     {
         yield return new WaitForSeconds(numbersConfig.DelayForStartPopupAnimation);
         
-        audioManager.PlayPopupSound();
-        audioManager.StopFsMusic();
-        audioManager.PlayBg();
+        audioManager.PlaySound(AudioManager.SoundType.Popup);
+        audioManager.StopSound(AudioManager.SoundType.FreeSpinBg);
+        audioManager.PlaySound(AudioManager.SoundType.Background);
 
         popup.transform.DOScale(1f, numbersConfig.DurationForScalePopup).OnComplete((() =>
         {
@@ -361,12 +361,12 @@ public class SlotMachineController : MonoBehaviour
 
     public void PlayMoneySource()
     {
-        audioManager.PlayMoneySound();
+        audioManager.PlaySound(AudioManager.SoundType.Money);
     }
 
     public void PlayForceMoneySource()
     {
-        audioManager.PlayForceMoneySound();
+        audioManager.PlaySound(AudioManager.SoundType.ForceMoney);
     }
 
     private void PlayStopWheelSource()
@@ -375,12 +375,12 @@ public class SlotMachineController : MonoBehaviour
         {
             case true:
             {
-                audioManager.PlayStopWheelWithScatterSound();
+                audioManager.PlaySound(AudioManager.SoundType.StopWheelWithScatter);
                 break;
             }
             case false:
             {
-                audioManager.PlayStopWheelSound();
+                audioManager.PlaySound(AudioManager.SoundType.StopWheel);
                 break;
             }
         }

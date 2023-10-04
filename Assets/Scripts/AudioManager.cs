@@ -1,134 +1,42 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using DefaultNamespace;
 using UnityEditor.ShaderKeywordFilter;
 using UnityEngine;
 using UnityEngine.Serialization;
 
 public class AudioManager : MonoBehaviour
 {
-    // public static AudioManager Instance;
-
-    [SerializeField] private AudioSource musicSource;
-
-    [SerializeField] private AudioSource fsMusicSource;
-
-    [SerializeField] private AudioSource btnStartSource;
-
-    [SerializeField] private AudioSource btnStopSource;
-
-    [SerializeField] private AudioSource spinningSource;
-
-    [SerializeField] private AudioSource winSource;
-
-    [SerializeField] private AudioSource moneySource;
-
-    [SerializeField] private AudioSource forceMoneySource;
-
-    [SerializeField] private AudioSource stopWheelSource;
-
-    [SerializeField] private AudioSource stopWheelWithScatterSource;
-
-    [SerializeField] private AudioSource anticipationSource;
-
-    [SerializeField] private AudioSource popupSource;
-
-    // private void Awake()
-    // {
-    //     if (Instance == null)
-    //     {
-    //         Instance = this;
-    //         DontDestroyOnLoad(gameObject);
-    //     }
-    //     else
-    //     {
-    //         Destroy(gameObject);
-    //     }
-    // }
-
-    public void PlayBg()
+    [SerializeField] private List<AudioSources> audioSources;
+    public enum SoundType
     {
-        musicSource.Play();
+        Background,
+        FreeSpinBg,
+        BtnStart,
+        BtnStop,
+        WheelSpinning,
+        Win,
+        Money,
+        ForceMoney,
+        StopWheel,
+        StopWheelWithScatter,
+        Anticipation,
+        Popup
     }
 
-    public void StopBg()
+    public void PlaySound(SoundType soundType)
     {
-        musicSource.Stop();
-    }
-
-    public void PlayFsMusic()
-    {
-        fsMusicSource.Play();
-    }
-
-    public void StopFsMusic()
-    {
-        fsMusicSource.Stop();
-    }
-
-    public void PlayBtnStartSound()
-    {
-        btnStartSource.Play();
-    }
-    
-    public void PlayBtnStopSound()
-    {
-        btnStopSource.Play();
-    }
-
-    public void PlaySpinningSound()
-    {
+        AudioSources source = audioSources.FirstOrDefault(s => s.soundType == soundType);
         
-        spinningSource.Play();
+        source?.audioSource.Play();
     }
 
-    public void StopSpinningSound()
+    public void StopSound(SoundType soundType)
     {
-        spinningSource.Stop();
-    }
-
-    public void PlayWinSound()
-    {
-        winSource.Play();
-    }
-
-    public void StopWinSound()
-    {
-        winSource.Stop();
-    }
-
-    public void PlayMoneySound()
-    {
-        moneySource.Play();
-    }
-
-    public void PlayForceMoneySound()
-    {
-        forceMoneySource.Play();
-    }
-
-    public void PlayStopWheelSound()
-    {
-        stopWheelSource.Play();
-    }
-
-    public void PlayStopWheelWithScatterSound()
-    {
-        stopWheelWithScatterSource.Play();
-    }
-
-    public void PlayAnticipationSound()
-    {
-        anticipationSource.Play();
-    }
-
-    public void StopAnticipationSound()
-    {
-        anticipationSource.Stop();
-    }
-
-    public void PlayPopupSound()
-    {
-        popupSource.Play();
+        AudioSources source = audioSources.FirstOrDefault(s => s.soundType == soundType);
+        
+        source?.audioSource.Stop();
     }
 }
