@@ -422,7 +422,7 @@ GameObject:
   - component: {fileID: 207883308}
   - component: {fileID: 207883309}
   m_Layer: 5
-  m_Name: MusicSourse
+  m_Name: BackgroundSourse
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1384,7 +1384,7 @@ GameObject:
   - component: {fileID: 472599259}
   - component: {fileID: 472599260}
   m_Layer: 5
-  m_Name: FsMusicSource
+  m_Name: FsBackgroundSource
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2769,18 +2769,30 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   audioSources:
-  - {fileID: 207883309}
-  - {fileID: 472599260}
-  - {fileID: 1486659661}
-  - {fileID: 1414901186}
-  - {fileID: 908823788}
-  - {fileID: 2020047765}
-  - {fileID: 258918870}
-  - {fileID: 1579456645}
-  - {fileID: 579640346}
-  - {fileID: 1953274739}
-  - {fileID: 1642868622}
-  - {fileID: 82273222}
+  - soundType: 0
+    audioSource: {fileID: 207883309}
+  - soundType: 1
+    audioSource: {fileID: 472599260}
+  - soundType: 2
+    audioSource: {fileID: 1486659661}
+  - soundType: 3
+    audioSource: {fileID: 1414901186}
+  - soundType: 4
+    audioSource: {fileID: 908823788}
+  - soundType: 5
+    audioSource: {fileID: 2020047765}
+  - soundType: 6
+    audioSource: {fileID: 258918870}
+  - soundType: 7
+    audioSource: {fileID: 1579456645}
+  - soundType: 8
+    audioSource: {fileID: 579640346}
+  - soundType: 9
+    audioSource: {fileID: 1953274739}
+  - soundType: 10
+    audioSource: {fileID: 1642868622}
+  - soundType: 11
+    audioSource: {fileID: 82273222}
 --- !u!1 &890726445
 GameObject:
   m_ObjectHideFlags: 0
