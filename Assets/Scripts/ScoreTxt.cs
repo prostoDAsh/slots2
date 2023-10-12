@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using TMPro;
 using UnityEngine;
@@ -7,27 +8,32 @@ public class ScoreTxt : MonoBehaviour
     [SerializeField] private TextMeshProUGUI moneyChangeTxt;
 
     [SerializeField] private TextMeshProUGUI scoreTxt;
-    
+
     private const float Duration = 1.5f;
-    
-    private int currentScore;
-    
+
     private int targetScore;
     
     private int moneyChange; 
     
     private float elapsedTime;
 
+    public int CurrentScore { get; set; }
+
+
     private void Awake()
     {
-        scoreTxt = GetComponentInChildren<TextMeshProUGUI>(); 
         moneyChangeTxt.gameObject.SetActive(false); 
+    }
+
+    private void OnEnable()
+    {
+        scoreTxt.text = CurrentScore.ToString();
     }
 
     public void UpdateScore(int newScore)
     {
         targetScore = newScore;
-        moneyChange = targetScore - currentScore; 
+        moneyChange = targetScore - CurrentScore; 
         elapsedTime = 0.0f;
         StartCoroutine(AnimateScoreChange());
     }
@@ -35,19 +41,19 @@ public class ScoreTxt : MonoBehaviour
     public void UpdateScoreImmediately(int newScore)
     {
         scoreTxt.text = newScore.ToString();
-        currentScore = newScore;
+        CurrentScore = newScore;
     }
 
     private IEnumerator AnimateScoreChange()
     {
-        var startScore = currentScore;
+        var startScore = CurrentScore;
 
         while (elapsedTime < Duration)
         {
             elapsedTime += Time.deltaTime;
             var progress = elapsedTime / Duration;
-            currentScore = Mathf.RoundToInt(Mathf.Lerp(startScore, targetScore, progress));
-            scoreTxt.text = currentScore.ToString();
+            CurrentScore = Mathf.RoundToInt(Mathf.Lerp(startScore, targetScore, progress));
+            scoreTxt.text = CurrentScore.ToString();
             
             if (moneyChange != 0)
             {
@@ -59,8 +65,8 @@ public class ScoreTxt : MonoBehaviour
             yield return null;
         }
 
-        currentScore = targetScore;
-        scoreTxt.text = currentScore.ToString();
+        CurrentScore = targetScore;
+        scoreTxt.text = CurrentScore.ToString();
         moneyChange = 0;
         moneyChangeTxt.gameObject.SetActive(false); 
     }

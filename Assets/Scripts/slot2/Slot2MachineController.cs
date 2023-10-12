@@ -11,7 +11,6 @@ using UnityEngine.UI;
 namespace DefaultNamespace
 {
     public class Slot2MachineController : MonoBehaviour
-    
     {
         [SerializeField] private SlotWheel1 wheel1;
 
@@ -27,7 +26,7 @@ namespace DefaultNamespace
     
         [FormerlySerializedAs("BtnPnl")] [SerializeField] private ButtonsPanel btnPnl;
     
-        [SerializeField] private ScoreTxt score;
+        [SerializeField] public ScoreTxt score;
 
         [SerializeField] private GameConfig1 config;
 
@@ -42,10 +41,14 @@ namespace DefaultNamespace
         [SerializeField] private AudioManager audioManager;
 
         [SerializeField] public Button menuButton;
+
+        [SerializeField] private GameController gameController;
+
+        [SerializeField] private Slot1MachineController slot1;
  
         private int currentFinalScreenIndex;
     
-        private int totalScore;
+        public int totalScore;
 
         private int totalFreeSpinsScore;
     
@@ -63,8 +66,13 @@ namespace DefaultNamespace
     
         private readonly int freeSpinsCount = 3;
 
-        public event Action ReturnMenu;
+        public event Action<int> ReturnMenu; 
 
+        private void OnEnable()
+        {
+            score.CurrentScore = gameController.scoreBalance;
+        }
+        
         private void Start()
         {
             menuButton.onClick.AddListener(OnReturnMenu);
@@ -88,13 +96,11 @@ namespace DefaultNamespace
             wheel3.Model.Stopped += PlayStopWheelSource;
             wheel4.Model.Stopped += PlayStopWheelSource;
             wheel5.Model.Stopped += PlayStopWheelSource;
-
-            audioManager.PlaySound(AudioManager.SoundType.Background);
         }
 
         private void OnReturnMenu()
         {
-            ReturnMenu?.Invoke();
+            ReturnMenu?.Invoke(score.CurrentScore);
         }
 
 
@@ -137,6 +143,7 @@ namespace DefaultNamespace
                                 + (int)symbol5.SymbolCoast;
         
                 totalScore += winAmount;
+                slot1.totalScore = totalScore;
                 
                 if (isFreeSpinsRunning)
                 {
@@ -157,8 +164,18 @@ namespace DefaultNamespace
         public void UpdateScoreText()
         {
             score.UpdateScore(totalScore);
+            StartCoroutine(ShowMenuBtn());
         }
 
+        private IEnumerator ShowMenuBtn()
+        {
+            yield return new WaitForSeconds(numbersConfig.DelayShowMenuBtn);
+            
+            menuButton.transform.localScale = Vector3.one;
+            menuButton.interactable = true;
+
+        }
+        
         public void UpdateFsScoreText()
         {
             freeSpinsScorePanel.gameObject.SetActive(true);
@@ -167,7 +184,10 @@ namespace DefaultNamespace
 
         public void UpdateScoreTextImmediately()
         {
-            score.UpdateScoreImmediately(totalScore);
+            if (totalScore != 0)
+            {
+                score.UpdateScoreImmediately(totalScore);
+            }
         }
         
         private void EnableStartButton()
@@ -181,9 +201,6 @@ namespace DefaultNamespace
 
             btnPnl.playButton.transform.localScale = Vector3.one;
             btnPnl.playButton.interactable = true;
-        
-            menuButton.transform.localScale = Vector3.one;
-            menuButton.interactable = true;
         }
 
         private void DisableStartButton()

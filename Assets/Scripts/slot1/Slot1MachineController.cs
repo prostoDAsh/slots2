@@ -21,7 +21,7 @@ public class Slot1MachineController : MonoBehaviour
     
     [FormerlySerializedAs("BtnPnl")] [SerializeField] private ButtonsPanel btnPnl;
     
-    [SerializeField] private ScoreTxt score;
+    [SerializeField] public ScoreTxt score;
 
     [SerializeField] private GameConfig config;
 
@@ -36,10 +36,14 @@ public class Slot1MachineController : MonoBehaviour
     [SerializeField] private AudioManager audioManager;
 
     [SerializeField] public Button menuButton;
+
+    [SerializeField] private GameController gameController;
+
+    [SerializeField] private Slot2MachineController slot2;
  
     private int currentFinalScreenIndex;
     
-    private int totalScore;
+    public int totalScore;
 
     private int totalFreeSpinsScore;
     
@@ -56,8 +60,12 @@ public class Slot1MachineController : MonoBehaviour
     private readonly int winSymbolsArrayQuantity = 3;
     
     private readonly int freeSpinsCount = 3;
+    public event Action<int> ReturnMenu;
 
-    public event Action ReturnMenu;
+    private void OnEnable()
+    {
+        score.CurrentScore = gameController.scoreBalance;
+    }
 
     private void Start()
     {
@@ -80,13 +88,11 @@ public class Slot1MachineController : MonoBehaviour
         wheel1.Model.Stopped += PlayStopWheelSource;
         wheel2.Model.Stopped += PlayStopWheelSource;
         wheel3.Model.Stopped += PlayStopWheelSource;
-
-        audioManager.PlaySound(AudioManager.SoundType.Background);
     }
 
     private void OnReturnMenu()
     {
-        ReturnMenu?.Invoke();
+        ReturnMenu?.Invoke(score.CurrentScore);
     }
 
 
@@ -122,6 +128,7 @@ public class Slot1MachineController : MonoBehaviour
                                 + (int)symbol3.SymbolCoast;
         
                 totalScore += winAmount;
+                slot2.totalScore = totalScore;
                 
                 if (isFreeSpinsRunning)
                 {
@@ -143,17 +150,29 @@ public class Slot1MachineController : MonoBehaviour
     public void UpdateScoreText()
     {
         score.UpdateScore(totalScore);
+        StartCoroutine(ShowMenuBtn());
+    }
+
+    private IEnumerator ShowMenuBtn()
+    {
+        yield return new WaitForSeconds(numbersConfig.DelayShowMenuBtn);
+            
+        menuButton.transform.localScale = Vector3.one;
+        menuButton.interactable = true;
+
     }
 
     public void UpdateFsScoreText()
     {
         freeSpinsScorePanel.gameObject.SetActive(true);
-        freeSpinsScore.UpdateFreeSpinsScore(totalFreeSpinsScore);
     }
 
     public void UpdateScoreTextImmediately()
     {
-       score.UpdateScoreImmediately(totalScore);
+        if (totalScore != 0)
+        {
+            score.UpdateScoreImmediately(totalScore);
+        }
     }
     
     private void EnableStartButton()
@@ -167,9 +186,6 @@ public class Slot1MachineController : MonoBehaviour
 
         btnPnl.playButton.transform.localScale = Vector3.one;
         btnPnl.playButton.interactable = true;
-        
-        menuButton.transform.localScale = Vector3.one;
-        menuButton.interactable = true;
     }
 
     private void DisableStartButton()
