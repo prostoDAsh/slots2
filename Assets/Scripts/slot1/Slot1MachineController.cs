@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,8 +7,9 @@ using DefaultNamespace.Configs;
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.Serialization;
+using UnityEngine.UI;
 
-public class SlotMachineController : MonoBehaviour
+public class Slot1MachineController : MonoBehaviour
 {
     [SerializeField] private SlotWheel wheel1;
     
@@ -33,6 +35,8 @@ public class SlotMachineController : MonoBehaviour
 
     [SerializeField] private AudioManager audioManager;
 
+    [SerializeField] public Button menuButton;
+ 
     private int currentFinalScreenIndex;
     
     private int totalScore;
@@ -53,8 +57,11 @@ public class SlotMachineController : MonoBehaviour
     
     private readonly int freeSpinsCount = 3;
 
+    public event Action ReturnMenu;
+
     private void Start()
     {
+        menuButton.onClick.AddListener(OnReturnMenu);
         freeSpinsScorePanel.gameObject.SetActive(false);
         btnPnl.stopButton.interactable = false;
         btnPnl.stopButton.transform.localScale = Vector3.zero;
@@ -73,10 +80,16 @@ public class SlotMachineController : MonoBehaviour
         wheel1.Model.Stopped += PlayStopWheelSource;
         wheel2.Model.Stopped += PlayStopWheelSource;
         wheel3.Model.Stopped += PlayStopWheelSource;
-        
+
         audioManager.PlaySound(AudioManager.SoundType.Background);
     }
-    
+
+    private void OnReturnMenu()
+    {
+        ReturnMenu?.Invoke();
+    }
+
+
     private void SetIndexes()
     {
         if (currentFinalScreenIndex >= 0 && currentFinalScreenIndex < finalScreenData.Length)
@@ -154,12 +167,18 @@ public class SlotMachineController : MonoBehaviour
 
         btnPnl.playButton.transform.localScale = Vector3.one;
         btnPnl.playButton.interactable = true;
+        
+        menuButton.transform.localScale = Vector3.one;
+        menuButton.interactable = true;
     }
 
     private void DisableStartButton()
     {
         btnPnl.playButton.interactable = false;
         btnPnl.playButton.transform.localScale = Vector3.zero;
+        
+        menuButton.transform.localScale = Vector3.zero;
+        menuButton.interactable = false;
     }
 
     private void EnableStopButton()
@@ -176,6 +195,8 @@ public class SlotMachineController : MonoBehaviour
 
     private void OnDestroy()
     {
+        menuButton.onClick.RemoveListener(OnReturnMenu);
+        
         btnPnl.OnStartButtonClick -= StartEveryWheelSpinning;
         btnPnl.OnStopButtonClick -= StopEveryWheelSpinning;
         btnPnl.OnStartButtonClick -= () => audioManager.PlaySound(AudioManager.SoundType.BtnStart);
