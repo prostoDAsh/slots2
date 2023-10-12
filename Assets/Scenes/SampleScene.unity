@@ -9005,55 +9005,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1918976235}
   m_CullTransparentMesh: 1
---- !u!1 &1935818296
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1935818298}
-  - component: {fileID: 1935818297}
-  m_Layer: 5
-  m_Name: balance
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1935818297
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1935818296}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 052d97c2cc544f8aa1cc58fb80de49f7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!224 &1935818298
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1935818296}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 5
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 640, y: 360}
-  m_SizeDelta: {x: 100, y: 100}
-  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1953274737
 GameObject:
   m_ObjectHideFlags: 0
@@ -9609,7 +9560,6 @@ MonoBehaviour:
   popup: {fileID: 1841955294}
   audioManager: {fileID: 858853128}
   menuButton: {fileID: 1918976237}
-  scoreBalance: {fileID: 1935818297}
   gameController: {fileID: 217176245}
   slot1: {fileID: 599813535}
   totalScore: 0
@@ -9979,7 +9929,7 @@ PrefabInstance:
     - target: {fileID: 2363584046476731863, guid: 4a19b8fdeeeee4d91aabe17deca04610, type: 3}
       propertyPath: scoreBalance
       value: 
-      objectReference: {fileID: 1935818297}
+      objectReference: {fileID: 0}
     - target: {fileID: 2363584046476731863, guid: 4a19b8fdeeeee4d91aabe17deca04610, type: 3}
       propertyPath: gameController
       value: 

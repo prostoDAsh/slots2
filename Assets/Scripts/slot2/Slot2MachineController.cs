@@ -170,9 +170,12 @@ namespace DefaultNamespace
         private IEnumerator ShowMenuBtn()
         {
             yield return new WaitForSeconds(numbersConfig.DelayShowMenuBtn);
-            
-            menuButton.transform.localScale = Vector3.one;
-            menuButton.interactable = true;
+
+            if (!isFreeSpinsRunning)
+            {
+                menuButton.transform.localScale = Vector3.one;
+                menuButton.interactable = true;
+            }
 
         }
         
@@ -421,6 +424,8 @@ namespace DefaultNamespace
                     {
                         freeSpinsScorePanel.gameObject.SetActive(false);
                     }
+                    menuButton.transform.localScale = Vector3.one;
+                    menuButton.interactable = true;
                 }));
             }));
         }

@@ -157,9 +157,11 @@ public class Slot1MachineController : MonoBehaviour
     {
         yield return new WaitForSeconds(numbersConfig.DelayShowMenuBtn);
             
-        menuButton.transform.localScale = Vector3.one;
-        menuButton.interactable = true;
-
+        if (!isFreeSpinsRunning)
+        {
+            menuButton.transform.localScale = Vector3.one;
+            menuButton.interactable = true;
+        }
     }
 
     public void UpdateFsScoreText()
@@ -392,6 +394,8 @@ public class Slot1MachineController : MonoBehaviour
                 {
                     freeSpinsScorePanel.gameObject.SetActive(false);
                 }
+                menuButton.transform.localScale = Vector3.one;
+                menuButton.interactable = true;
             }));
         }));
     }
