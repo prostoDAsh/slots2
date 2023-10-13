@@ -1,25 +1,21 @@
-using System;
 using System.Collections;
-using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
-using Cysharp.Threading.Tasks;
 using DefaultNamespace.Configs;
 using DG.Tweening;
-using Unity.VisualScripting;
-using Sequence = DG.Tweening.Sequence;
+using UnityEngine;
 
 namespace DefaultNamespace
 {
-    public class SlotWheel : MonoBehaviour
+    public class SlotWheel1 : MonoBehaviour
     {
-        private SpriteProvider spriteProvider;
+        private SpriteProvider1 spriteProvider;
 
-        private List<Symbol> symbols;
+        private List<Symbol1> symbols;
         
-        private readonly List<Symbol> symbolsForDark = new List<Symbol>(3);
+        private readonly List<Symbol1> symbolsForDark = new List<Symbol1>(3);
 
-        [SerializeField] private GameConfig gameConfig;
+        [SerializeField] private GameConfig1 gameConfig;
         
         [SerializeField] private int wheelId;
         
@@ -29,29 +25,29 @@ namespace DefaultNamespace
 
         [SerializeField] public ParticleSystem wheelParticleSystem;
 
-        private Symbol winSymbol;
+        private Symbol1 winSymbol;
         
         private Sequence sequence;
         
-        private SlotMachineController slotMachineController;
+        private Slot2MachineController slot2MachineController;
         
         private bool isAnimationRunning;
 
-        public WheelModel Model { get; } = new();
+        public WheelModel1 Model { get; } = new();
         
         private void Awake()
         {
-            slotMachineController = GetComponentInParent<SlotMachineController>();
+            slot2MachineController = GetComponentInParent<Slot2MachineController>();
             wheelParticleSystem.Stop();
             WheelMath.Initialize(numbersConfig);
         }
         
         private void Start()
         {
-            symbols = GetComponentsInChildren<Symbol>().ToList();
+            symbols = GetComponentsInChildren<Symbol1>().ToList();
 
-            spriteProvider = new SpriteProvider(gameConfig, wheelId - 1);
-            foreach (Symbol symbol in symbols)
+            spriteProvider = new SpriteProvider1(gameConfig, wheelId - 1);
+            foreach (Symbol1 symbol in symbols)
             {
                 SymbolModel symbolModel = Model.AddSymbol();
                 symbol.Initialize(spriteProvider, symbolModel);
@@ -96,16 +92,16 @@ namespace DefaultNamespace
                     symbols[i].particleSystem.Play();
                 }
             }
-            
+
             sequence.Join(winSymbol.gameObject.transform.DOScale(numbersConfig.EndValueForScaleAnimation, numbersConfig.DurationForScaleAnimation))
                 .Join(winSymbol.gameObject.transform.DOShakePosition(numbersConfig.DurationForScaleAnimation, numbersConfig.StrengthForShake))
                 .Append(winSymbol.gameObject.transform.DOScale(1f, numbersConfig.DurationForScaleAnimation))
                 .Join(winSymbol.gameObject.transform.DOShakePosition(numbersConfig.DurationForScaleAnimation, numbersConfig.StrengthForShake)).OnComplete(()=>
             {
-                slotMachineController.UpdateScoreText();
-                slotMachineController.PlayMoneySource();
-                if(!slotMachineController.isFreeSpinsRunning) return;
-                slotMachineController.UpdateFsScoreText();
+                slot2MachineController.UpdateScoreText();
+                slot2MachineController.PlayMoneySource();
+                if(!slot2MachineController.isFreeSpinsRunning) return;
+                slot2MachineController.UpdateFsScoreText();
             });
         }
         
@@ -142,7 +138,7 @@ namespace DefaultNamespace
         {
             if (isAnimationRunning)
             {
-                slotMachineController.PlayForceMoneySource();
+                slot2MachineController.PlayForceMoneySource();
             }
             for (int i = 0; i < symbols.Count; i++) 
             {
@@ -156,7 +152,7 @@ namespace DefaultNamespace
             
             StartCoroutine(ForceDarkSymbols());
             
-            slotMachineController.UpdateScoreTextImmediately();
+            slot2MachineController.UpdateScoreTextImmediately();
 
             foreach (var t in symbols)
             {

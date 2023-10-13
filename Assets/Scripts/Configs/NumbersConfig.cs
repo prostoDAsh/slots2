@@ -23,6 +23,8 @@ namespace DefaultNamespace.Configs
         [SerializeField] private float delayForStartPopupAnimation = 4f;
 
         [SerializeField] private float durationForScalePopup = 1.5f;
+
+        [SerializeField] private float delayShowMenuBtn = 0.5f;
         
         [Header("Wheel Math")]
 
@@ -94,5 +96,7 @@ namespace DefaultNamespace.Configs
         public float DurationForAlfaWheelParticle => durationForAlfaWheelParticle;
 
         public double StartingAcceleration => startingAcceleration;
+
+        public float DelayShowMenuBtn => delayShowMenuBtn;
     }
 }

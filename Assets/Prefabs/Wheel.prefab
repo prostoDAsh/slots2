@@ -185,6 +185,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   symbolId: 9
+  particleSystem: {fileID: 0}
 --- !u!225 &1493642793
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -311,20 +312,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b073bae99f44512898c45d4221729ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sprites:
-  - {fileID: 21300000, guid: 9ed4889cd8afc49cd9b07daf1a836592, type: 3}
-  - {fileID: 21300000, guid: fef10ea308719456fb2bf3ed11d16a4f, type: 3}
-  - {fileID: 21300000, guid: 9caf8d5fe8971424eb4827425241d96e, type: 3}
-  - {fileID: 21300000, guid: 8aec8f9d9c07b4b799cf26baee74ed0e, type: 3}
-  - {fileID: 21300000, guid: e1e788207c4784448a334408f7881f47, type: 3}
-  - {fileID: 21300000, guid: 7c21d53ca0db643b589e344a83c20de4, type: 3}
-  - {fileID: 21300000, guid: 90d12b84ddf4e4586ad0f70193494a0a, type: 3}
-  - {fileID: 21300000, guid: 48556d6555dcc48a3b406b9fbe934190, type: 3}
-  - {fileID: 21300000, guid: 43467948bcd594c67a2f3eefe95578c8, type: 3}
-  - {fileID: 21300000, guid: f79c94cd926d94d83988a13b898de77c, type: 3}
   gameConfig: {fileID: 11400000, guid: 407a4336569a542be94aaea29f169eba, type: 2}
   wheelId: 3
   btnPanel: {fileID: 0}
+  numbersConfig: {fileID: 0}
+  wheelParticleSystem: {fileID: 0}
 --- !u!1 &8759608737155940342
 GameObject:
   m_ObjectHideFlags: 0
@@ -416,6 +408,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   symbolId: 0
+  particleSystem: {fileID: 0}
 --- !u!225 &1208919824
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -519,6 +512,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   symbolId: 8
+  particleSystem: {fileID: 0}
 --- !u!225 &1136849226
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -622,6 +616,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   symbolId: 7
+  particleSystem: {fileID: 0}
 --- !u!225 &901824976
 CanvasGroup:
   m_ObjectHideFlags: 0

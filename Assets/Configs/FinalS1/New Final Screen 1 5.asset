@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 601f5b040eb044a1b1243cea8b7ff047, type: 3}
+  m_Name: New Final Screen 1 5
+  m_EditorClassIdentifier: 
+  finalScreen: 0a0000000900000006000000050000000a0000000200000004000000070000000a000000030000000a000000060000000a0000000700000000000000
+  winSymbols: 0100000005000000090000000b0000000d000000
+  winSymbolsId: 
+  haveWinLine: 1
+  haveThreeScatters: 1
+  screenForFreeSpins: 0
+  fsScreen: 0
+  showPlayBtn: 0
+  lastFsScreen: 0

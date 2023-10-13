@@ -5,12 +5,13 @@ using DefaultNamespace;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class FreeSpinsScore : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI freeSpinsScorePlus;
     
-    [SerializeField] private SlotMachineController slotMachineController;
+    [FormerlySerializedAs("slotMachineController")] [SerializeField] private Slot1MachineController slot1MachineController;
     
     [SerializeField] private TextMeshProUGUI freeSpinsScoreTxt;
     
@@ -31,7 +32,7 @@ public class FreeSpinsScore : MonoBehaviour
     
     public void UpdateFreeSpinsScore(int newFreeSpinsScore)
     {
-        if (slotMachineController.isFreeSpinsRunning)
+        if (slot1MachineController.isFreeSpinsRunning)
         {
             targetFreeSpinsScore = newFreeSpinsScore;
             elapsedTime = 0.0f;

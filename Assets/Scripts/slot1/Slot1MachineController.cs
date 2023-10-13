@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,8 +7,9 @@ using DefaultNamespace.Configs;
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.Serialization;
+using UnityEngine.UI;
 
-public class SlotMachineController : MonoBehaviour
+public class Slot1MachineController : MonoBehaviour
 {
     [SerializeField] private SlotWheel wheel1;
     
@@ -19,7 +21,7 @@ public class SlotMachineController : MonoBehaviour
     
     [FormerlySerializedAs("BtnPnl")] [SerializeField] private ButtonsPanel btnPnl;
     
-    [SerializeField] private ScoreTxt score;
+    [SerializeField] public ScoreTxt score;
 
     [SerializeField] private GameConfig config;
 
@@ -33,9 +35,15 @@ public class SlotMachineController : MonoBehaviour
 
     [SerializeField] private AudioManager audioManager;
 
+    [SerializeField] public Button menuButton;
+
+    [SerializeField] private GameController gameController;
+
+    [SerializeField] private Slot2MachineController slot2;
+ 
     private int currentFinalScreenIndex;
     
-    private int totalScore;
+    public int totalScore;
 
     private int totalFreeSpinsScore;
     
@@ -52,9 +60,16 @@ public class SlotMachineController : MonoBehaviour
     private readonly int winSymbolsArrayQuantity = 3;
     
     private readonly int freeSpinsCount = 3;
+    public event Action<int> ReturnMenu;
+
+    private void OnEnable()
+    {
+        score.CurrentScore = gameController.scoreBalance;
+    }
 
     private void Start()
     {
+        menuButton.onClick.AddListener(OnReturnMenu);
         freeSpinsScorePanel.gameObject.SetActive(false);
         btnPnl.stopButton.interactable = false;
         btnPnl.stopButton.transform.localScale = Vector3.zero;
@@ -73,10 +88,14 @@ public class SlotMachineController : MonoBehaviour
         wheel1.Model.Stopped += PlayStopWheelSource;
         wheel2.Model.Stopped += PlayStopWheelSource;
         wheel3.Model.Stopped += PlayStopWheelSource;
-        
-        audioManager.PlaySound(AudioManager.SoundType.Background);
     }
-    
+
+    private void OnReturnMenu()
+    {
+        ReturnMenu?.Invoke(score.CurrentScore);
+    }
+
+
     private void SetIndexes()
     {
         if (currentFinalScreenIndex >= 0 && currentFinalScreenIndex < finalScreenData.Length)
@@ -109,6 +128,7 @@ public class SlotMachineController : MonoBehaviour
                                 + (int)symbol3.SymbolCoast;
         
                 totalScore += winAmount;
+                slot2.totalScore = totalScore;
                 
                 if (isFreeSpinsRunning)
                 {
@@ -130,17 +150,31 @@ public class SlotMachineController : MonoBehaviour
     public void UpdateScoreText()
     {
         score.UpdateScore(totalScore);
+        StartCoroutine(ShowMenuBtn());
+    }
+
+    private IEnumerator ShowMenuBtn()
+    {
+        yield return new WaitForSeconds(numbersConfig.DelayShowMenuBtn);
+            
+        if (!isFreeSpinsRunning)
+        {
+            menuButton.transform.localScale = Vector3.one;
+            menuButton.interactable = true;
+        }
     }
 
     public void UpdateFsScoreText()
     {
         freeSpinsScorePanel.gameObject.SetActive(true);
-        freeSpinsScore.UpdateFreeSpinsScore(totalFreeSpinsScore);
     }
 
     public void UpdateScoreTextImmediately()
     {
-       score.UpdateScoreImmediately(totalScore);
+        if (totalScore != 0)
+        {
+            score.UpdateScoreImmediately(totalScore);
+        }
     }
     
     private void EnableStartButton()
@@ -160,6 +194,9 @@ public class SlotMachineController : MonoBehaviour
     {
         btnPnl.playButton.interactable = false;
         btnPnl.playButton.transform.localScale = Vector3.zero;
+        
+        menuButton.transform.localScale = Vector3.zero;
+        menuButton.interactable = false;
     }
 
     private void EnableStopButton()
@@ -176,6 +213,8 @@ public class SlotMachineController : MonoBehaviour
 
     private void OnDestroy()
     {
+        menuButton.onClick.RemoveListener(OnReturnMenu);
+        
         btnPnl.OnStartButtonClick -= StartEveryWheelSpinning;
         btnPnl.OnStopButtonClick -= StopEveryWheelSpinning;
         btnPnl.OnStartButtonClick -= () => audioManager.PlaySound(AudioManager.SoundType.BtnStart);
@@ -355,6 +394,8 @@ public class SlotMachineController : MonoBehaviour
                 {
                     freeSpinsScorePanel.gameObject.SetActive(false);
                 }
+                menuButton.transform.localScale = Vector3.one;
+                menuButton.interactable = true;
             }));
         }));
     }
